@@ -11,6 +11,7 @@ export const API_CONFIG = {
       getLines: "/api/Catalogs/lines",
       getShifts: "/api/Catalogs/shifts",
       getMaterial: "/api/Catalogs/material",
+      getTypeScrap: "/api/Catalogs/typeScrap",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
     },
