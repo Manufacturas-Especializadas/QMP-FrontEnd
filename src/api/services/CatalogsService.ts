@@ -1,10 +1,17 @@
 import { API_CONFIG } from "../../config/api";
-import type { Lines, MachineCodes, Process, Shifts } from "../../types/types";
+import type {
+  Lines,
+  MachineCodes,
+  Material,
+  Process,
+  Shifts,
+} from "../../types/types";
 import { apiClient } from "../client";
 
 class CatalogsService {
   private getLinesEndpoint = API_CONFIG.endpoints.catalags.getLines;
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
+  private getMaterialEndpoint = API_CONFIG.endpoints.catalags.getMaterial;
   private getProcessByLineEndpoint =
     API_CONFIG.endpoints.catalags.getProcessByLine;
   private getMachineCodesByProcessEndpoint =
@@ -16,6 +23,10 @@ class CatalogsService {
 
   async getShifts(): Promise<Shifts[]> {
     return apiClient.get<Shifts[]>(this.getShiftsEndpoint);
+  }
+
+  async getMaterial(): Promise<Material[]> {
+    return apiClient.get<Material[]>(this.getMaterialEndpoint);
   }
 
   async getProcessByLine(id: number): Promise<Process[]> {
