@@ -1,9 +1,7 @@
 import { ChevronRight, Clock, Layers, Plus, TrendingUp } from "lucide-react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const ScrapIndex = () => {
-  const [showForm, setShowForm] = useState(false);
   const navigate = useNavigate();
 
   const registros = [
