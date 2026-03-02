@@ -10,6 +10,7 @@ export const API_CONFIG = {
     catalags: {
       getLines: "/api/Catalogs/lines",
       getShifts: "/api/Catalogs/shifts",
+      getMaterial: "/api/Catalogs/material",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
     },
