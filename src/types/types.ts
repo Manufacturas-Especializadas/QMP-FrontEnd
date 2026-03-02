@@ -13,3 +13,9 @@ export interface Process {
   name: string;
   lineId: number;
 }
+
+export interface MachineCodes {
+  id: number;
+  name: string;
+  processId: number;
+}
