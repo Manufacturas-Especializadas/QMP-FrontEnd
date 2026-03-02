@@ -12,6 +12,7 @@ import {
   Trash2,
   Users,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface MenuItem {
   name: string;
@@ -35,7 +36,7 @@ const menuItems: MenuItem[] = [
     name: "Scrap",
     icon: Trash2,
     subMenu: [
-      { name: "Registro", path: "/scrap/registro" },
+      { name: "Registro", path: "/scrap" },
       { name: "Auditoria", path: "/scrap/auditoria" },
     ],
   },
@@ -45,9 +46,17 @@ const menuItems: MenuItem[] = [
 ];
 
 export const Sidebar = () => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("Auditorias de proceso");
+  const navigate = useNavigate();
+
+  const handleNavigation = (name: string, path?: string) => {
+    setActiveTab(name);
+    if (path) {
+      navigate(path);
+    }
+  };
 
   const toggleSubMenu = (name: string) => {
     if (isCollapsed) setIsCollapsed(false);
@@ -85,7 +94,7 @@ export const Sidebar = () => {
                 onClick={() =>
                   hasSubMenu
                     ? toggleSubMenu(item.name)
-                    : setActiveTab(item.name)
+                    : handleNavigation(item.name, item.path)
                 }
                 className={`
                   w-full flex items-center p-3 rounded-xl transition-all 
@@ -99,7 +108,7 @@ export const Sidebar = () => {
               >
                 <item.icon
                   size={22}
-                  className={`${activeTab === item.name ? "text-white" : "text-secondary"}`}
+                  className={`${activeTab === item.name && !hasSubMenu ? "text-white" : "text-secondary"}`}
                 />
 
                 {!isCollapsed && (
@@ -125,9 +134,9 @@ export const Sidebar = () => {
                   {item.subMenu?.map((sub) => (
                     <button
                       key={sub.name}
-                      onClick={() => setActiveTab(sub.name)}
+                      onClick={() => handleNavigation(sub.name, sub.path)}
                       className={`
-                        w-full flex items-center p-2 rounded-lg text-sm transition-colors
+                        w-full flex items-center p-2 rounded-lg text-sm transition-colors hover:cursor-pointer
                         ${
                           activeTab === sub.name
                             ? "text-secondary font-bold bg-blue-50"
