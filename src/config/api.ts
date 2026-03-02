@@ -10,6 +10,7 @@ export const API_CONFIG = {
     catalags: {
       getLines: "/api/Catalogs/lines",
       getShifts: "/api/Catalogs/shifts",
+      getProcessByLine: "/api/Catalogs/process/",
     },
   },
 };
