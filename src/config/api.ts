@@ -14,6 +14,7 @@ export const API_CONFIG = {
       getTypeScrap: "/api/Catalogs/typeScrap",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
+      getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
   },
 };
