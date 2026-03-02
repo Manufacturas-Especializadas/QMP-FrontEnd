@@ -24,3 +24,8 @@ export interface MachineCodes {
   name: string;
   processId: number;
 }
+
+export interface TypeScrap {
+  id: number;
+  name: string;
+}
