@@ -7,16 +7,21 @@ interface Option {
 
 interface Props {
   label: string;
-  options: Option[];
+  options?: Option[];
   value?: string | number;
   onChange?: (value: string | number) => void;
 }
 
-export const FloatingSelect = ({ label, options, value, onChange }: Props) => {
+export const FloatingSelect = ({
+  label,
+  options = [],
+  value,
+  onChange,
+}: Props) => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const selected = options.find((o) => String(o.value) === String(value));
+  const selected = options?.find((o) => String(o.value) === String(value));
 
   const hasValue = !!value;
 
@@ -83,8 +88,8 @@ export const FloatingSelect = ({ label, options, value, onChange }: Props) => {
       </div>
 
       {/* Dropdown */}
-      {open && (
-        <div className="absolute z-20 w-full mt-2 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden animate-fadeIn">
+      {open && options.length > 0 && (
+        <div className="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-md shadow-lg overflow-hidden animate-fadeIn max-h-60 overflow-y-auto">
           {options.map((option) => (
             <div
               key={option.value}
@@ -96,7 +101,7 @@ export const FloatingSelect = ({ label, options, value, onChange }: Props) => {
                 px-4 py-2 text-sm cursor-pointer transition-colors
                 ${
                   String(value) === String(option.value)
-                    ? "bg-blue-50 text-blue-600"
+                    ? "bg-blue-50 text-blue-600 font-bold"
                     : "hover:bg-gray-100 text-gray-700"
                 }
               `}
