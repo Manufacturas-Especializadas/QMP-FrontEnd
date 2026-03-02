@@ -8,6 +8,11 @@ export interface Shifts {
   name: string;
 }
 
+export interface Material {
+  id: number;
+  name: string;
+}
+
 export interface Process {
   id: number;
   name: string;
