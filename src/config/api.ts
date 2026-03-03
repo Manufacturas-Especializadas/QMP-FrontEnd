@@ -20,6 +20,7 @@ export const API_CONFIG = {
     scrap: {
       getById: "/api/Scrap/ById/",
       createScrap: "/api/Scrap/CreateScrap",
+      verify: "/api/Scrap/Verify",
     },
   },
 };
