@@ -1,18 +1,12 @@
 import { ChevronRight, Clock, Layers, Plus, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useScrap } from "../../hooks/useScrap";
+import { formatDateTime } from "../../utils/dateFormatter";
 
 export const ScrapIndex = () => {
   const navigate = useNavigate();
 
-  const registros = [
-    {
-      linea: "L-12",
-      tipoScrap: "Rebaba Excesiva",
-      kilos: 28.4,
-      hora: "08:30 AM",
-      turno: "Día",
-    },
-  ];
+  const { scrap } = useScrap();
 
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-8 animate-in fade-in duration-500">
@@ -57,11 +51,11 @@ export const ScrapIndex = () => {
             Historial del Turno
           </h2>
           <span className="text-xs font-bold text-secondary bg-blue-50 px-3 py-1 rounded-full">
-            {registros.length} Registros hoy
+            {scrap.length} Registros hoy
           </span>
         </div>
 
-        {registros.map((reg, index) => (
+        {scrap.map((reg, index) => (
           <div
             key={index}
             className="group relative bg-white border border-gray-100 rounded-2xl p-5 shadow-sm 
@@ -76,30 +70,29 @@ export const ScrapIndex = () => {
                 Línea
               </span>
               <span className="text-2xl font-black text-gray-600 group-hover:text-secondary">
-                {reg.linea}
+                {reg.lineName}
               </span>
             </div>
 
             {/* Centro: Info */}
             <div className="flex-1 space-y-1 text-center md:text-left">
               <h3 className="text-lg font-bold text-gray-800">
-                {reg.tipoScrap}
+                {reg.typeScrapName}
               </h3>
               <div className="flex flex-wrap justify-center md:justify-start gap-3 text-xs text-gray-400 font-bold uppercase">
                 <span className="flex items-center gap-1">
-                  <Clock size={12} /> {reg.hora}
+                  <Clock size={12} /> {formatDateTime(reg.createdAt)}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Layers size={12} /> {reg.turno}
+                  <Layers size={12} /> {reg.shiftName}
                 </span>
               </div>
             </div>
 
-            {/* Derecha: Kilos */}
             <div className="flex items-center gap-4 pr-4">
               <div className="text-right">
                 <span className="block text-2xl font-black text-gray-800">
-                  {reg.kilos}{" "}
+                  {reg.weight}{" "}
                   <small className="text-sm text-gray-400">kg</small>
                 </span>
                 <span className="text-[10px] font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-md uppercase">
