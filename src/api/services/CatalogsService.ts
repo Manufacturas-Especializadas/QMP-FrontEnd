@@ -5,6 +5,7 @@ import type {
   MachineCodes,
   Material,
   Process,
+  ScrapList,
   Shifts,
   TypeScrap,
 } from "../../types/types";
@@ -15,6 +16,7 @@ class CatalogsService {
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
   private getMaterialEndpoint = API_CONFIG.endpoints.catalags.getMaterial;
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
+  private getScrapEndpoint = API_CONFIG.endpoints.catalags.getScrap;
   private getProcessByLineEndpoint =
     API_CONFIG.endpoints.catalags.getProcessByLine;
   private getMachineCodesByProcessEndpoint =
@@ -36,6 +38,10 @@ class CatalogsService {
 
   async getTypeScrap(): Promise<TypeScrap[]> {
     return apiClient.get<TypeScrap[]>(this.getTypeScrapEndpoint);
+  }
+
+  async getScrap(): Promise<ScrapList[]> {
+    return apiClient.get<ScrapList[]>(this.getScrapEndpoint);
   }
 
   async getProcessByLine(id: number): Promise<Process[]> {
