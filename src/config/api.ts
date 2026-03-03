@@ -16,5 +16,8 @@ export const API_CONFIG = {
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
+    scrap: {
+      createScrap: "/api/Scrap/CreateScrap",
+    },
   },
 };
