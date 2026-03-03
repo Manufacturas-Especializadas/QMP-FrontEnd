@@ -147,7 +147,12 @@ export const ScrapIndex = () => {
             </div>
 
             <div
-              className={`absolute top-0 left-0 w-1.5 h-full rounded-l-2xl transition-opacity ${reg.isVerified ? "bg-green-500 opacity-100" : "bg-secondary opacity-0 group-hover:opacity-100"}`}
+              className={`absolute top-0 left-0 w-1.5 h-full rounded-l-2xl transition-opacity 
+              ${
+                reg.isVerified || reg.verifiedWeight > 0
+                  ? "bg-green-500 opacity-100"
+                  : "bg-secondary opacity-0 group-hover:opacity-100"
+              }`}
             ></div>
           </div>
         ))}
