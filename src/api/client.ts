@@ -34,16 +34,13 @@ class ApiClient {
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
-        let errorMessage = `HTTP Error: ${error.response?.status || "Unknown"}`;
-
         if (error.response && error.response.data) {
           const data = error.response.data as any;
-          errorMessage = data.message || data.title || JSON.stringify(data);
-        } else if (error.message) {
-          errorMessage = error.message;
+          (error as any).customMessage =
+            data.message || data.title || "Error en el servidor";
         }
 
-        return Promise.reject(new Error(errorMessage));
+        return Promise.reject(error);
       },
     );
   }
