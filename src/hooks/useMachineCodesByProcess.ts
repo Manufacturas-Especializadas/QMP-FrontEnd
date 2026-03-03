@@ -7,7 +7,7 @@ export const useMachineCodesByProcess = (processId: number | null) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    const fetchProcesses = async () => {
+    const fetchCodes = async () => {
       if (!processId) {
         setMachineCodes([]);
         return;
@@ -17,15 +17,18 @@ export const useMachineCodesByProcess = (processId: number | null) => {
       try {
         const data = await catalogsService.getMachineCodesByProcess(processId);
         setMachineCodes(data);
-      } catch (error) {
-        console.error("Error al cargar procesos:", error);
-        setMachineCodes([]);
+      } catch (error: any) {
+        if (error.message?.includes("404") || error.response?.status === 404) {
+          setMachineCodes([]);
+        } else {
+          console.error("Error al cargar códigos de máquina:", error);
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProcesses();
+    fetchCodes();
   }, [processId]);
 
   return { machineCodes, isLoading };
