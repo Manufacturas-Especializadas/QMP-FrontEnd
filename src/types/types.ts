@@ -36,8 +36,14 @@ export interface Defects {
   typeScrapId: number;
 }
 
+export interface VerifyScrapPayload {
+  id: number;
+  isVerified: boolean;
+  verifiedWeight: number | null;
+}
+
 export interface ScrapRead {
-  id: number | null;
+  id: number;
   payRollNumber: number;
   alloy: string;
   diameter: string;
@@ -56,6 +62,7 @@ export interface ScrapRead {
 }
 
 export interface ScrapList {
+  id: number;
   payRollNumber: number;
   alloy: string;
   diameter: string;
@@ -70,6 +77,8 @@ export interface ScrapList {
   defectName: string;
   weight: number;
   createdAt: string;
+  isVerified: boolean;
+  verifiedWeight: number;
 }
 
 export interface Scrap {
