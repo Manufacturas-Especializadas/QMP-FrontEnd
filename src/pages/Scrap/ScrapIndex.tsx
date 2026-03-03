@@ -1,4 +1,5 @@
 import {
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock,
@@ -10,15 +11,18 @@ import { useNavigate } from "react-router-dom";
 import { useScrap } from "../../hooks/useScrap";
 import { formatDateTime } from "../../utils/dateFormatter";
 import { useMemo, useState } from "react";
+import { ScrapDetailModal } from "../../components/ScrapDetailModal/ScrapDetailModal";
 
 const ITEMS_PER_PAGE = 4;
 
 export const ScrapIndex = () => {
   const navigate = useNavigate();
 
-  const { scrap } = useScrap();
+  const { scrap, refresh } = useScrap();
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedScrapId, setSelectedScrapId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { currentItems, totalPages } = useMemo(() => {
     const total = Math.ceil(scrap.length / ITEMS_PER_PAGE);
@@ -34,6 +38,11 @@ export const ScrapIndex = () => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const openDetail = (id: number) => {
+    setSelectedScrapId(id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -82,28 +91,17 @@ export const ScrapIndex = () => {
           </span>
         </div>
 
-        {currentItems.map((reg, index) => (
+        {currentItems.map((reg) => (
           <div
-            key={index}
-            className="group relative bg-white border border-gray-100 
-            rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex 
-            flex-col md:flex-row items-center gap-6"
+            key={reg.id}
+            onClick={() => openDetail(reg.id)}
+            className="group relative bg-white border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row items-center gap-6 hover:cursor-pointer"
           >
-            <div
-              className="flex flex-col items-center justify-center bg-gray-50 
-              group-hover:bg-blue-50 px-6 py-3 rounded-xl border border-transparent 
-              group-hover:border-blue-100 transition-colors min-w-25"
-            >
-              <span
-                className="text-[10px] font-black text-gray-400 
-                group-hover:text-secondary uppercase"
-              >
+            <div className="flex flex-col items-center justify-center bg-gray-50 group-hover:bg-blue-50 px-6 py-3 rounded-xl border border-transparent group-hover:border-blue-100 transition-colors min-w-25">
+              <span className="text-[10px] font-black text-gray-400 group-hover:text-secondary uppercase">
                 Línea
               </span>
-              <span
-                className="text-2xl font-black text-gray-600 
-                group-hover:text-secondary"
-              >
+              <span className="text-2xl font-black text-gray-600 group-hover:text-secondary">
                 {reg.lineName}
               </span>
             </div>
@@ -128,28 +126,28 @@ export const ScrapIndex = () => {
             <div className="flex items-center gap-4 pr-4">
               <div className="text-right">
                 <span className="block text-2xl font-black text-gray-800">
-                  {reg.weight}{" "}
+                  {reg.isVerified || reg.verifiedWeight > 0
+                    ? reg.verifiedWeight
+                    : reg.weight}{" "}
                   <small className="text-sm text-gray-400">kg</small>
                 </span>
-                <span
-                  className="text-[10px] font-bold text-amber-500 
-                  bg-amber-50 px-2 py-0.5 rounded-md uppercase"
-                >
-                  Por Verificar
-                </span>
+                {reg.isVerified || reg.verifiedWeight > 0 ? (
+                  <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md uppercase flex items-center gap-1 justify-end">
+                    <CheckCircle2 size={10} /> Verificado
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-md uppercase">
+                    Por Verificar
+                  </span>
+                )}
               </div>
-              <div
-                className="p-2 rounded-full bg-gray-50 text-gray-300 
-                group-hover:text-secondary group-hover:bg-blue-50 
-                transition-colors hover:cursor-pointer"
-              >
+              <div className="p-2 rounded-full bg-gray-50 text-gray-300 group-hover:text-secondary group-hover:bg-blue-50 transition-colors">
                 <ChevronRight size={20} />
               </div>
             </div>
+
             <div
-              className="absolute top-0 left-0 w-1.5 h-full 
-              bg-secondary rounded-l-2xl opacity-0 group-hover:opacity-100 
-              transition-opacity"
+              className={`absolute top-0 left-0 w-1.5 h-full rounded-l-2xl transition-opacity ${reg.isVerified ? "bg-green-500 opacity-100" : "bg-secondary opacity-0 group-hover:opacity-100"}`}
             ></div>
           </div>
         ))}
@@ -194,6 +192,13 @@ export const ScrapIndex = () => {
           </div>
         )}
       </div>
+
+      <ScrapDetailModal
+        isOpen={isModalOpen}
+        scrapId={selectedScrapId}
+        onClose={() => setIsModalOpen(false)}
+        onRefresh={refresh}
+      />
     </div>
   );
 };
