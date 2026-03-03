@@ -36,6 +36,23 @@ export interface Defects {
   typeScrapId: number;
 }
 
+export interface ScrapList {
+  payRollNumber: number;
+  alloy: string;
+  diameter: string;
+  wall: string;
+  rdm: string;
+  shiftName: string;
+  processName: string;
+  lineName: string;
+  materialName: string;
+  typeScrapName: string;
+  machineCodeName: string;
+  defectName: string;
+  weight: number;
+  createdAt: string;
+}
+
 export interface Scrap {
   payRollNumber: number;
   alloy: string;
