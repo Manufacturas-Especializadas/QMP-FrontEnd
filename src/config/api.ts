@@ -12,6 +12,7 @@ export const API_CONFIG = {
       getShifts: "/api/Catalogs/shifts",
       getMaterial: "/api/Catalogs/material",
       getTypeScrap: "/api/Catalogs/typeScrap",
+      getScrap: "/api/Catalogs/Scrap",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
