@@ -18,6 +18,7 @@ export const API_CONFIG = {
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
     scrap: {
+      getById: "/api/Scrap/ById/",
       createScrap: "/api/Scrap/CreateScrap",
     },
   },
