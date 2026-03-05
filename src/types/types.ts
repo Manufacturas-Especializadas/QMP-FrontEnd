@@ -42,6 +42,10 @@ export interface VerifyScrapPayload {
   verifiedWeight: number | null;
 }
 
+export interface LinesCreate {
+  lineName: string;
+}
+
 export interface ScrapRead {
   id: number;
   payRollNumber: number;
