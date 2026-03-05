@@ -22,5 +22,8 @@ export const API_CONFIG = {
       createScrap: "/api/Scrap/CreateScrap",
       verify: "/api/Scrap/Verify",
     },
+    lines: {
+      create: "/api/Lines/CreateLine",
+    },
   },
 };
