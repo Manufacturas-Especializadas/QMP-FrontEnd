@@ -26,6 +26,7 @@ export const API_CONFIG = {
       lineById: "/api/Lines/LineById/",
       create: "/api/Lines/CreateLine",
       update: "/api/Lines/UpdateLine/",
+      delete: "/api/Lines/DeleteLine/",
     },
   },
 };

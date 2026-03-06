@@ -12,36 +12,10 @@ import toast from "react-hot-toast";
 import { useUpdateLine } from "../../../hooks/useUpdateLine";
 import { useLineById } from "../../../hooks/useLineById";
 import type { Lines } from "../../../types/types";
+import { ConfirmModal } from "../../../components/ConfirmModal/ConfirmModal";
+import { useDeleteLine } from "../../../hooks/useDeleteLine";
 
 export const LinesConfig = () => {
-  const columns: Column<Lines>[] = [
-    {
-      header: "Nombre de Línea",
-      accessor: "name",
-    },
-    {
-      header: "Acciones",
-      accessor: (item: Lines) => (
-        <div className="flex items-center justify-center gap-4">
-          <button
-            onClick={() => handleOpenEdit(item.id)}
-            className="text-slate-400 hover:text-blue-600 
-            font-medium transition-colors hover:cursor-pointer"
-          >
-            Editar
-          </button>
-          <button
-            onClick={() => console.log("Eliminar", item.id)}
-            className="text-slate-400 hover:text-red-600 font-medium 
-            transition-colors hover:cursor-pointer"
-          >
-            Eliminar
-          </button>
-        </div>
-      ),
-    },
-  ];
-
   const { lines, currentPage, totalPages, goToPage, refresh } = useLines({
     isPaged: true,
     pageSize: 6,
@@ -56,9 +30,12 @@ export const LinesConfig = () => {
     loading: isUpdating,
     error: updateError,
   } = useUpdateLine();
+  const { deleteLine, loading: isDeleting } = useDeleteLine();
   const { getById, loading: isFetchingLine } = useLineById();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [idToDelete, setIdToDelete] = useState<number | null>(null);
   const [lineName, setLineName] = useState("");
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
@@ -77,6 +54,22 @@ export const LinesConfig = () => {
     }
   };
 
+  const handleOpenDelete = (id: number) => {
+    setIdToDelete(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!idToDelete) return;
+
+    const success = await deleteLine(idToDelete);
+    if (success) {
+      toast.success("Línea eliminada correctamente");
+      await refresh();
+      setIsDeleteModalOpen(false);
+    }
+  };
+
   const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!lineName.trim()) return;
@@ -92,6 +85,34 @@ export const LinesConfig = () => {
       setLineName("");
     }
   };
+
+  const columns: Column<Lines>[] = [
+    {
+      header: "Nombre de Línea",
+      accessor: "name",
+    },
+    {
+      header: "Acciones",
+      accessor: (item: Lines) => (
+        <div className="flex items-center justify-center gap-4">
+          <button
+            onClick={() => handleOpenEdit(item.id)}
+            className="text-slate-400 hover:text-blue-600 
+            font-medium transition-colors hover:cursor-pointer"
+          >
+            Editar
+          </button>
+          <button
+            onClick={() => handleOpenDelete(item.id)}
+            className="text-slate-400 hover:text-red-600 font-medium 
+            transition-colors hover:cursor-pointer"
+          >
+            Eliminar
+          </button>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -159,6 +180,15 @@ export const LinesConfig = () => {
           </form>
         )}
       </Modal>
+
+      <ConfirmModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        isLoading={isDeleting}
+        title="Confirmar eliminación"
+        description={`¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.`}
+      />
     </>
   );
 };
