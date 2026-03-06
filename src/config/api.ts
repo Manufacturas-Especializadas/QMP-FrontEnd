@@ -23,6 +23,7 @@ export const API_CONFIG = {
       verify: "/api/Scrap/Verify",
     },
     lines: {
+      lineById: "/api/Lines/LineById/",
       create: "/api/Lines/CreateLine",
     },
   },

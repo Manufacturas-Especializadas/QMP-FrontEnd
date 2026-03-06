@@ -46,6 +46,11 @@ export interface LinesCreate {
   lineName: string;
 }
 
+export interface LineRead {
+  id: number;
+  lineName: string;
+}
+
 export interface ScrapRead {
   id: number;
   payRollNumber: number;
