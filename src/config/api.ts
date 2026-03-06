@@ -28,5 +28,11 @@ export const API_CONFIG = {
       update: "/api/Lines/UpdateLine/",
       delete: "/api/Lines/DeleteLine/",
     },
+    client: {
+      clientById: "/api/Clients/ClientById/",
+      create: "/api/Clients/CreateClient",
+      update: "/api/Clients/UpdateClient/",
+      delete: "/api/Clients/DeleteClient/",
+    },
   },
 };
