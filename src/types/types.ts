@@ -3,6 +3,11 @@ export interface Lines {
   name: string;
 }
 
+export interface Clients {
+  id: number;
+  name: string;
+}
+
 export interface Shifts {
   id: number;
   name: string;
@@ -49,6 +54,15 @@ export interface LinesCreate {
 export interface LineRead {
   id: number;
   lineName: string;
+}
+
+export interface ClientCreate {
+  clientName: string;
+}
+
+export interface ClientRead {
+  id: number;
+  clientName: string;
 }
 
 export interface ScrapRead {

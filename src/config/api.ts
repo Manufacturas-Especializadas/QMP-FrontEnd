@@ -9,6 +9,7 @@ export const API_CONFIG = {
   endpoints: {
     catalags: {
       getLines: "/api/Catalogs/lines",
+      getClients: "/api/Catalogs/clients",
       getShifts: "/api/Catalogs/shifts",
       getMaterial: "/api/Catalogs/material",
       getTypeScrap: "/api/Catalogs/typeScrap",

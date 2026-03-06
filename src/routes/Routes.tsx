@@ -4,6 +4,7 @@ import { ProcessAudit } from "../pages/ProcessAudit/ProcessAudit";
 import { ScrapForm } from "../pages/Scrap/ScrapForm";
 import { Configuration } from "../pages/Configuration/Configuration";
 import { LinesConfig } from "../pages/Configuration/Lines/LinesConfig";
+import { ClientConfig } from "../pages/Configuration/Clients/ClientConfig";
 
 export const MyRoutes = () => {
   return (
@@ -13,6 +14,7 @@ export const MyRoutes = () => {
       <Route path="/scrap/registro" element={<ScrapForm />} />
       <Route path="/config" element={<Configuration />} />
       <Route path="/config/lineas" element={<LinesConfig />} />
+      <Route path="/config/clientes" element={<ClientConfig />} />
     </Routes>
   );
 };
