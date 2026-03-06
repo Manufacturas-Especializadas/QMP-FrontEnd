@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-interface Column<T> {
+export interface Column<T> {
   header: string;
   accessor: keyof T | ((item: T) => React.ReactNode);
 }
@@ -35,7 +35,6 @@ export const DataTable = <T,>({
                   {col.header}
                 </th>
               ))}
-              <th className="px-6 py-4 text-center">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100 text-sm text-slate-700">
@@ -51,20 +50,6 @@ export const DataTable = <T,>({
                       : (item[col.accessor] as React.ReactNode)}
                   </td>
                 ))}
-                <td className="flex items-center justify-center gap-4">
-                  <button
-                    className="text-slate-400 hover:text-blue-600 
-                    font-medium transition-colors hover:cursor-pointer"
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="text-slate-400 hover:text-red-600 
-                    font-medium transition-colors hover:cursor-pointer"
-                  >
-                    Eliminar
-                  </button>
-                </td>
               </tr>
             ))}
           </tbody>
