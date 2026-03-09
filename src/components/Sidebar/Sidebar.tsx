@@ -6,6 +6,7 @@ import {
   Circle,
   ClipboardCheck,
   Database,
+  LogOut,
   Menu,
   PackageCheck,
   Settings,
@@ -13,12 +14,14 @@ import {
   Users,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 interface MenuItem {
   name: string;
   icon: any;
   path?: string;
   subMenu?: { name: string; path: string }[];
+  roles?: string[];
 }
 
 const menuItems: MenuItem[] = [
@@ -41,15 +44,27 @@ const menuItems: MenuItem[] = [
     ],
   },
   { name: "ROM", icon: Database, path: "/rom" },
-  { name: "Usuarios", icon: Users, path: "/usuarios" },
-  { name: "Configuraciones", icon: Settings, path: "/config" },
+  { name: "Usuarios", icon: Users, path: "/usuarios", roles: ["Admin"] },
+  {
+    name: "Configuraciones",
+    icon: Settings,
+    path: "/config",
+    roles: ["Admin"],
+  },
 ];
 
 export const Sidebar = () => {
+  const { user, logout } = useAuth();
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("Auditorias de proceso");
   const navigate = useNavigate();
+
+  const filteredMenuItems = menuItems.filter((item) => {
+    if (!item.roles) return true;
+
+    return item.roles.includes(user?.role || "");
+  });
 
   const handleNavigation = (name: string, path?: string) => {
     setActiveTab(name);
@@ -84,7 +99,7 @@ export const Sidebar = () => {
       </div>
 
       <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
-        {menuItems.map((item) => {
+        {filteredMenuItems.map((item) => {
           const hasSubMenu = !!item.subMenu;
           const isSubMenuOpen = openSubMenu === item.name;
 
@@ -157,6 +172,43 @@ export const Sidebar = () => {
           );
         })}
       </nav>
+
+      <div className="p-4 border-t border-gray-100">
+        <div
+          className={`flex items-center ${isCollapsed ? "justify-center" : "gap-3"} mb-4`}
+        >
+          <div
+            className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center 
+            text-blue-600 font-bold text-xs"
+          >
+            {user?.nameid}
+          </div>
+          {!isCollapsed && (
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-sm font-bold text-slate-700 truncate">
+                {user?.nameid}
+              </span>
+              <span
+                className="text-[10px] uppercase text-slate-400 font-black
+                tracking-wider"
+              >
+                {user?.role}
+              </span>
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={logout}
+          className={`w-full flex items-center p-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors hover:cursor-pointer
+            ${isCollapsed ? "justify-center" : "gap-3"}`}
+        >
+          <LogOut size={20} />
+          {!isCollapsed && (
+            <span className="text-sm font-semibold">Cerrar Sesión</span>
+          )}
+        </button>
+      </div>
     </div>
   );
 };
