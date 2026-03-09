@@ -21,7 +21,6 @@ export const useLogin = () => {
         employeeNumber,
         password: employeeNumber,
       });
-      console.log("Datos:", response);
 
       localStorage.setItem("token", response.token);
       localStorage.setItem("user", response.username);
