@@ -42,7 +42,7 @@ const menuItems: MenuItem[] = [
   },
   { name: "ROM", icon: Database, path: "/rom" },
   { name: "Usuarios", icon: Users, path: "/usuarios" },
-  { name: "Configuraciones", icon: Settings, path: "/configuraciones" },
+  { name: "Configuraciones", icon: Settings, path: "/config" },
 ];
 
 export const Sidebar = () => {

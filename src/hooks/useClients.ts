@@ -1,28 +1,28 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Lines } from "../types/types";
+import type { Clients } from "../types/types";
 import { catalogsService } from "../api/services/CatalogsService";
 
-interface UseLinesOptions {
+interface UseClientsOptions {
   isPaged?: boolean;
   pageSize?: number;
 }
 
-export const useLines = (options: UseLinesOptions = {}) => {
+export const useClients = (options: UseClientsOptions = {}) => {
   const { isPaged = false, pageSize = 10 } = options;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [allLines, setAllLines] = useState<Lines[]>([]);
+  const [allClients, setAllClients] = useState<Clients[]>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const getLines = useCallback(async () => {
+  const getClients = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const data = await catalogsService.getLines();
-      setAllLines(data);
+      const data = await catalogsService.getClients();
+      setAllClients(data);
     } catch (err: any) {
       setError(err.message || "Error al cargar las líneas");
     } finally {
@@ -31,22 +31,22 @@ export const useLines = (options: UseLinesOptions = {}) => {
   }, []);
 
   useEffect(() => {
-    getLines();
-  }, [getLines]);
+    getClients();
+  }, [getClients]);
 
-  const totalPages = Math.ceil(allLines.length / pageSize) || 1;
+  const totalPages = Math.ceil(allClients.length / pageSize) || 1;
 
-  const pagedLines = isPaged
-    ? allLines.slice((currentPage - 1) * pageSize, currentPage * pageSize)
-    : allLines;
+  const pagedClients = isPaged
+    ? allClients.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+    : allClients;
 
   return {
-    lines: pagedLines,
+    clients: pagedClients,
     loading,
     error,
     currentPage,
     totalPages,
-    refresh: getLines,
+    refresh: getClients,
     goToPage: (page: number) => setCurrentPage(page),
   };
 };

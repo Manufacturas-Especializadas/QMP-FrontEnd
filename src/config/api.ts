@@ -9,6 +9,7 @@ export const API_CONFIG = {
   endpoints: {
     catalags: {
       getLines: "/api/Catalogs/lines",
+      getClients: "/api/Catalogs/clients",
       getShifts: "/api/Catalogs/shifts",
       getMaterial: "/api/Catalogs/material",
       getTypeScrap: "/api/Catalogs/typeScrap",
@@ -21,6 +22,18 @@ export const API_CONFIG = {
       getById: "/api/Scrap/ById/",
       createScrap: "/api/Scrap/CreateScrap",
       verify: "/api/Scrap/Verify",
+    },
+    lines: {
+      lineById: "/api/Lines/LineById/",
+      create: "/api/Lines/CreateLine",
+      update: "/api/Lines/UpdateLine/",
+      delete: "/api/Lines/DeleteLine/",
+    },
+    client: {
+      clientById: "/api/Clients/ClientById/",
+      create: "/api/Clients/CreateClient",
+      update: "/api/Clients/UpdateClient/",
+      delete: "/api/Clients/DeleteClient/",
     },
   },
 };
