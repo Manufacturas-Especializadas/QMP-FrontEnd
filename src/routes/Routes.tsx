@@ -8,6 +8,7 @@ import { ClientConfig } from "../pages/Configuration/Clients/ClientConfig";
 import { Register } from "../pages/Auth/Register";
 import { Login } from "../pages/Auth/Login";
 import { ProtectedRoute } from "../components/Auth/ProtectedRoute";
+import { MainLayout } from "../components/Layouts/MainLayout/MainLayout";
 
 export const MyRoutes = () => {
   return (
@@ -16,15 +17,17 @@ export const MyRoutes = () => {
       <Route path="/register" element={<Register />} />
 
       <Route element={<ProtectedRoute />}>
-        <Route path="/" element={<ProcessAudit />} />
-        <Route path="/scrap" element={<ScrapIndex />} />
-        <Route path="/scrap/registro" element={<ScrapForm />} />
-      </Route>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<ProcessAudit />} />
+          <Route path="/scrap" element={<ScrapIndex />} />
+          <Route path="/scrap/registro" element={<ScrapForm />} />
 
-      <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
-        <Route path="/config" element={<Configuration />} />
-        <Route path="/config/lineas" element={<LinesConfig />} />
-        <Route path="/config/clientes" element={<ClientConfig />} />
+          <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+            <Route path="/config" element={<Configuration />} />
+            <Route path="/config/lineas" element={<LinesConfig />} />
+            <Route path="/config/clientes" element={<ClientConfig />} />
+          </Route>
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
