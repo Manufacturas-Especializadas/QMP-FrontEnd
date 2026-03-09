@@ -65,6 +65,16 @@ export interface ClientRead {
   clientName: string;
 }
 
+export interface UserRegister {
+  employeeNumber: string;
+  roleId: number;
+}
+
+export interface UserLogin {
+  employeeNumber: string;
+  password: string;
+}
+
 export interface ScrapRead {
   id: number;
   payRollNumber: number;
