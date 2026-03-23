@@ -65,6 +65,13 @@ export interface ClientRead {
   clientName: string;
 }
 
+export interface UsersList {
+  payRollNumber: string;
+  createdAt: string;
+  isActive: boolean;
+  roleName: string;
+}
+
 export interface UserRegister {
   employeeNumber: string;
   roleId: number;
