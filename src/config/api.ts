@@ -11,6 +11,7 @@ export const API_CONFIG = {
       users: "/api/Auth/Users",
       register: "/api/Auth/Register",
       login: "/api/Auth/Login",
+      toogleStatus: "/api/Auth/ToggleStatus/",
     },
     catalags: {
       getLines: "/api/Catalogs/lines",
