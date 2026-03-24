@@ -20,7 +20,6 @@ export const useUserList = (options: Options = {}) => {
 
     try {
       const data = await usersService.usersList();
-      console.log("Data: ", data);
       setUsers(data);
     } catch (err: any) {
       const message = err.message || "Error al cargar las lineas";
@@ -29,6 +28,17 @@ export const useUserList = (options: Options = {}) => {
       setLoading(false);
     }
   }, []);
+
+  const toggleUserStatus = async (username: string) => {
+    try {
+      setLoading(true);
+      await usersService.toggleStatus(username);
+    } catch (err: any) {
+      setError(err.message || "No se pudo cambiar el estado del usuario");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     getUsersList();
@@ -47,6 +57,7 @@ export const useUserList = (options: Options = {}) => {
     currentPage,
     totalPages,
     refresh: getUsersList,
+    toggleUserStatus,
     goToPage: (page: number) => setCurrentPage(page),
   };
 };
