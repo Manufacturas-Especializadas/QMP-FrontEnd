@@ -70,7 +70,7 @@ class ApiClient {
 
   async patch<T>(
     endpoint: string,
-    data: any,
+    data?: any,
     config?: AxiosRequestConfig,
   ): Promise<T> {
     const response = await this.client.patch<T>(endpoint, data, config);

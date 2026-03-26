@@ -8,8 +8,10 @@ export const API_CONFIG = {
   baseUrl: API_BASE_URL,
   endpoints: {
     user: {
+      users: "/api/Auth/Users",
       register: "/api/Auth/Register",
       login: "/api/Auth/Login",
+      toogleStatus: "/api/Auth/ToggleStatus/",
     },
     catalags: {
       getLines: "/api/Catalogs/lines",

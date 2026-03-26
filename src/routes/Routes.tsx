@@ -9,6 +9,7 @@ import { Register } from "../pages/Auth/Register";
 import { Login } from "../pages/Auth/Login";
 import { ProtectedRoute } from "../components/Auth/ProtectedRoute";
 import { MainLayout } from "../components/Layouts/MainLayout/MainLayout";
+import { UserIndex } from "../pages/Users/UserIndex";
 
 export const MyRoutes = () => {
   return (
@@ -23,6 +24,7 @@ export const MyRoutes = () => {
           <Route path="/scrap/registro" element={<ScrapForm />} />
 
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
+            <Route path="/usuarios" element={<UserIndex />} />
             <Route path="/config" element={<Configuration />} />
             <Route path="/config/lineas" element={<LinesConfig />} />
             <Route path="/config/clientes" element={<ClientConfig />} />
