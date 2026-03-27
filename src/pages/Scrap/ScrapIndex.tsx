@@ -13,6 +13,8 @@ import { useScrap } from "../../hooks/useScrap";
 import { formatDateTime } from "../../utils/dateFormatter";
 import { useMemo, useState } from "react";
 import { ScrapDetailModal } from "../../components/ScrapDetailModal/ScrapDetailModal";
+import { RoleGuard } from "../../components/Auth/RoleGuard";
+import { UserRole } from "../../types/types";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -67,15 +69,18 @@ export const ScrapIndex = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate("/scrap/reportes")}
-            className="flex items-center justify-center gap-2 bg-green-50 text-green-600 px-4 py-2 
-            rounded-2xl font-bold border border-green-100 hover:bg-green-100 transition-all 
-            hover:cursor-pointer"
-          >
-            <FileText size={20} />
-            Reportes
-          </button>
+          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.Ingeniero]}>
+            <button
+              onClick={() => navigate("/scrap/reportes")}
+              className="flex items-center justify-center gap-2 bg-green-50 text-green-600 px-4 py-2 
+              rounded-2xl font-bold border border-green-100 hover:bg-green-100 transition-all 
+              hover:cursor-pointer"
+            >
+              <FileText size={20} />
+              Reportes
+            </button>
+          </RoleGuard>
+
           <button
             onClick={() => navigate("/scrap/registro")}
             className="flex items-center justify-center gap-2 bg-linear-to-r 
