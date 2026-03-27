@@ -5,27 +5,29 @@ import { scrapService } from "../api/services/ScrapService";
 export const useScrapReports = () => {
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const downloadMonthlyReport = useCallback(async () => {
-    setIsDownloading(true);
+  const downloadReportByMonth = useCallback(
+    async (month: number, year: number, monthName: string) => {
+      setIsDownloading(true);
+      const loadingToast = toast.loading(
+        `Generando reporte de ${monthName}...`,
+      );
 
-    const loadingToast = toast.loading("Generando reporte...");
-
-    try {
-      await scrapService.getReports();
-
-      toast.dismiss(loadingToast);
-      toast.success("Reporte descargado correctamente");
-    } catch (err: any) {
-      toast.dismiss(loadingToast);
-      const message = err.message || "No se pudo generar el reporte";
-      toast.error(message);
-    } finally {
-      setIsDownloading(false);
-    }
-  }, []);
+      try {
+        await scrapService.getReports(month, year);
+        toast.dismiss(loadingToast);
+        toast.success(`Reporte de ${monthName} descargado`);
+      } catch (error: any) {
+        toast.dismiss(loadingToast);
+        toast.error("Error al generar el reporte histórico");
+      } finally {
+        setIsDownloading(false);
+      }
+    },
+    [],
+  );
 
   return {
-    downloadMonthlyReport,
+    downloadReportByMonth,
     isDownloading,
   };
 };

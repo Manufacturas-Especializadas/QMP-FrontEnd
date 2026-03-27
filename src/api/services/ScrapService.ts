@@ -12,8 +12,11 @@ class ScrapService {
     return apiClient.get<ScrapRead>(`${this.getScrapByIdEndpoint}${id}`);
   }
 
-  async getReports(): Promise<void> {
+  async getReports(month?: number, year?: number): Promise<void> {
     const now = new Date();
+    const reportMonth = month ?? now.getMonth() + 1;
+    const reportYear = year ?? now.getFullYear();
+
     const meses = [
       "Enero",
       "Febrero",
@@ -29,9 +32,14 @@ class ScrapService {
       "Diciembre",
     ];
 
-    const fileName = `Reporte_Scrap_${meses[now.getMonth()]}_${now.getFullYear()}.xlsx`;
+    const fileName = `Reporte_Scrap_${meses[reportMonth - 1]}_${reportYear}.xlsx`;
 
-    return apiClient.downloadFile(this.getReportsEndpoint, fileName);
+    let endpoint = this.getReportsEndpoint;
+    if (month && year) {
+      endpoint += `?month=${month}&year=${year}`;
+    }
+
+    return apiClient.downloadFile(endpoint, fileName);
   }
 
   async createScrap(data: Scrap): Promise<void> {
