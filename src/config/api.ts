@@ -28,6 +28,7 @@ export const API_CONFIG = {
       getById: "/api/Scrap/ById/",
       createScrap: "/api/Scrap/CreateScrap",
       verify: "/api/Scrap/Verify",
+      reports: "/api/Scrap/ExportExcel",
     },
     lines: {
       lineById: "/api/Lines/LineById/",

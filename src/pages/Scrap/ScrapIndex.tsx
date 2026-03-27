@@ -3,6 +3,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  FileText,
   Layers,
   Plus,
   TrendingUp,
@@ -64,15 +65,27 @@ export const ScrapIndex = () => {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => navigate("/scrap/registro")}
-          className="flex items-center justify-center gap-2 bg-linear-to-r 
-          from-secondary to-primary text-white px-4 py-2 rounded-2xl 
-          font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
-          transition-all hover:cursor-pointer"
-        >
-          <Plus size={20} strokeWidth={3} /> Nuevo Scrap
-        </button>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate("/scrap/reportes")}
+            className="flex items-center justify-center gap-2 bg-green-50 text-green-600 px-4 py-2 
+            rounded-2xl font-bold border border-green-100 hover:bg-green-100 transition-all 
+            hover:cursor-pointer"
+          >
+            <FileText size={20} />
+            Reportes
+          </button>
+          <button
+            onClick={() => navigate("/scrap/registro")}
+            className="flex items-center justify-center gap-2 bg-linear-to-r 
+            from-secondary to-primary text-white px-4 py-2 rounded-2xl 
+            font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
+            transition-all hover:cursor-pointer"
+          >
+            <Plus size={20} strokeWidth={3} /> Nuevo Scrap
+          </button>
+        </div>
       </div>
 
       <div className="space-y-4">

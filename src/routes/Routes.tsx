@@ -10,6 +10,7 @@ import { Login } from "../pages/Auth/Login";
 import { ProtectedRoute } from "../components/Auth/ProtectedRoute";
 import { MainLayout } from "../components/Layouts/MainLayout/MainLayout";
 import { UserIndex } from "../pages/Users/UserIndex";
+import { ScrapReports } from "../pages/Scrap/ScrapReports";
 
 export const MyRoutes = () => {
   return (
@@ -22,6 +23,7 @@ export const MyRoutes = () => {
           <Route path="/" element={<ProcessAudit />} />
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/registro" element={<ScrapForm />} />
+          <Route path="/scrap/reportes" element={<ScrapReports />} />
 
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="/usuarios" element={<UserIndex />} />
