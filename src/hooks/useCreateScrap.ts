@@ -80,7 +80,7 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
       errors.push("El tipo de scrap es requerido");
     if (formData.defectId === 0) errors.push("El defecto es requerido");
     if (formData.weight <= 0) errors.push("El peso debe ser mayor a 0");
-    if (!formData.rdm.trim()) errors.push("El RDM es requerido");
+    // if (!formData.rdm.trim()) errors.push("El RDM es requerido");
 
     if (errors.length > 0) {
       toast.error(errors[0]);
