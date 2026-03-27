@@ -3,12 +3,14 @@ import { Input } from "../../components/CustomInputs/Input";
 import { useState, type SyntheticEvent } from "react";
 import { useRegister } from "../../hooks/useRegister";
 import { FloatingSelect } from "../../components/CustomInputs/FloatingSelect";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const [employeeNumber, setEmployeeNumber] = useState("");
   const [roleId, setRoleId] = useState<string | number>(1);
 
   const { registerUser, loading } = useRegister();
+  const navigate = useNavigate();
 
   const ROLE_OPTIONS = [
     { label: "Operador", value: 1 },
@@ -74,6 +76,15 @@ export const Register = () => {
             shadow-slate-200 cursor-pointer mt-4"
           >
             {loading ? "Procesando..." : "Registrar usuario"}
+          </button>
+
+          <button
+            onClick={() => navigate("/usuarios")}
+            className="w-full bg-gray-500 text-white py-3 rounded-xl font-bold 
+            hover:bg-gray-400 transition-all transform active:scale-[0.98] shadow-lg 
+            shadow-slate-200 cursor-pointer"
+          >
+            Volver
           </button>
         </form>
       </div>

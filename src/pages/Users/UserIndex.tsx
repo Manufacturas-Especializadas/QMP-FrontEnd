@@ -5,6 +5,7 @@ import { useUserList } from "../../hooks/useUsersList";
 import type { UsersList } from "../../types/types";
 import { formatDateTime } from "../../utils/dateFormatter";
 import { ModalConfirm } from "../../components/ModalConfirm/ModalConfirm";
+import { useNavigate } from "react-router-dom";
 
 export const UserIndex = () => {
   const {
@@ -21,6 +22,7 @@ export const UserIndex = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UsersList | null>(null);
+  const navigate = useNavigate();
 
   const openConfirmModal = (user: UsersList) => {
     setSelectedUser(user);
@@ -84,6 +86,17 @@ export const UserIndex = () => {
         title="Administrar Usuarios"
         description="Gestiona a los usuarios dados de alta"
       >
+        <div className="flex justify-end m-3">
+          <button
+            onClick={() => navigate("/register")}
+            className="bg-linear-to-r 
+            from-secondary to-primary text-white px-4 py-2 rounded-2xl 
+            font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
+            transition-all hover:cursor-pointer"
+          >
+            Registrar usuario
+          </button>
+        </div>
         <DataTable
           columns={columns}
           data={users}
