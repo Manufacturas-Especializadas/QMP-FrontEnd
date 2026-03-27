@@ -4,13 +4,16 @@ import {
   FileDown,
   FileSpreadsheet,
   Loader2,
+  Clock,
+  Download,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useScrapReports } from "../../hooks/useScrapReports";
+import { useMemo } from "react";
 
 export const ScrapReports = () => {
   const navigate = useNavigate();
-  const { downloadMonthlyReport, isDownloading } = useScrapReports();
+  const { downloadReportByMonth, isDownloading } = useScrapReports();
 
   const now = new Date();
 
@@ -31,6 +34,19 @@ export const ScrapReports = () => {
 
   const currentMonthName = months[now.getMonth()];
   const currentYear = now.getFullYear();
+
+  const history = useMemo(() => {
+    const list = [];
+    for (let i = 1; i <= 3; i++) {
+      const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      list.push({
+        month: date.getMonth() + 1,
+        year: date.getFullYear(),
+        monthName: months[date.getMonth()],
+      });
+    }
+    return list;
+  }, []);
 
   return (
     <div
@@ -57,9 +73,9 @@ export const ScrapReports = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div
-          className="relative overflow-hidden bg-white border 
-          border-blue-100 rounded-3xl p-8 shadow-sm group hover:shadow-xl 
-          hover:shadow-blue-50 transition-all"
+          className="relative overflow-hidden bg-white border border-blue-100 
+          rounded-3xl p-8 shadow-sm group hover:shadow-xl hover:shadow-blue-50 
+          transition-all"
         >
           <div
             className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 
@@ -70,8 +86,8 @@ export const ScrapReports = () => {
 
           <div className="relative z-10 space-y-6">
             <div
-              className="flex items-center gap-3 text-secondary font-black uppercase 
-              text-xs tracking-widest"
+              className="flex items-center gap-3 text-secondary font-black 
+              uppercase text-xs tracking-widest"
             >
               <Calendar size={16} />
               Mes en curso
@@ -86,12 +102,18 @@ export const ScrapReports = () => {
 
             <div className="pt-4">
               <button
-                onClick={downloadMonthlyReport}
+                onClick={() =>
+                  downloadReportByMonth(
+                    now.getMonth() + 1,
+                    currentYear,
+                    currentMonthName,
+                  )
+                }
                 disabled={isDownloading}
-                className="w-full flex items-center justify-center gap-3 
-                bg-secondary text-white py-4 rounded-2xl font-black shadow-lg 
-                shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] transition-all 
-                hover:cursor-pointer uppercase tracking-wider"
+                className="w-full flex items-center justify-center gap-3 bg-secondary 
+                text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-200 
+                hover:scale-[1.02] active:scale-[0.98] transition-all hover:cursor-pointer 
+                uppercase tracking-wider disabled:opacity-50"
               >
                 {isDownloading ? (
                   <Loader2 className="animate-spin" size={22} />
@@ -105,8 +127,8 @@ export const ScrapReports = () => {
         </div>
 
         <div
-          className="bg-linear-to-br from-gray-800 to-gray-900 rounded-3xl p-8 text-white 
-          flex flex-col justify-center space-y-4"
+          className="bg-linear-to-br from-gray-800 to-gray-900 rounded-3xl p-8 
+          text-white flex flex-col justify-center space-y-4"
         >
           <h3 className="text-xl font-bold">Información del Reporte</h3>
           <ul className="space-y-3 text-sm text-gray-300 font-medium">
@@ -129,17 +151,46 @@ export const ScrapReports = () => {
       <div className="pt-8">
         <h2
           className="text-xs font-black text-gray-400 uppercase tracking-[0.2em] 
-          mb-4 ml-2"
+          mb-4 ml-2 flex items-center gap-2"
         >
+          <Clock size={14} />
           Historial Reciente
         </h2>
-        <div
-          className="bg-gray-50 border-2 border-dashed border-gray-200 
-          rounded-3xl p-12 flex flex-col items-center justify-center text-center"
-        >
-          <p className="text-gray-400 font-bold">
-            Próximamente podrás consultar meses anteriores aquí.
-          </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {history.map((item, index) => (
+            <div
+              key={index}
+              className="bg-white border border-gray-100 rounded-2xl p-5 flex 
+              flex-col justify-between gap-4 hover:border-blue-200 hover:shadow-lg 
+              hover:shadow-blue-50/50 transition-all group"
+            >
+              <div>
+                <p
+                  className="text-[10px] font-black text-gray-400 uppercase 
+                  tracking-tighter"
+                >
+                  {item.year}
+                </p>
+                <h3 className="text-lg font-black text-gray-700">
+                  {item.monthName}
+                </h3>
+              </div>
+
+              <button
+                onClick={() =>
+                  downloadReportByMonth(item.month, item.year, item.monthName)
+                }
+                disabled={isDownloading}
+                className="flex items-center justify-center gap-2 text-secondary 
+                bg-blue-50 py-2 rounded-xl font-bold text-xs hover:bg-secondary 
+                hover:text-white transition-all hover:cursor-pointer disabled:opacity-30"
+              >
+                <Download size={14} />
+                Descargar
+              </button>
+            </div>
+          ))}
         </div>
       </div>
     </div>
