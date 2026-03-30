@@ -26,6 +26,11 @@ export interface Material {
   name: string;
 }
 
+export interface DefectsRejections {
+  id: number;
+  name: string;
+}
+
 export interface ContainmentActions {
   id: number;
   name: string;
