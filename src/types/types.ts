@@ -36,6 +36,12 @@ export interface ContainmentActions {
   name: string;
 }
 
+export interface Condition {
+  id: number;
+  name: string;
+  defectId: number;
+}
+
 export interface Process {
   id: number;
   name: string;
