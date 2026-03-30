@@ -24,6 +24,9 @@ export const API_CONFIG = {
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
+    rejections: {
+      getNextFolio: "/api/Rejections/GeNextFolio",
+    },
     scrap: {
       getById: "/api/Scrap/ById/",
       createScrap: "/api/Scrap/CreateScrap",
