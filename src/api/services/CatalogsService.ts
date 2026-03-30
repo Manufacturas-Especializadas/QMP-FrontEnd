@@ -1,6 +1,7 @@
 import { API_CONFIG } from "../../config/api";
 import type {
   Clients,
+  ContainmentActions,
   Defects,
   Lines,
   MachineCodes,
@@ -17,6 +18,8 @@ class CatalogsService {
   private getClientsEndpoint = API_CONFIG.endpoints.catalags.getClients;
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
   private getMaterialEndpoint = API_CONFIG.endpoints.catalags.getMaterial;
+  private getContainmentActionsEndpoint =
+    API_CONFIG.endpoints.catalags.getContainmentActions;
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
   private getScrapEndpoint = API_CONFIG.endpoints.catalags.getScrap;
   private getProcessByLineEndpoint =
@@ -40,6 +43,12 @@ class CatalogsService {
 
   async getMaterial(): Promise<Material[]> {
     return apiClient.get<Material[]>(this.getMaterialEndpoint);
+  }
+
+  async getContainmentActions(): Promise<ContainmentActions[]> {
+    return apiClient.get<ContainmentActions[]>(
+      this.getContainmentActionsEndpoint,
+    );
   }
 
   async getTypeScrap(): Promise<TypeScrap[]> {
