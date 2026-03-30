@@ -11,6 +11,7 @@ import { ProtectedRoute } from "../components/Auth/ProtectedRoute";
 import { MainLayout } from "../components/Layouts/MainLayout/MainLayout";
 import { UserIndex } from "../pages/Users/UserIndex";
 import { ScrapReports } from "../pages/Scrap/ScrapReports";
+import { RejectionsIndex } from "../pages/Rejections/RejectionsIndex";
 
 export const MyRoutes = () => {
   return (
@@ -24,6 +25,7 @@ export const MyRoutes = () => {
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/registro" element={<ScrapForm />} />
           <Route path="/scrap/reportes" element={<ScrapReports />} />
+          <Route path="/rechazos" element={<RejectionsIndex />} />
 
           <Route element={<ProtectedRoute allowedRoles={["Admin"]} />}>
             <Route path="/usuarios" element={<UserIndex />} />
