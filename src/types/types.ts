@@ -161,6 +161,21 @@ export interface Scrap {
   weight: number;
 }
 
+export interface Rejections {
+  inspector: string;
+  partNumber: string;
+  numberOfPieces: number;
+  idDefect: number;
+  idCondition: number;
+  description: string;
+  idLine: number;
+  idClient: number;
+  operatorPayRoll: number;
+  idContainmentAction: number;
+  folio: number;
+  photos: string[];
+}
+
 export interface RejectionList {
   id: number;
   title: string;
