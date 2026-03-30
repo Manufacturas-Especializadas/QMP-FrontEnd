@@ -3,6 +3,7 @@ import type {
   Clients,
   ContainmentActions,
   Defects,
+  DefectsRejections,
   Lines,
   MachineCodes,
   Material,
@@ -18,6 +19,8 @@ class CatalogsService {
   private getClientsEndpoint = API_CONFIG.endpoints.catalags.getClients;
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
   private getMaterialEndpoint = API_CONFIG.endpoints.catalags.getMaterial;
+  private getDefectsRejectionsEndpoint =
+    API_CONFIG.endpoints.catalags.getDefects;
   private getContainmentActionsEndpoint =
     API_CONFIG.endpoints.catalags.getContainmentActions;
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
@@ -43,6 +46,12 @@ class CatalogsService {
 
   async getMaterial(): Promise<Material[]> {
     return apiClient.get<Material[]>(this.getMaterialEndpoint);
+  }
+
+  async getDefetcsRejections(): Promise<DefectsRejections[]> {
+    return apiClient.get<DefectsRejections[]>(
+      this.getDefectsRejectionsEndpoint,
+    );
   }
 
   async getContainmentActions(): Promise<ContainmentActions[]> {
