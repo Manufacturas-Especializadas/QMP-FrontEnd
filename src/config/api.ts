@@ -22,6 +22,7 @@ export const API_CONFIG = {
       getContainmentActions: "/api/Catalogs/containmentActions",
       getTypeScrap: "/api/Catalogs/typeScrap",
       getScrap: "/api/Catalogs/Scrap",
+      getConditionByDefect: "/api/Catalogs/conditions/",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
