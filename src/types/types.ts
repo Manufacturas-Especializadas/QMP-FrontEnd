@@ -144,3 +144,13 @@ export interface Scrap {
   defectId: number;
   weight: number;
 }
+
+export interface RejectionList {
+  id: number;
+  title: string;
+  description: string;
+  rejectionDate: string;
+  imageUrl: string | null;
+  hasEvidence: boolean;
+  creatingPayroll: number;
+}
