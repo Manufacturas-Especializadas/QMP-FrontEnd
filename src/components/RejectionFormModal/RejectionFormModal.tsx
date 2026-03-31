@@ -22,7 +22,12 @@ export const RejectionFormModal = ({
   onClose: () => void;
 }) => {
   const [step, setStep] = useState(1);
-  const { formData, handleChange, handleSubmit, loading } = useRejectionForm();
+  const { formData, handleChange, handleSubmit, loading } = useRejectionForm(
+    () => {
+      onClose();
+      setStep(1);
+    },
+  );
   const { user } = useAuth();
   const { lines } = useLines();
   const { clients } = useClients();
@@ -55,6 +60,10 @@ export const RejectionFormModal = ({
     () => conditions.map((c) => ({ label: c.name, value: c.id })),
     [conditions],
   );
+
+  useEffect(() => {
+    if (!isOpen) setStep(1);
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen) {
