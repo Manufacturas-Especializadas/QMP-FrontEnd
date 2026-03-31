@@ -181,12 +181,12 @@ export const Sidebar = () => {
             className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center 
             text-blue-600 font-bold text-xs"
           >
-            {user?.nameid}
+            {user?.unique_name}
           </div>
           {!isCollapsed && (
             <div className="flex flex-col overflow-hidden">
               <span className="text-sm font-bold text-slate-700 truncate">
-                {user?.nameid}
+                {user?.unique_name}
               </span>
               <span
                 className="text-[10px] uppercase text-slate-400 font-black
