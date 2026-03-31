@@ -29,6 +29,7 @@ export const API_CONFIG = {
     },
     rejections: {
       getNextFolio: "/api/Rejections/GeNextFolio",
+      create: "/api/Rejections/Create",
     },
     scrap: {
       getById: "/api/Scrap/ById/",
