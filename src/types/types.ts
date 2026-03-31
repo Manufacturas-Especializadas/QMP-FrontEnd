@@ -180,6 +180,25 @@ export interface RejectionRead {
   containmentActionName: string;
 }
 
+export interface RejectionResponse {
+  id: number;
+  folio: number;
+  inspector: string;
+  partNumber: string;
+  numberOfPieces: number;
+  operatorPayroll: number;
+  description: string;
+  image: string | null;
+  informedSignature: string | null;
+  createdAt: string;
+  defectName: string;
+  conditionName: string;
+  lineName: string;
+  clientName: string;
+  userName: string;
+  containmentActionName: string;
+}
+
 export interface Rejections {
   inspector: string;
   partNumber: string;
