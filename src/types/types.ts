@@ -197,6 +197,11 @@ export interface RejectionResponse {
   clientName: string;
   userName: string;
   containmentActionName: string;
+  idDefect: number;
+  idCondition: number;
+  idLine: number;
+  idClient: number;
+  idContainmentAction: number;
 }
 
 export interface Rejections {
