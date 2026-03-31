@@ -31,6 +31,7 @@ export const API_CONFIG = {
     rejections: {
       getNextFolio: "/api/Rejections/GeNextFolio",
       create: "/api/Rejections/Create",
+      update: "/api/Rejections/Edit/",
     },
     scrap: {
       getById: "/api/Scrap/ById/",
