@@ -26,6 +26,22 @@ export interface Material {
   name: string;
 }
 
+export interface DefectsRejections {
+  id: number;
+  name: string;
+}
+
+export interface ContainmentActions {
+  id: number;
+  name: string;
+}
+
+export interface Condition {
+  id: number;
+  name: string;
+  defectId: number;
+}
+
 export interface Process {
   id: number;
   name: string;
@@ -143,6 +159,21 @@ export interface Scrap {
   machineCodeId: number | null;
   defectId: number;
   weight: number;
+}
+
+export interface Rejections {
+  inspector: string;
+  partNumber: string;
+  numberOfPieces: number;
+  idDefect: number;
+  idCondition: number;
+  description: string;
+  idLine: number;
+  idClient: number;
+  operatorPayRoll: number;
+  idContainmentAction: number;
+  folio: number;
+  photos: string[];
 }
 
 export interface RejectionList {

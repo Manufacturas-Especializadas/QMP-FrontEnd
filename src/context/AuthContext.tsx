@@ -8,7 +8,7 @@ import {
 } from "react";
 
 interface UserSession {
-  nameid: string;
+  unique_name: string;
   role: string;
   exp: number;
 }

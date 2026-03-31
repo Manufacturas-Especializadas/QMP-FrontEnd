@@ -18,11 +18,18 @@ export const API_CONFIG = {
       getClients: "/api/Catalogs/clients",
       getShifts: "/api/Catalogs/shifts",
       getMaterial: "/api/Catalogs/material",
+      getDefects: "/api/Catalogs/defects",
+      getContainmentActions: "/api/Catalogs/containmentActions",
       getTypeScrap: "/api/Catalogs/typeScrap",
       getScrap: "/api/Catalogs/Scrap",
+      getConditionByDefect: "/api/Catalogs/conditions/",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
+    },
+    rejections: {
+      getNextFolio: "/api/Rejections/GeNextFolio",
+      create: "/api/Rejections/Create",
     },
     scrap: {
       getById: "/api/Scrap/ById/",

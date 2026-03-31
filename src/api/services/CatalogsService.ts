@@ -1,7 +1,10 @@
 import { API_CONFIG } from "../../config/api";
 import type {
   Clients,
+  Condition,
+  ContainmentActions,
   Defects,
+  DefectsRejections,
   Lines,
   MachineCodes,
   Material,
@@ -17,8 +20,14 @@ class CatalogsService {
   private getClientsEndpoint = API_CONFIG.endpoints.catalags.getClients;
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
   private getMaterialEndpoint = API_CONFIG.endpoints.catalags.getMaterial;
+  private getDefectsRejectionsEndpoint =
+    API_CONFIG.endpoints.catalags.getDefects;
+  private getContainmentActionsEndpoint =
+    API_CONFIG.endpoints.catalags.getContainmentActions;
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
   private getScrapEndpoint = API_CONFIG.endpoints.catalags.getScrap;
+  private getConditionByDefectEndpoint =
+    API_CONFIG.endpoints.catalags.getConditionByDefect;
   private getProcessByLineEndpoint =
     API_CONFIG.endpoints.catalags.getProcessByLine;
   private getMachineCodesByProcessEndpoint =
@@ -42,12 +51,30 @@ class CatalogsService {
     return apiClient.get<Material[]>(this.getMaterialEndpoint);
   }
 
+  async getDefetcsRejections(): Promise<DefectsRejections[]> {
+    return apiClient.get<DefectsRejections[]>(
+      this.getDefectsRejectionsEndpoint,
+    );
+  }
+
+  async getContainmentActions(): Promise<ContainmentActions[]> {
+    return apiClient.get<ContainmentActions[]>(
+      this.getContainmentActionsEndpoint,
+    );
+  }
+
   async getTypeScrap(): Promise<TypeScrap[]> {
     return apiClient.get<TypeScrap[]>(this.getTypeScrapEndpoint);
   }
 
   async getScrap(): Promise<ScrapList[]> {
     return apiClient.get<ScrapList[]>(this.getScrapEndpoint);
+  }
+
+  async getConditionByDefect(id: number): Promise<Condition[]> {
+    return apiClient.get<Condition[]>(
+      `${this.getConditionByDefectEndpoint}${id}`,
+    );
   }
 
   async getProcessByLine(id: number): Promise<Process[]> {
