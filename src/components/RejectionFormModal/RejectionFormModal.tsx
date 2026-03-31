@@ -13,16 +13,31 @@ import { useContainmentActions } from "../../hooks/useContainmentActions";
 import { useDefectRejections } from "../../hooks/useDefectRejections";
 import { useRejectionForm } from "../../hooks/useRejectionForm";
 import { useConditionByDefect } from "../../hooks/useConditionByDefect";
+import type { RejectionResponse } from "../../types/types";
 
 export const RejectionFormModal = ({
   isOpen,
   onClose,
+  rejectionToEdit = null,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  rejectionToEdit?: RejectionResponse | null;
 }) => {
   const [step, setStep] = useState(1);
-  const { formData, handleChange, handleSubmit, loading } = useRejectionForm();
+  const {
+    formData,
+    handleChange,
+    handleSubmit,
+    loading,
+    setEditData,
+    isEditMode,
+    existingPhotos,
+    existingSignature,
+  } = useRejectionForm(() => {
+    onClose();
+    setStep(1);
+  });
   const { user } = useAuth();
   const { lines } = useLines();
   const { clients } = useClients();
@@ -56,6 +71,18 @@ export const RejectionFormModal = ({
     [conditions],
   );
 
+  const modalTitle = isEditMode ? "Editar Rechazo" : "Registrar Rechazo";
+
+  useEffect(() => {
+    if (isOpen && rejectionToEdit) {
+      setEditData(rejectionToEdit);
+    }
+  }, [isOpen, rejectionToEdit, setEditData]);
+
+  useEffect(() => {
+    if (!isOpen) setStep(1);
+  }, [isOpen]);
+
   useEffect(() => {
     if (isOpen) {
       if (folio !== null) {
@@ -81,7 +108,7 @@ export const RejectionFormModal = ({
         <div className="p-8 border-b border-gray-50 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-black text-gray-800 uppercase tracking-tight">
-              Registrar rechazo
+              {modalTitle}
             </h2>
             <div className="flex gap-2 mt-2">
               <div
@@ -195,9 +222,11 @@ export const RejectionFormModal = ({
               />
               <ImageUploader
                 onImagesChange={(files) => handleChange("photos", files)}
+                existingImages={existingPhotos}
               />
               <SignaturePad
                 onSave={(file) => handleChange("signature", file)}
+                existingSignature={existingSignature}
               />
             </div>
           )}

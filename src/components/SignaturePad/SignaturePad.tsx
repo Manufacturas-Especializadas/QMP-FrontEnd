@@ -1,15 +1,20 @@
-import { Eraser, Check } from "lucide-react";
+import { Eraser, Check, Cloud } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 interface SignaturePadProps {
   onSave: (file: File) => void;
+  existingSignature?: string | null;
 }
 
-export const SignaturePad = ({ onSave }: SignaturePadProps) => {
+export const SignaturePad = ({
+  onSave,
+  existingSignature,
+}: SignaturePadProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isSigned, setIsSigned] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [showExisting, setShowExisting] = useState(!!existingSignature);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,6 +40,8 @@ export const SignaturePad = ({ onSave }: SignaturePadProps) => {
   };
 
   const startDrawing = (e: any) => {
+    if (showExisting) setShowExisting(false);
+
     setIsDrawing(true);
     const { x, y } = getCoordinates(e);
     const ctx = canvasRef.current!.getContext("2d")!;
@@ -69,7 +76,7 @@ export const SignaturePad = ({ onSave }: SignaturePadProps) => {
         if (blob) {
           const file = new File([blob], "signature.png", { type: "image/png" });
           onSave(file);
-          toast.success("Firma guardada");
+          toast.success("Nueva firma capturada");
         }
       }, "image/png");
     }
@@ -81,9 +88,28 @@ export const SignaturePad = ({ onSave }: SignaturePadProps) => {
         Firma de Conformidad
       </label>
       <div className="relative bg-gray-50 rounded-3xl border border-gray-200 overflow-hidden">
+        {showExisting && existingSignature && (
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center bg-blue-50/20 
+            pointer-events-none"
+          >
+            <img
+              src={existingSignature}
+              className="max-h-32 object-contain opacity-40 grayscale"
+              alt="Firma actual"
+            />
+            <div
+              className="flex items-center gap-1 mt-2 text-blue-400 font-bold text-[9px] 
+              uppercase tracking-tighter"
+            >
+              <Cloud size={12} /> Firma actual en servidor
+            </div>
+          </div>
+        )}
+
         <canvas
           ref={canvasRef}
-          className="w-full h-48 touch-none cursor-crosshair"
+          className="w-full h-48 touch-none cursor-crosshair relative z-10"
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
@@ -92,11 +118,13 @@ export const SignaturePad = ({ onSave }: SignaturePadProps) => {
           onTouchMove={draw}
           onTouchEnd={stopDrawing}
         />
-        <div className="absolute bottom-4 right-4 flex gap-2">
+
+        <div className="absolute bottom-4 right-4 flex gap-2 z-20">
           <button
             type="button"
             onClick={clear}
-            className="p-3 bg-white text-gray-500 rounded-2xl shadow-sm hover:text-red-500 border border-gray-100 transition-colors"
+            className="p-3 bg-white text-gray-500 rounded-2xl shadow-sm hover:text-red-500 
+            border border-gray-100 transition-colors"
           >
             <Eraser size={18} />
           </button>
@@ -109,6 +137,11 @@ export const SignaturePad = ({ onSave }: SignaturePadProps) => {
           </button>
         </div>
       </div>
+      <p className="text-[10px] text-gray-400 italic ml-1">
+        {showExisting
+          ? "Dibuje sobre el recuadro para actualizar la firma"
+          : "Capture la firma para validar el registro"}
+      </p>
     </div>
   );
 };

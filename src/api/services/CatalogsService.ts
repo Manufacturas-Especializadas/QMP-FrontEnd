@@ -9,6 +9,7 @@ import type {
   MachineCodes,
   Material,
   Process,
+  RejectionRead,
   ScrapList,
   Shifts,
   TypeScrap,
@@ -34,6 +35,7 @@ class CatalogsService {
     API_CONFIG.endpoints.catalags.getMachineCodesByProcess;
   private getDefectByTypeScrapEndpoint =
     API_CONFIG.endpoints.catalags.getDefectByTypeScrap;
+  private getRejectionsEndpoint = API_CONFIG.endpoints.catalags.getRejections;
 
   async getLines(): Promise<Lines[]> {
     return apiClient.get<Lines[]>(this.getLinesEndpoint);
@@ -69,6 +71,10 @@ class CatalogsService {
 
   async getScrap(): Promise<ScrapList[]> {
     return apiClient.get<ScrapList[]>(this.getScrapEndpoint);
+  }
+
+  async getRejections(): Promise<RejectionRead[]> {
+    return apiClient.get<RejectionRead[]>(this.getRejectionsEndpoint);
   }
 
   async getConditionByDefect(id: number): Promise<Condition[]> {
