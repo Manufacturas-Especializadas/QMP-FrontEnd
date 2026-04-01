@@ -3,11 +3,25 @@ import { apiClient } from "../client";
 
 class RejectionService {
   private getNextFolioEndpoint = API_CONFIG.endpoints.rejections.getNextFolio;
+  private availableMonthEndpoint =
+    API_CONFIG.endpoints.rejections.availableMonths;
+  private exportByMonthEndpoint = API_CONFIG.endpoints.rejections.exportByMonth;
   private creatRejectionEndpoint = API_CONFIG.endpoints.rejections.create;
   private updateRejectionEndpoint = API_CONFIG.endpoints.rejections.update;
 
   async getNextFolio(): Promise<number> {
     return apiClient.get<number>(this.getNextFolioEndpoint);
+  }
+
+  async getAvailableMonth(): Promise<string[]> {
+    return apiClient.get<string[]>(this.availableMonthEndpoint);
+  }
+
+  async exportByMonth(montYear: string): Promise<void> {
+    const url = `${this.exportByMonthEndpoint}?monthYear=${encodeURIComponent(montYear)}`;
+    const fileName = `Reporte_Rechazos_${montYear.replace(" ", "_")}.xlsx`;
+
+    return apiClient.downloadFile(url, fileName);
   }
 
   async createRejection(data: FormData): Promise<void> {

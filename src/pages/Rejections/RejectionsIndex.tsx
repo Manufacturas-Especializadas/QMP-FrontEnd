@@ -4,21 +4,23 @@ import {
   FileSpreadsheet,
   Mail,
   Plus,
-  Share2,
   Loader2,
   Search,
   X,
+  MessageCircle,
 } from "lucide-react";
 import { formatDateTime } from "../../utils/dateFormatter";
 import { useMemo, useState } from "react";
-import toast from "react-hot-toast";
 import { RejectionFormModal } from "../../components/RejectionFormModal/RejectionFormModal";
 import { useRejections } from "../../hooks/useRejections";
 import { RejectionDetailsModal } from "../../components/RejectionDetailsModal/RejectionDetailsModal";
 import type { RejectionResponse } from "../../types/types";
+import { useNavigate } from "react-router-dom";
+import { useRejectionActions } from "../../hooks/useRejectionActions";
 
 export const RejectionsIndex = () => {
   const { rejection = [], loading, refresh } = useRejections();
+  const { sendToWhatsApp, sendToOutlook } = useRejectionActions();
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [rejectionToEdit, setRejectionToEdit] =
     useState<RejectionResponse | null>(null);
@@ -59,13 +61,7 @@ export const RejectionsIndex = () => {
     });
   }, [rejection, searchTerm]);
 
-  const shareWhatsApp = (id: number) => {
-    toast.success("Abriendo WhatsApp...");
-  };
-
-  const shareEmail = (id: number) => {
-    toast.success("Abriendo correo...");
-  };
+  const navigate = useNavigate();
 
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-10 animate-in fade-in duration-500">
@@ -89,6 +85,7 @@ export const RejectionsIndex = () => {
 
         <div className="flex items-center gap-3">
           <button
+            onClick={() => navigate("/rechazos/reportes")}
             className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
             rounded-2xl font-bold border border-gray-100 hover:bg-gray-100 transition-all 
             hover:cursor-pointer"
@@ -241,20 +238,18 @@ export const RejectionsIndex = () => {
 
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          shareWhatsApp(rej.id);
-                        }}
+                        onClick={() =>
+                          rej && sendToWhatsApp(rej as RejectionResponse)
+                        }
                         className="p-2 rounded-xl bg-green-50 text-green-600 border border-green-100 
                           hover:bg-green-100 transition-colors hover:cursor-pointer"
                       >
-                        <Share2 size={16} />
+                        <MessageCircle size={16} />
                       </button>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          shareEmail(rej.id);
-                        }}
+                        onClick={() =>
+                          rej && sendToOutlook(rej as RejectionResponse)
+                        }
                         className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 
                         hover:bg-blue-100 transition-colors hover:cursor-pointer"
                       >
