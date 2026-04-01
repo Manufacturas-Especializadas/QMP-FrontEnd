@@ -16,6 +16,7 @@ import { RejectionFormModal } from "../../components/RejectionFormModal/Rejectio
 import { useRejections } from "../../hooks/useRejections";
 import { RejectionDetailsModal } from "../../components/RejectionDetailsModal/RejectionDetailsModal";
 import type { RejectionResponse } from "../../types/types";
+import { useNavigate } from "react-router-dom";
 
 export const RejectionsIndex = () => {
   const { rejection = [], loading, refresh } = useRejections();
@@ -67,6 +68,8 @@ export const RejectionsIndex = () => {
     toast.success("Abriendo correo...");
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-10 animate-in fade-in duration-500">
       <div
@@ -89,6 +92,7 @@ export const RejectionsIndex = () => {
 
         <div className="flex items-center gap-3">
           <button
+            onClick={() => navigate("/rechazos/reportes")}
             className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
             rounded-2xl font-bold border border-gray-100 hover:bg-gray-100 transition-all 
             hover:cursor-pointer"
