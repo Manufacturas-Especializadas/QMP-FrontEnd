@@ -31,6 +31,7 @@ export const API_CONFIG = {
     rejections: {
       getNextFolio: "/api/Rejections/GeNextFolio",
       availableMonths: "/api/Rejections/AvailableMonths",
+      exportByMonth: "/api/Rejections/ExportByMonth",
       create: "/api/Rejections/Create",
       update: "/api/Rejections/Edit/",
     },
