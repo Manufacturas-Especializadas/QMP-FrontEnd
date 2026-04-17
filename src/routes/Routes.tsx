@@ -13,6 +13,7 @@ import { UserIndex } from "../pages/Users/UserIndex";
 import { ScrapReports } from "../pages/Scrap/ScrapReports";
 import { RejectionsIndex } from "../pages/Rejections/RejectionsIndex";
 import { RejectionReports } from "../pages/Rejections/RejectionReports";
+import { ScrapConfig } from "../pages/Configuration/Scrap/ScrapConfig";
 
 export const MyRoutes = () => {
   return (
@@ -34,6 +35,7 @@ export const MyRoutes = () => {
             <Route path="/config" element={<Configuration />} />
             <Route path="/config/lineas" element={<LinesConfig />} />
             <Route path="/config/clientes" element={<ClientConfig />} />
+            <Route path="/config/scrap" element={<ScrapConfig />} />
           </Route>
         </Route>
       </Route>

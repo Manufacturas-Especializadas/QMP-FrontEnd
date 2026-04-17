@@ -37,6 +37,7 @@ export const API_CONFIG = {
     },
     scrap: {
       getById: "/api/Scrap/ById/",
+      getAll: "/api/Scrap/GetAllScrap",
       createScrap: "/api/Scrap/CreateScrap",
       verify: "/api/Scrap/Verify",
       reports: "/api/Scrap/ExportExcel",

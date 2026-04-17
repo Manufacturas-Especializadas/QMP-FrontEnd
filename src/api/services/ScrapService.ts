@@ -1,15 +1,25 @@
 import { API_CONFIG } from "../../config/api";
-import type { Scrap, ScrapRead, VerifyScrapPayload } from "../../types/types";
+import type {
+  Scrap,
+  ScrapList,
+  ScrapRead,
+  VerifyScrapPayload,
+} from "../../types/types";
 import { apiClient } from "../client";
 
 class ScrapService {
   private getScrapByIdEndpoint = API_CONFIG.endpoints.scrap.getById;
+  private getAllScrapEndpoint = API_CONFIG.endpoints.scrap.getAll;
   private getReportsEndpoint = API_CONFIG.endpoints.scrap.reports;
   private createScrapEndpoint = API_CONFIG.endpoints.scrap.createScrap;
   private verifyScrapEndpoint = API_CONFIG.endpoints.scrap.verify;
 
   async getScrapById(id: number): Promise<ScrapRead> {
     return apiClient.get<ScrapRead>(`${this.getScrapByIdEndpoint}${id}`);
+  }
+
+  async getAllScrap(): Promise<ScrapList[]> {
+    return apiClient.get<ScrapList[]>(this.getAllScrapEndpoint);
   }
 
   async getReports(month?: number, year?: number): Promise<void> {

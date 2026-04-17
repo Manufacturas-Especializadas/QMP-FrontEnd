@@ -4,6 +4,7 @@ import {
   AlertTriangle,
   FileCheck,
   ArrowRight,
+  Trash,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -31,6 +32,12 @@ const configOptions = [
     description: "Define criterios de aceptación y rechazo para cada defecto.",
     icon: <FileCheck className="w-8 h-8 text-blue-600" />,
     path: "/config/condiciones",
+  },
+  {
+    title: "Scrap",
+    description: "Gestión de scrap",
+    icon: <Trash className="w-8 h-8 text-blue-600" />,
+    path: "/config/scrap",
   },
 ];
 
