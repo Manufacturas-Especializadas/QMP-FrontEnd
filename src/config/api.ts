@@ -34,6 +34,7 @@ export const API_CONFIG = {
       exportByMonth: "/api/Rejections/ExportByMonth",
       create: "/api/Rejections/Create",
       update: "/api/Rejections/Edit/",
+      delete: "/api/Rejections/Delete/",
     },
     scrap: {
       getById: "/api/Scrap/ById/",
