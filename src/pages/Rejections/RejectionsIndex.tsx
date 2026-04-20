@@ -18,6 +18,8 @@ import type { RejectionResponse } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { useRejectionActions } from "../../hooks/useRejectionActions";
 import { RoleGuard } from "../../components/Auth/RoleGuard";
+import { useRejectionDelete } from "../../hooks/useRejectionDelete";
+import { ConfirmModal } from "../../components/ConfirmModal/ConfirmModal";
 
 export const RejectionsIndex = () => {
   const { rejection = [], loading, refresh } = useRejections();
@@ -30,6 +32,12 @@ export const RejectionsIndex = () => {
   const [selectedRejection, setSelectedRejection] =
     useState<RejectionResponse | null>(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [rejectionToDelete, setRejectionToDelete] =
+    useState<RejectionResponse | null>(null);
+
+  const { deleteRejection, isDeleting } = useRejectionDelete(() => {
+    (refresh(), setRejectionToDelete(null));
+  });
 
   const handleShowDetails = (rej: RejectionResponse) => {
     setSelectedRejection(rej);
@@ -39,6 +47,12 @@ export const RejectionsIndex = () => {
   const handleEdit = (rej: RejectionResponse) => {
     setRejectionToEdit(rej);
     setIsRegisterModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (rejectionToDelete) {
+      await deleteRejection(rejectionToDelete.id);
+    }
   };
 
   const handleCloseModal = () => {
@@ -233,7 +247,7 @@ export const RejectionsIndex = () => {
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleEdit(rej as RejectionResponse);
+                            setRejectionToDelete(rej as RejectionResponse);
                           }}
                           className="px-4 py-2 border border-red-200 text-red-500 text-[10px] font-black
                           uppercase rounded-xl hover:bg-red-50 transition-all hover:cursor-pointer"
@@ -294,6 +308,15 @@ export const RejectionsIndex = () => {
         isOpen={isDetailsModalOpen}
         onClose={() => setIsDetailsModalOpen(false)}
         rejection={selectedRejection}
+      />
+
+      <ConfirmModal
+        isOpen={!!rejectionToDelete}
+        onClose={() => !isDeleting && setRejectionToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Eliminar rechazo"
+        description={`¿Estas seguro que deseas eliminar el registro con folio ${rejectionToDelete?.folio}`}
+        isLoading={isDeleting}
       />
     </div>
   );
