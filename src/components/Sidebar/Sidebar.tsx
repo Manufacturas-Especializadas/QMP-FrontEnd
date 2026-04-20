@@ -43,7 +43,7 @@ const menuItems: MenuItem[] = [
       { name: "Auditoria", path: "/scrap/auditoria" },
     ],
   },
-  { name: "ROM", icon: Database, path: "/rechazos" },
+  { name: "RDM", icon: Database, path: "/rechazos" },
   { name: "Usuarios", icon: Users, path: "/usuarios", roles: ["Admin"] },
   {
     name: "Configuraciones",
