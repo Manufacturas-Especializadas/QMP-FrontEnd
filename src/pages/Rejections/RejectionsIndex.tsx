@@ -230,6 +230,16 @@ export const RejectionsIndex = () => {
                         >
                           Editar
                         </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit(rej as RejectionResponse);
+                          }}
+                          className="px-4 py-2 border border-red-200 text-red-500 text-[10px] font-black
+                          uppercase rounded-xl hover:bg-red-50 transition-all hover:cursor-pointer"
+                        >
+                          Elimniar
+                        </button>
                       </RoleGuard>
                     </div>
                   </div>
