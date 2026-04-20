@@ -8,6 +8,7 @@ class RejectionService {
   private exportByMonthEndpoint = API_CONFIG.endpoints.rejections.exportByMonth;
   private creatRejectionEndpoint = API_CONFIG.endpoints.rejections.create;
   private updateRejectionEndpoint = API_CONFIG.endpoints.rejections.update;
+  private deleteRejectionEndpoint = API_CONFIG.endpoints.rejections.delete;
 
   async getNextFolio(): Promise<number> {
     return apiClient.get<number>(this.getNextFolioEndpoint);
@@ -30,6 +31,10 @@ class RejectionService {
 
   async updateRejection(id: number, data: FormData): Promise<void> {
     return apiClient.put<void>(`${this.updateRejectionEndpoint}${id}`, data);
+  }
+
+  async deleteRejection(id: number): Promise<void> {
+    return apiClient.delete<void>(`${this.deleteRejectionEndpoint}${id}`);
   }
 }
 
