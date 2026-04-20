@@ -56,7 +56,7 @@ export const useRejectionActions = () => {
   const sendToOutlook = (item: RejectionResponse) => {
     const { formattedDate } = formatRejectionData(item);
 
-    const subject = `Reporte de Rechazo Interno - ${item.partNumber} - ${formattedDate}`;
+    const subject = `RDM - Folio ${item.folio}`;
 
     const body = `Buen día, reporte de rechazo interno:
       Fecha: ${formattedDate}
