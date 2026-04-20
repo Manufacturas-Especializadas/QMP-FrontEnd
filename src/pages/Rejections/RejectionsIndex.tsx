@@ -17,6 +17,7 @@ import { RejectionDetailsModal } from "../../components/RejectionDetailsModal/Re
 import type { RejectionResponse } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { useRejectionActions } from "../../hooks/useRejectionActions";
+import { RoleGuard } from "../../components/Auth/RoleGuard";
 
 export const RejectionsIndex = () => {
   const { rejection = [], loading, refresh } = useRejections();
@@ -218,16 +219,18 @@ export const RejectionsIndex = () => {
                       >
                         Detalles
                       </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleEdit(rej as RejectionResponse);
-                        }}
-                        className="px-4 py-2 border border-gray-200 text-gray-500 text-[10px] font-black
-                        uppercase rounded-xl hover:bg-gray-50 transition-all hover:cursor-pointer"
-                      >
-                        Editar
-                      </button>
+                      <RoleGuard allowedRoles={["Admin"]}>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit(rej as RejectionResponse);
+                          }}
+                          className="px-4 py-2 border border-gray-200 text-gray-500 text-[10px] font-black
+                          uppercase rounded-xl hover:bg-gray-50 transition-all hover:cursor-pointer"
+                        >
+                          Editar
+                        </button>
+                      </RoleGuard>
                     </div>
                   </div>
 
