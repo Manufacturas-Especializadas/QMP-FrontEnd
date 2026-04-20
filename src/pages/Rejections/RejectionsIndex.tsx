@@ -269,11 +269,13 @@ export const RejectionsIndex = () => {
         </div>
       )}
 
-      <RejectionFormModal
-        isOpen={isRegisterModalOpen}
-        onClose={handleCloseModal}
-        rejectionToEdit={rejectionToEdit}
-      />
+      {isRegisterModalOpen && (
+        <RejectionFormModal
+          isOpen={isRegisterModalOpen}
+          onClose={handleCloseModal}
+          rejectionToEdit={rejectionToEdit}
+        />
+      )}
 
       <RejectionDetailsModal
         isOpen={isDetailsModalOpen}
