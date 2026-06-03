@@ -83,7 +83,7 @@ const menuItems: MenuItem[] = [
       "Admin",
       "Analista de Calidad",
       "Calidad Proveedores",
-      "Ingeniero de Calidad",
+      "Ingeniero",
       "Inspector de Calidad",
       "Inspector Scrap",
     ],
