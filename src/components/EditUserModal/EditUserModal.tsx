@@ -35,6 +35,8 @@ export const EditUserModal = ({
     [roles],
   );
 
+  console.log("Roles:", roles);
+
   useEffect(() => {
     if (isOpen && userToEdit) {
       setEmployeeNumber(userToEdit.employeeNumber);
@@ -75,10 +77,7 @@ export const EditUserModal = ({
       className="fixed inset-0 z-50 flex items-center justify-center p-4 
       bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300"
     >
-      <div
-        className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden 
-        animate-in zoom-in-95"
-      >
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl animate-in zoom-in-95">
         <div className="flex justify-between items-center p-6 border-b border-slate-100">
           <div className="flex items-center gap-3">
             <div
