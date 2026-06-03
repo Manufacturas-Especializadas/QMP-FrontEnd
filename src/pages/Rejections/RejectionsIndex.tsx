@@ -14,7 +14,7 @@ import { useMemo, useState } from "react";
 import { RejectionFormModal } from "../../components/RejectionFormModal/RejectionFormModal";
 import { useRejections } from "../../hooks/useRejections";
 import { RejectionDetailsModal } from "../../components/RejectionDetailsModal/RejectionDetailsModal";
-import type { RejectionResponse } from "../../types/types";
+import { UserRole, type RejectionResponse } from "../../types/types";
 import { useNavigate } from "react-router-dom";
 import { useRejectionActions } from "../../hooks/useRejectionActions";
 import { RoleGuard } from "../../components/Auth/RoleGuard";
@@ -108,14 +108,24 @@ export const RejectionsIndex = () => {
             <FileSpreadsheet size={20} className="text-green-600" />
             Exportar Excel
           </button>
-          <button
-            onClick={() => setIsRegisterModalOpen(true)}
-            className="flex items-center justify-center gap-2 bg-linear-to-r from-red-600 to-amber-600 
-            text-white px-5 py-3 rounded-2xl font-black shadow-lg shadow-red-100 hover:scale-[1.02] 
-            active:scale-[0.98] transition-all hover:cursor-pointer uppercase tracking-tight"
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.InspectorCalidad,
+              UserRole.CalidadProveedores,
+              UserRole.InspectorCalidad,
+              UserRole.InspectorScrap,
+            ]}
           >
-            <Plus size={20} strokeWidth={3} /> Registrar Rechazo
-          </button>
+            <button
+              onClick={() => setIsRegisterModalOpen(true)}
+              className="flex items-center justify-center gap-2 bg-linear-to-r from-red-600 to-amber-600 
+              text-white px-5 py-3 rounded-2xl font-black shadow-lg shadow-red-100 hover:scale-[1.02] 
+              active:scale-[0.98] transition-all hover:cursor-pointer uppercase tracking-tight"
+            >
+              <Plus size={20} strokeWidth={3} /> Registrar Rechazo
+            </button>
+          </RoleGuard>
         </div>
       </div>
 
