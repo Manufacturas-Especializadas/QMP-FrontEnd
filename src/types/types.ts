@@ -5,6 +5,7 @@ export const UserRole = {
   CalidadProveedores: "Calidad Proveedores",
   InspectorCalidad: "Inspector de Calidad",
   InspectorScrap: "Inspector Scrap",
+  Produccion: "Producción",
 } as const;
 
 export type UserRoleType = (typeof UserRole)[keyof typeof UserRole];
