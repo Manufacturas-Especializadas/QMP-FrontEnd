@@ -75,7 +75,19 @@ const menuItems: MenuItem[] = [
       },
     ],
   },
-  { name: "RDM", icon: Database, path: "/rechazos" },
+  {
+    name: "RDM",
+    icon: Database,
+    path: "/rechazos",
+    roles: [
+      "Admin",
+      "Analista de Calidad",
+      "Calidad Proveedores",
+      "Ingeniero de Calidad",
+      "Inspector de Calidad",
+      "Inspector Scrap",
+    ],
+  },
   { name: "Usuarios", icon: Users, path: "/usuarios", roles: ["Admin"] },
   {
     name: "Configuraciones",
