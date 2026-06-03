@@ -62,7 +62,17 @@ const menuItems: MenuItem[] = [
           "Analista de Calidad",
         ],
       },
-      { name: "Auditoria", path: "/scrap/auditoria" },
+      {
+        name: "Auditoria",
+        path: "/scrap/auditoria",
+        roles: [
+          "Admin",
+          "Ingeniero de Calidad",
+          "Calidad Proveedores",
+          "Inspector de Calidad",
+          "Inspector Scrap",
+        ],
+      },
     ],
   },
   { name: "RDM", icon: Database, path: "/rechazos" },
