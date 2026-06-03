@@ -99,7 +99,13 @@ export const RejectionsIndex = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.InspectorCalidad]}>
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.InspectorCalidad,
+              UserRole.AnalistaCalidad,
+            ]}
+          >
             <button
               onClick={() => navigate("/rechazos/reportes")}
               className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
