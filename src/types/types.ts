@@ -100,6 +100,7 @@ export interface ClientRead {
 }
 
 export interface UsersList {
+  id: number;
   payRollNumber: string;
   createdAt: string;
   isActive: boolean;
@@ -109,6 +110,12 @@ export interface UsersList {
 export interface UserRegister {
   employeeNumber: string;
   roleId: number;
+}
+
+export interface EditUserPayload {
+  id: number;
+  newEmployeeNumber: string;
+  newRoleId: number;
 }
 
 export interface UserLogin {
