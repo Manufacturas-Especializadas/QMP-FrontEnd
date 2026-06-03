@@ -40,6 +40,12 @@ const menuItems: MenuItem[] = [
     name: "Auditorias Producto Terminado",
     icon: PackageCheck,
     path: "/auditorias-producto",
+    roles: [
+      "Admin",
+      "Ingeniero de Calidad",
+      "Inspector de Calidad",
+      "Analista de Calidad",
+    ],
   },
   {
     name: "Scrap",
