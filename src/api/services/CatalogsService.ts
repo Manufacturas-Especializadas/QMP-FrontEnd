@@ -10,6 +10,7 @@ import type {
   Material,
   Process,
   RejectionRead,
+  Roles,
   ScrapList,
   Shifts,
   TypeScrap,
@@ -17,6 +18,7 @@ import type {
 import { apiClient } from "../client";
 
 class CatalogsService {
+  private getRolesEndpoint = API_CONFIG.endpoints.catalags.getRoles;
   private getLinesEndpoint = API_CONFIG.endpoints.catalags.getLines;
   private getClientsEndpoint = API_CONFIG.endpoints.catalags.getClients;
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
@@ -36,6 +38,10 @@ class CatalogsService {
   private getDefectByTypeScrapEndpoint =
     API_CONFIG.endpoints.catalags.getDefectByTypeScrap;
   private getRejectionsEndpoint = API_CONFIG.endpoints.catalags.getRejections;
+
+  async getRoles(): Promise<Roles[]> {
+    return apiClient.get<Roles[]>(this.getRolesEndpoint);
+  }
 
   async getLines(): Promise<Lines[]> {
     return apiClient.get<Lines[]>(this.getLinesEndpoint);
