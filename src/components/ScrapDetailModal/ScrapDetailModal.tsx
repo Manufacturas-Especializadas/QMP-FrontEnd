@@ -36,7 +36,10 @@ export const ScrapDetailModal = ({
   const canVerify = useMemo(() => {
     if (!scrapData) return false;
     if (!scrapData.isVerified && scrapData.verifiedWeight === null) return true;
-    return user?.role === UserRole.Admin;
+    return (
+      user?.role === UserRole.Admin ||
+      user?.role === UserRole.CalidadProveedores
+    );
   }, [scrapData, user?.role]);
 
   const handleClose = () => {
