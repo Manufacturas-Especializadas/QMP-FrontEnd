@@ -6,6 +6,7 @@ import type { UsersList } from "../../types/types";
 import { formatDateTime } from "../../utils/dateFormatter";
 import { ModalConfirm } from "../../components/ModalConfirm/ModalConfirm";
 import { useNavigate } from "react-router-dom";
+import { EditUserModal } from "../../components/EditUserModal/EditUserModal";
 
 export const UserIndex = () => {
   const {
@@ -22,6 +23,10 @@ export const UserIndex = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UsersList | null>(null);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [userToEdit, setUserToEdit] = useState<UsersList | null>(null);
+
   const navigate = useNavigate();
 
   const openConfirmModal = (user: UsersList) => {
@@ -38,6 +43,11 @@ export const UserIndex = () => {
       setIsModalOpen(false);
       setSelectedUser(null);
     }
+  };
+
+  const openEditModal = (user: UsersList) => {
+    setUserToEdit(user);
+    setIsEditModalOpen(true);
   };
 
   const columns: Column<UsersList>[] = [
@@ -62,7 +72,7 @@ export const UserIndex = () => {
       accessor: (item: UsersList) => (
         <div className="flex items-center justify-center gap-4">
           <button
-            // onClick={() => openConfirmModal(item)}
+            onClick={() => openEditModal(item)}
             className="text-slate-400 hover:text-blue-600 
                   font-medium transition-colors hover:cursor-pointer"
           >
@@ -127,6 +137,24 @@ export const UserIndex = () => {
           al usuario <strong>{selectedUser?.payRollNumber}</strong>?
         </p>
       </ModalConfirm>
+
+      <EditUserModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setUserToEdit(null);
+        }}
+        userToEdit={
+          userToEdit
+            ? {
+                id: userToEdit.id,
+                employeeNumber: userToEdit.payRollNumber,
+                roleName: userToEdit.roleName,
+              }
+            : null
+        }
+        onRefresh={refresh}
+      />
     </>
   );
 };
