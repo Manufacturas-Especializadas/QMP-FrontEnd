@@ -10,6 +10,7 @@ export const API_CONFIG = {
     user: {
       users: "/api/Auth/Users",
       register: "/api/Auth/Register",
+      update: "/api/Auth/EditUser",
       login: "/api/Auth/Login",
       toogleStatus: "/api/Auth/ToggleStatus/",
     },
