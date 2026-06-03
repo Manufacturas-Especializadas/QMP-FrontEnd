@@ -99,15 +99,17 @@ export const RejectionsIndex = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate("/rechazos/reportes")}
-            className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
-            rounded-2xl font-bold border border-gray-100 hover:bg-gray-100 transition-all 
-            hover:cursor-pointer"
-          >
-            <FileSpreadsheet size={20} className="text-green-600" />
-            Exportar Excel
-          </button>
+          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.InspectorCalidad]}>
+            <button
+              onClick={() => navigate("/rechazos/reportes")}
+              className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
+              rounded-2xl font-bold border border-gray-100 hover:bg-gray-100 transition-all 
+              hover:cursor-pointer"
+            >
+              <FileSpreadsheet size={20} className="text-green-600" />
+              Exportar Excel
+            </button>
+          </RoleGuard>
           <RoleGuard
             allowedRoles={[
               UserRole.Admin,
