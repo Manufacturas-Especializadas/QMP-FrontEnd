@@ -81,15 +81,24 @@ export const ScrapIndex = () => {
             </button>
           </RoleGuard>
 
-          <button
-            onClick={() => navigate("/scrap/registro")}
-            className="flex items-center justify-center gap-2 bg-linear-to-r 
-            from-secondary to-primary text-white px-4 py-2 rounded-2xl 
-            font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
-            transition-all hover:cursor-pointer"
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.CalidadProveedores,
+              UserRole.InspectorScrap,
+              UserRole.Produccion,
+            ]}
           >
-            <Plus size={20} strokeWidth={3} /> Nuevo Scrap
-          </button>
+            <button
+              onClick={() => navigate("/scrap/registro")}
+              className="flex items-center justify-center gap-2 bg-linear-to-r 
+              from-secondary to-primary text-white px-4 py-2 rounded-2xl 
+              font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
+              transition-all hover:cursor-pointer"
+            >
+              <Plus size={20} strokeWidth={3} /> Nuevo Scrap
+            </button>
+          </RoleGuard>
         </div>
       </div>
 
