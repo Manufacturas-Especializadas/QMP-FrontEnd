@@ -243,7 +243,12 @@ export const RejectionsIndex = () => {
                       >
                         Detalles
                       </button>
-                      <RoleGuard allowedRoles={["Admin"]}>
+                      <RoleGuard
+                        allowedRoles={[
+                          UserRole.Admin,
+                          UserRole.InspectorCalidad,
+                        ]}
+                      >
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
