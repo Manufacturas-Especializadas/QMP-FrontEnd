@@ -14,6 +14,7 @@ export const API_CONFIG = {
       toogleStatus: "/api/Auth/ToggleStatus/",
     },
     catalags: {
+      getRoles: "/api/Catalogs/roles",
       getLines: "/api/Catalogs/lines",
       getClients: "/api/Catalogs/clients",
       getShifts: "/api/Catalogs/shifts",
