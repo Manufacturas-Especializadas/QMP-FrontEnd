@@ -31,7 +31,7 @@ const menuItems: MenuItem[] = [
     path: "/auditorias-proceso",
     roles: [
       "Admin",
-      "Ingeniero de Calidad",
+      "Ingeniero",
       "Inspector de Calidad",
       "Analista de Calidad",
     ],
@@ -42,7 +42,7 @@ const menuItems: MenuItem[] = [
     path: "/auditorias-producto",
     roles: [
       "Admin",
-      "Ingeniero de Calidad",
+      "Ingeniero",
       "Inspector de Calidad",
       "Analista de Calidad",
     ],
@@ -67,7 +67,7 @@ const menuItems: MenuItem[] = [
         path: "/scrap/auditoria",
         roles: [
           "Admin",
-          "Ingeniero de Calidad",
+          "Ingeniero",
           "Calidad Proveedores",
           "Inspector de Calidad",
           "Inspector Scrap",
