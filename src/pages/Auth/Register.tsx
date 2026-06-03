@@ -1,22 +1,23 @@
 import { UserPlus } from "lucide-react";
 import { Input } from "../../components/CustomInputs/Input";
-import { useState, type SyntheticEvent } from "react";
+import { useMemo, useState, type SyntheticEvent } from "react";
 import { useRegister } from "../../hooks/useRegister";
 import { FloatingSelect } from "../../components/CustomInputs/FloatingSelect";
 import { useNavigate } from "react-router-dom";
+import { useRoles } from "../../hooks/useRoles";
 
 export const Register = () => {
   const [employeeNumber, setEmployeeNumber] = useState("");
   const [roleId, setRoleId] = useState<string | number>(1);
 
   const { registerUser, loading } = useRegister();
+  const { roles, loading: loadingRoles } = useRoles();
   const navigate = useNavigate();
 
-  const ROLE_OPTIONS = [
-    { label: "Operador", value: 1 },
-    { label: "Ingeniero", value: 2 },
-    { label: "Admin", value: 3 },
-  ];
+  const rolesOptions = useMemo(
+    () => roles.map((r) => ({ label: r.roleName, value: r.id })),
+    [roles],
+  );
 
   const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -62,8 +63,8 @@ export const Register = () => {
           />
 
           <FloatingSelect
-            label="Asignar Rol de usuario"
-            options={ROLE_OPTIONS}
+            label={loadingRoles ? "Cargando roles..." : "Roles"}
+            options={rolesOptions}
             value={roleId}
             onChange={(val) => setRoleId(val)}
           />
