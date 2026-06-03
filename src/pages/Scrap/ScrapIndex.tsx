@@ -69,7 +69,13 @@ export const ScrapIndex = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.Ingeniero]}>
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.CalidadProveedores,
+              UserRole.AnalistaCalidad,
+            ]}
+          >
             <button
               onClick={() => navigate("/scrap/reportes")}
               className="flex items-center justify-center gap-2 bg-green-50 text-green-600 px-4 py-2 
