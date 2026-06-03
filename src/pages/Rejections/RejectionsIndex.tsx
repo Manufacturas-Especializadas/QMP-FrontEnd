@@ -99,13 +99,7 @@ export const RejectionsIndex = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <RoleGuard
-            allowedRoles={[
-              UserRole.Admin,
-              UserRole.InspectorCalidad,
-              UserRole.AnalistaCalidad,
-            ]}
-          >
+          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.AnalistaCalidad]}>
             <button
               onClick={() => navigate("/rechazos/reportes")}
               className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
@@ -267,16 +261,18 @@ export const RejectionsIndex = () => {
                         >
                           Editar
                         </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setRejectionToDelete(rej as RejectionResponse);
-                          }}
-                          className="px-4 py-2 border border-red-200 text-red-500 text-[10px] font-black
-                          uppercase rounded-xl hover:bg-red-50 transition-all hover:cursor-pointer"
-                        >
-                          Elimniar
-                        </button>
+                        <RoleGuard allowedRoles={[UserRole.Admin]}>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setRejectionToDelete(rej as RejectionResponse);
+                            }}
+                            className="px-4 py-2 border border-red-200 text-red-500 text-[10px] font-black
+                            uppercase rounded-xl hover:bg-red-50 transition-all hover:cursor-pointer"
+                          >
+                            Elimniar
+                          </button>
+                        </RoleGuard>
                       </RoleGuard>
                     </div>
                   </div>
