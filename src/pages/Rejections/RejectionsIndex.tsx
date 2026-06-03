@@ -281,24 +281,34 @@ export const RejectionsIndex = () => {
                     </span>
 
                     <div className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          rej && sendToWhatsApp(rej as RejectionResponse)
-                        }
-                        className="p-2 rounded-xl bg-green-50 text-green-600 border border-green-100 
-                          hover:bg-green-100 transition-colors hover:cursor-pointer"
+                      <RoleGuard
+                        allowedRoles={[
+                          UserRole.Admin,
+                          UserRole.InspectorCalidad,
+                          UserRole.CalidadProveedores,
+                          UserRole.InspectorCalidad,
+                          UserRole.InspectorScrap,
+                        ]}
                       >
-                        <MessageCircle size={16} />
-                      </button>
-                      <button
-                        onClick={() =>
-                          rej && sendToOutlook(rej as RejectionResponse)
-                        }
-                        className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 
-                        hover:bg-blue-100 transition-colors hover:cursor-pointer"
-                      >
-                        <Mail size={16} />
-                      </button>
+                        <button
+                          onClick={() =>
+                            rej && sendToWhatsApp(rej as RejectionResponse)
+                          }
+                          className="p-2 rounded-xl bg-green-50 text-green-600 border border-green-100 
+                            hover:bg-green-100 transition-colors hover:cursor-pointer"
+                        >
+                          <MessageCircle size={16} />
+                        </button>
+                        <button
+                          onClick={() =>
+                            rej && sendToOutlook(rej as RejectionResponse)
+                          }
+                          className="p-2 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 
+                          hover:bg-blue-100 transition-colors hover:cursor-pointer"
+                        >
+                          <Mail size={16} />
+                        </button>
+                      </RoleGuard>
                     </div>
                   </div>
                 </div>
