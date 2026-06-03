@@ -225,12 +225,20 @@ export const ScrapIndex = () => {
         )}
       </div>
 
-      <ScrapDetailModal
-        isOpen={isModalOpen}
-        scrapId={selectedScrapId}
-        onClose={() => setIsModalOpen(false)}
-        onRefresh={refresh}
-      />
+      <RoleGuard
+        allowedRoles={[
+          UserRole.Admin,
+          UserRole.CalidadProveedores,
+          UserRole.InspectorScrap,
+        ]}
+      >
+        <ScrapDetailModal
+          isOpen={isModalOpen}
+          scrapId={selectedScrapId}
+          onClose={() => setIsModalOpen(false)}
+          onRefresh={refresh}
+        />
+      </RoleGuard>
     </div>
   );
 };
