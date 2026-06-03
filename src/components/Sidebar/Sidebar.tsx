@@ -29,6 +29,12 @@ const menuItems: MenuItem[] = [
     name: "Auditorias de Proceso",
     icon: ClipboardCheck,
     path: "/auditorias-proceso",
+    roles: [
+      "Admin",
+      "Ingeniero de Calidad",
+      "Inspector de Calidad",
+      "Analista de Calidad",
+    ],
   },
   {
     name: "Auditorias Producto Terminado",
