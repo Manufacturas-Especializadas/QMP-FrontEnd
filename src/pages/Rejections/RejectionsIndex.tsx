@@ -99,7 +99,13 @@ export const RejectionsIndex = () => {
         </div>
 
         <div className="flex items-center gap-3">
-          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.AnalistaCalidad]}>
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.AnalistaCalidad,
+              UserRole.Ingeniero,
+            ]}
+          >
             <button
               onClick={() => navigate("/rechazos/reportes")}
               className="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 px-5 py-3 
@@ -113,6 +119,7 @@ export const RejectionsIndex = () => {
           <RoleGuard
             allowedRoles={[
               UserRole.Admin,
+              UserRole.Ingeniero,
               UserRole.InspectorCalidad,
               UserRole.CalidadProveedores,
               UserRole.InspectorCalidad,
@@ -246,10 +253,7 @@ export const RejectionsIndex = () => {
                         Detalles
                       </button>
                       <RoleGuard
-                        allowedRoles={[
-                          UserRole.Admin,
-                          UserRole.InspectorCalidad,
-                        ]}
+                        allowedRoles={[UserRole.Admin, UserRole.Ingeniero]}
                       >
                         <button
                           onClick={(e) => {
