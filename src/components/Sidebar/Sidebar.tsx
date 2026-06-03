@@ -20,7 +20,7 @@ interface MenuItem {
   name: string;
   icon: any;
   path?: string;
-  subMenu?: { name: string; path: string }[];
+  subMenu?: { name: string; path: string; roles?: string[] }[];
   roles?: string[];
 }
 
