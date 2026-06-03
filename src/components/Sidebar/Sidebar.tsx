@@ -51,7 +51,17 @@ const menuItems: MenuItem[] = [
     name: "Scrap",
     icon: Trash2,
     subMenu: [
-      { name: "Registro", path: "/scrap" },
+      {
+        name: "Registro",
+        path: "/scrap",
+        roles: [
+          "Admin",
+          "Calidad Proveedores",
+          "Inspector Scrap",
+          "Producción",
+          "Analista de Calidad",
+        ],
+      },
       { name: "Auditoria", path: "/scrap/auditoria" },
     ],
   },
