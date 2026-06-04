@@ -290,6 +290,7 @@ export const RejectionsIndex = () => {
                       <RoleGuard
                         allowedRoles={[
                           UserRole.Admin,
+                          UserRole.Ingeniero,
                           UserRole.InspectorCalidad,
                           UserRole.CalidadProveedores,
                           UserRole.InspectorCalidad,
