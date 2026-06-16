@@ -245,3 +245,61 @@ export interface RejectionList {
   hasEvidence: boolean;
   creatingPayroll: number;
 }
+
+export interface CreateAuditFcds {
+  shiftId: number;
+  fcdsProcessId: number;
+  partNumber: string;
+  lineIds: number[];
+  isProductConforming: boolean;
+  traceability: Traceability;
+  controls: Controls;
+  physicals: Physicals;
+  dimensionalSpecs: DimensionalSpec[];
+  visualChecklists: VisualChecklist[];
+}
+
+export interface Traceability {
+  machineCodeId: number;
+  operatorsPayroll: string;
+  categoryId: number;
+  typeMeasuringEquipmentId: number;
+  shopOrder: string;
+  batchPipe: string;
+  pipeDiameterId: number;
+  pipeWallId: number;
+  equipmentSerials: string[];
+}
+
+export interface Controls {
+  mttoValidation: number;
+  realese1stPiece: number;
+  spc: number;
+  materialCorrectlyIdentified: number;
+  identifiedMeasuringEquipment: number;
+  calibratedMeasuringEquipment: number;
+  itProcess: number;
+  typeOil: string;
+  lastHourOfRelease: string;
+}
+
+export interface Physicals {
+  brands: number;
+  blows: number;
+  pollution: number;
+  ovality: number;
+  burr: number;
+  warped: number;
+  excessOil: number;
+}
+
+export interface DimensionalSpec {
+  specName: string;
+  expectedValue: string;
+  realValue: string;
+}
+
+export interface VisualChecklist {
+  checkpointName: string;
+  resultValue: number;
+}
