@@ -1,15 +1,29 @@
-import { LogIn } from "lucide-react";
+import { AlertCircle, LogIn } from "lucide-react";
 import { Input } from "../../components/CustomInputs/Input";
-import { useState, type SyntheticEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import { useLogin } from "../../hooks/useLogin";
 
 export const Login = () => {
   const [employeeNumber, setEmployeeNumber] = useState("");
+  const [errorBanner, setErrorBanner] = useState<string | null>(null);
   const { loginUser, loading } = useLogin();
 
-  const handleSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    setErrorBanner(null);
+  }, [employeeNumber]);
+
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    loginUser(employeeNumber);
+    setErrorBanner(null);
+
+    if (!employeeNumber.trim()) return;
+
+    try {
+      await loginUser(employeeNumber);
+    } catch (err: any) {
+      const msg = err.response?.data?.message || "Credenciales incorrectas";
+      setErrorBanner(msg);
+    }
   };
 
   return (
@@ -28,6 +42,18 @@ export const Login = () => {
           <h2 className="text-2xl font-bold text-slate-800">MESA QMP</h2>
           <p className="text-slate-500 text-sm">Ingresa tu número de nómina</p>
         </div>
+
+        {errorBanner && (
+          <div
+            className="flex items-start gap-3 bg-amber-50 border border-amber-200 p-4 
+            rounded-2xl text-amber-800 animate-in fade-in zoom-in-95 duration-200"
+          >
+            <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+            <div className="text-xs font-bold leading-relaxed">
+              {errorBanner}
+            </div>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <Input

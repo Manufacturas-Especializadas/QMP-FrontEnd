@@ -33,8 +33,8 @@ export const useLogin = () => {
 
       navigate("/");
     } catch (err: any) {
-      const msg = err.response?.data || "Credenciales incorrectas";
-      toast.error(msg);
+      const msg = err.response?.data?.message || "Credenciales incorrectas";
+      toast.error(msg, { duration: 5000 });
     } finally {
       setLoading(false);
     }
