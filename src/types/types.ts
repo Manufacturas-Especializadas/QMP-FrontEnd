@@ -263,11 +263,11 @@ export interface Traceability {
   machineCodeId: number;
   operatorsPayroll: string;
   categoryId: number;
-  typeMeasuringEquipmentId: number;
-  shopOrder: string;
-  batchPipe: string;
-  pipeDiameterId: number;
-  pipeWallId: number;
+  typeMeasuringEquipmentId: number | null;
+  shopOrder: string | null;
+  batchPipe: string | null;
+  pipeDiameterId: number | null;
+  pipeWallId: number | null;
   equipmentSerials: string[];
 }
 
