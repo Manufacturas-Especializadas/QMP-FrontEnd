@@ -255,8 +255,8 @@ export interface CreateAuditFcds {
   traceability: Traceability;
   controls: Controls;
   physicals: Physicals;
-  dimensionalSpecs: DimensionalSpec[];
-  visualChecklists: VisualChecklist[];
+  dimensionalSpecs?: DimensionalSpec[];
+  visualChecklists?: VisualChecklist[];
 }
 
 export interface Traceability {
