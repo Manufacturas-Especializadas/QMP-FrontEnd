@@ -30,6 +30,9 @@ export const API_CONFIG = {
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
+    auditsFCDS: {
+      create: "/api/AuditsFcds/Create",
+    },
     rejections: {
       getNextFolio: "/api/Rejections/GeNextFolio",
       availableMonths: "/api/Rejections/AvailableMonths",
