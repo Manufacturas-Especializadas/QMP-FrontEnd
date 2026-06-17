@@ -120,6 +120,11 @@ export interface PipeDiameters {
   name: string;
 }
 
+export interface WallsOfDiameters {
+  id: number;
+  name: string;
+}
+
 export interface UsersList {
   id: number;
   payRollNumber: string;
