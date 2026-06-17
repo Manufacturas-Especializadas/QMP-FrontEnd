@@ -30,6 +30,7 @@ export const API_CONFIG = {
       getTypeMeasuringEquipment: "/api/Catalogs/equipments",
       getProcessByLine: "/api/Catalogs/process/",
       getPipeDiameters: "/api/Catalogs/pipeDiameters",
+      getWallsOfDiameter: "/api/Catalogs/wallsOfDiameters",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getMachinesByLines: "/api/Catalogs/machinesByLines",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
