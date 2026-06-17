@@ -7,6 +7,7 @@ import type {
   DefectsRejections,
   Lines,
   MachineCodes,
+  MachinesByLines,
   Material,
   Process,
   RejectionRead,
@@ -35,6 +36,8 @@ class CatalogsService {
     API_CONFIG.endpoints.catalags.getProcessByLine;
   private getMachineCodesByProcessEndpoint =
     API_CONFIG.endpoints.catalags.getMachineCodesByProcess;
+  private getMachinesByLinesEndpoint =
+    API_CONFIG.endpoints.catalags.getMachinesByLines;
   private getDefectByTypeScrapEndpoint =
     API_CONFIG.endpoints.catalags.getDefectByTypeScrap;
   private getRejectionsEndpoint = API_CONFIG.endpoints.catalags.getRejections;
@@ -97,6 +100,15 @@ class CatalogsService {
     return apiClient.get<MachineCodes[]>(
       `${this.getMachineCodesByProcessEndpoint}${id}`,
     );
+  }
+
+  async getMachinesByLines(linesIds: number[]): Promise<MachinesByLines[]> {
+    const params = new URLSearchParams();
+    linesIds.forEach((id) => params.append("lineIds", id.toString()));
+
+    return apiClient.get<MachinesByLines[]>(this.getMachinesByLinesEndpoint, {
+      params,
+    });
   }
 
   async getDefectByTypeScrap(id: number): Promise<Defects[]> {
