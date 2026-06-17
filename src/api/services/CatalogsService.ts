@@ -18,6 +18,7 @@ import type {
   Shifts,
   TypeMeasuringEquipment,
   TypeScrap,
+  WallsOfDiameters,
 } from "../../types/types";
 import { apiClient } from "../client";
 
@@ -47,6 +48,8 @@ class CatalogsService {
     API_CONFIG.endpoints.catalags.getMachinesByLines;
   private getPipeDiametersEndpoint =
     API_CONFIG.endpoints.catalags.getPipeDiameters;
+  private getWallsOfDiametersEndpoint =
+    API_CONFIG.endpoints.catalags.getWallsOfDiameter;
   private getDefectByTypeScrapEndpoint =
     API_CONFIG.endpoints.catalags.getDefectByTypeScrap;
   private getRejectionsEndpoint = API_CONFIG.endpoints.catalags.getRejections;
@@ -83,6 +86,10 @@ class CatalogsService {
 
   async getPipeDiameters(): Promise<PipeDiameters[]> {
     return apiClient.get<PipeDiameters[]>(this.getPipeDiametersEndpoint);
+  }
+
+  async getWallsOfDiameters(): Promise<WallsOfDiameters[]> {
+    return apiClient.get<WallsOfDiameters[]>(this.getWallsOfDiametersEndpoint);
   }
 
   async getDefetcsRejections(): Promise<DefectsRejections[]> {
