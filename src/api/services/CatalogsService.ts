@@ -10,6 +10,7 @@ import type {
   MachineCodes,
   MachinesByLines,
   Material,
+  PipeDiameters,
   Process,
   RejectionRead,
   Roles,
@@ -44,6 +45,8 @@ class CatalogsService {
     API_CONFIG.endpoints.catalags.getMachineCodesByProcess;
   private getMachinesByLinesEndpoint =
     API_CONFIG.endpoints.catalags.getMachinesByLines;
+  private getPipeDiametersEndpoint =
+    API_CONFIG.endpoints.catalags.getPipeDiameters;
   private getDefectByTypeScrapEndpoint =
     API_CONFIG.endpoints.catalags.getDefectByTypeScrap;
   private getRejectionsEndpoint = API_CONFIG.endpoints.catalags.getRejections;
@@ -76,6 +79,10 @@ class CatalogsService {
     return apiClient.get<TypeMeasuringEquipment[]>(
       this.getTypeMeasuringEquipmentEndpoint,
     );
+  }
+
+  async getPipeDiameters(): Promise<PipeDiameters[]> {
+    return apiClient.get<PipeDiameters[]>(this.getPipeDiametersEndpoint);
   }
 
   async getDefetcsRejections(): Promise<DefectsRejections[]> {
