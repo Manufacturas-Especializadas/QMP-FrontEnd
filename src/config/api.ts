@@ -28,6 +28,7 @@ export const API_CONFIG = {
       getConditionByDefect: "/api/Catalogs/conditions/",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
+      getMachinesByLines: "/api/Catalogs/machinesByLines",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
     auditsFCDS: {
