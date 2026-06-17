@@ -26,6 +26,7 @@ export const API_CONFIG = {
       getScrap: "/api/Catalogs/Scrap",
       getRejections: "/api/Catalogs/Rejections",
       getConditionByDefect: "/api/Catalogs/conditions/",
+      getCategoryOperators: "/api/Catalogs/categorys",
       getProcessByLine: "/api/Catalogs/process/",
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getMachinesByLines: "/api/Catalogs/machinesByLines",
