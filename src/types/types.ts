@@ -115,6 +115,11 @@ export interface TypeMeasuringEquipment {
   name: string;
 }
 
+export interface PipeDiameters {
+  id: number;
+  name: string;
+}
+
 export interface UsersList {
   id: number;
   payRollNumber: string;
