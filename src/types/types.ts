@@ -99,6 +99,12 @@ export interface ClientRead {
   clientName: string;
 }
 
+export interface MachinesByLines {
+  id: number;
+  name: string;
+  lineId: number;
+}
+
 export interface UsersList {
   id: number;
   payRollNumber: string;
