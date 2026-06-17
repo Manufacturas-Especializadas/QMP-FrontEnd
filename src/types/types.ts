@@ -266,7 +266,7 @@ export interface CreateAuditFcds {
 }
 
 export interface Traceability {
-  machineCodeId: number;
+  machineCodeIds: number[];
   operatorsPayroll: string;
   categoryId: number;
   typeMeasuringEquipmentId: number | null;
