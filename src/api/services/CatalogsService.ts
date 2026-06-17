@@ -1,5 +1,6 @@
 import { API_CONFIG } from "../../config/api";
 import type {
+  CategoryOperators,
   Clients,
   Condition,
   ContainmentActions,
@@ -29,6 +30,8 @@ class CatalogsService {
   private getContainmentActionsEndpoint =
     API_CONFIG.endpoints.catalags.getContainmentActions;
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
+  private getCategoryOperatorEndpoint =
+    API_CONFIG.endpoints.catalags.getCategoryOperators;
   private getScrapEndpoint = API_CONFIG.endpoints.catalags.getScrap;
   private getConditionByDefectEndpoint =
     API_CONFIG.endpoints.catalags.getConditionByDefect;
@@ -60,6 +63,10 @@ class CatalogsService {
 
   async getMaterial(): Promise<Material[]> {
     return apiClient.get<Material[]>(this.getMaterialEndpoint);
+  }
+
+  async getCategorysOperators(): Promise<CategoryOperators[]> {
+    return apiClient.get<CategoryOperators[]>(this.getCategoryOperatorEndpoint);
   }
 
   async getDefetcsRejections(): Promise<DefectsRejections[]> {
