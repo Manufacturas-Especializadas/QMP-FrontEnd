@@ -110,6 +110,11 @@ export interface CategoryOperators {
   name: string;
 }
 
+export interface TypeMeasuringEquipment {
+  id: number;
+  name: string;
+}
+
 export interface UsersList {
   id: number;
   payRollNumber: string;
