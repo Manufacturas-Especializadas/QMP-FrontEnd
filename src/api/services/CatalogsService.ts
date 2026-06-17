@@ -15,6 +15,7 @@ import type {
   Roles,
   ScrapList,
   Shifts,
+  TypeMeasuringEquipment,
   TypeScrap,
 } from "../../types/types";
 import { apiClient } from "../client";
@@ -32,6 +33,8 @@ class CatalogsService {
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
   private getCategoryOperatorEndpoint =
     API_CONFIG.endpoints.catalags.getCategoryOperators;
+  private getTypeMeasuringEquipmentEndpoint =
+    API_CONFIG.endpoints.catalags.getTypeMeasuringEquipment;
   private getScrapEndpoint = API_CONFIG.endpoints.catalags.getScrap;
   private getConditionByDefectEndpoint =
     API_CONFIG.endpoints.catalags.getConditionByDefect;
@@ -67,6 +70,12 @@ class CatalogsService {
 
   async getCategorysOperators(): Promise<CategoryOperators[]> {
     return apiClient.get<CategoryOperators[]>(this.getCategoryOperatorEndpoint);
+  }
+
+  async getTypeMeasuringEquipment(): Promise<TypeMeasuringEquipment[]> {
+    return apiClient.get<TypeMeasuringEquipment[]>(
+      this.getTypeMeasuringEquipmentEndpoint,
+    );
   }
 
   async getDefetcsRejections(): Promise<DefectsRejections[]> {
