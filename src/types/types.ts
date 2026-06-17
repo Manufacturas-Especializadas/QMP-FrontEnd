@@ -105,6 +105,11 @@ export interface MachinesByLines {
   lineId: number;
 }
 
+export interface CategoryOperators {
+  id: number;
+  name: string;
+}
+
 export interface UsersList {
   id: number;
   payRollNumber: string;
