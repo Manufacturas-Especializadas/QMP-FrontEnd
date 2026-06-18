@@ -285,6 +285,17 @@ export interface CreateAuditFcds {
   visualChecklists?: VisualChecklist[];
 }
 
+export interface AuditFcdsList {
+  id: number;
+  auditDate: string;
+  inspectorName: string;
+  processName: string;
+  partNumber: string;
+  linesSummary: string;
+  isProductConforming: boolean;
+  folioRDM: any;
+}
+
 export interface Traceability {
   machineCodeIds: number[];
   operatorsPayroll: string;
