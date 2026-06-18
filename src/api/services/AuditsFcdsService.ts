@@ -1,9 +1,5 @@
 import { API_CONFIG } from "../../config/api";
-import type {
-  AuditFcdsList,
-  CreateAuditFcds,
-  DetailedAuditFcds,
-} from "../../types/types";
+import type { AuditFcdsList, CreateAuditFcds } from "../../types/types";
 import { apiClient } from "../client";
 
 class AuditsFcdsService {
@@ -16,8 +12,8 @@ class AuditsFcdsService {
     return apiClient.get<AuditFcdsList[]>(this.getAuditsFcdsEndpoint);
   }
 
-  async getById(id: number): Promise<DetailedAuditFcds> {
-    return apiClient.get<DetailedAuditFcds>(`${this.getByIdEndpoint}${id}`);
+  async getById(id: number): Promise<CreateAuditFcds> {
+    return apiClient.get<CreateAuditFcds>(`${this.getByIdEndpoint}${id}`);
   }
 
   async create(data: CreateAuditFcds): Promise<{ message: string }> {
