@@ -288,17 +288,18 @@ export interface DetailedAuditFcds {
 }
 
 export interface CreateAuditFcds {
+  id: number;
   shiftId: number;
   fcdsProcessId: number;
   partNumber: string;
   lineIds: number[];
   isProductConforming: boolean;
-  rejectionId?: number | null;
+  rejectionId: number;
   traceability: Traceability;
   controls: Controls;
   physicals: Physicals;
-  dimensionalSpecs?: DimensionalSpec[];
-  visualChecklists?: VisualChecklist[];
+  dimensionalSpecs: DimensionalSpec[];
+  visualChecklists: any[];
 }
 
 export interface AuditFcdsList {
