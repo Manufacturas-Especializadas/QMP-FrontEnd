@@ -302,6 +302,20 @@ export interface CreateAuditFcds {
   visualChecklists: any[];
 }
 
+export interface UpdateAuditFcds {
+  shiftId: number;
+  fcdsProcessId: number;
+  partNumber: string;
+  lineIds: number[];
+  rejectionId: number;
+  isProductConforming: boolean;
+  traceability: Traceability;
+  controls: Controls;
+  physicals: Physicals;
+  dimensionalSpecs: DimensionalSpec[];
+  visualChecklists: VisualChecklist[];
+}
+
 export interface AuditFcdsList {
   id: number;
   auditDate: string;
