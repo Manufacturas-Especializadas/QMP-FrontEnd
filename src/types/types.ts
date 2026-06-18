@@ -272,6 +272,21 @@ export interface RejectionList {
   creatingPayroll: number;
 }
 
+export interface DetailedAuditFcds {
+  id: number;
+  shiftId: number;
+  fcdsProcessId: number;
+  partNumber: string;
+  lineIds: number[];
+  isProductConforming: boolean;
+  rejectionId: number;
+  traceability: Traceability;
+  controls: Controls;
+  physicals: Physicals;
+  dimensionalSpecs: DimensionalSpec[];
+  visualChecklists: any[];
+}
+
 export interface CreateAuditFcds {
   shiftId: number;
   fcdsProcessId: number;
