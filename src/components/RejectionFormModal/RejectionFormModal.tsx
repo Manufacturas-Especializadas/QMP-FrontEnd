@@ -19,10 +19,14 @@ export const RejectionFormModal = ({
   isOpen,
   onClose,
   rejectionToEdit = null,
+  onSuccess,
+  preventClose = false,
 }: {
   isOpen: boolean;
   onClose: () => void;
   rejectionToEdit?: RejectionResponse | null;
+  onSuccess?: (rejectionId?: number) => void;
+  preventClose?: boolean;
 }) => {
   const [step, setStep] = useState(1);
   const {
@@ -34,8 +38,12 @@ export const RejectionFormModal = ({
     isEditMode,
     existingPhotos,
     existingSignature,
-  } = useRejectionForm(() => {
-    onClose();
+  } = useRejectionForm((newRejectionId?: number) => {
+    if (onSuccess) {
+      onSuccess(newRejectionId);
+    } else {
+      onClose();
+    }
     setStep(1);
   });
   const { user } = useAuth();
@@ -123,13 +131,15 @@ export const RejectionFormModal = ({
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors 
-            text-gray-400 hover:cursor-pointer"
-          >
-            <X size={24} />
-          </button>
+          {!preventClose && (
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors 
+              text-gray-400 hover:cursor-pointer"
+            >
+              <X size={24} />
+            </button>
+          )}
         </div>
 
         <div className="flex-1 overflow-y-auto p-8 space-y-6 custom-scrollbar">
