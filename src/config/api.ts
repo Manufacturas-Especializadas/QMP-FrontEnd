@@ -39,6 +39,7 @@ export const API_CONFIG = {
       getAuditFcds: "/api/AuditsFcds/List",
       getById: "/api/AuditsFcds/GetById/",
       create: "/api/AuditsFcds/Create",
+      update: "/api/AuditsFcds/Update/",
       delete: "/api/AuditsFcds/Delte/",
     },
     rejections: {
