@@ -36,6 +36,7 @@ export const API_CONFIG = {
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
     auditsFCDS: {
+      getAuditFcds: "/api/AuditsFcds/List",
       create: "/api/AuditsFcds/Create",
     },
     rejections: {
