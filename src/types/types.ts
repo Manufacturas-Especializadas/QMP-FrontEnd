@@ -278,6 +278,7 @@ export interface CreateAuditFcds {
   partNumber: string;
   lineIds: number[];
   isProductConforming: boolean;
+  rejectionId?: number | null;
   traceability: Traceability;
   controls: Controls;
   physicals: Physicals;
