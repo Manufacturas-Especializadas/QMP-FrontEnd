@@ -10,6 +10,7 @@ class AuditsFcdsService {
   private getAuditsFcdsEndpoint = API_CONFIG.endpoints.auditsFCDS.getAuditFcds;
   private getByIdEndpoint = API_CONFIG.endpoints.auditsFCDS.getById;
   private createEndpoint = API_CONFIG.endpoints.auditsFCDS.create;
+  private deleteEndpoint = API_CONFIG.endpoints.auditsFCDS.delete;
 
   async getAuditsFcds(): Promise<AuditFcdsList[]> {
     return apiClient.get<AuditFcdsList[]>(this.getAuditsFcdsEndpoint);
@@ -21,6 +22,10 @@ class AuditsFcdsService {
 
   async create(data: CreateAuditFcds): Promise<{ message: string }> {
     return apiClient.post<{ message: string }>(this.createEndpoint, data);
+  }
+
+  async delete(id: number): Promise<any> {
+    return apiClient.delete<any>(`${this.deleteEndpoint}${id}`);
   }
 }
 
