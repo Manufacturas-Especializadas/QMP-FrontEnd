@@ -273,33 +273,33 @@ export interface RejectionList {
 }
 
 export interface DetailedAuditFcds {
-  id: number;
-  shiftId: number;
-  fcdsProcessId: number;
-  partNumber: string;
-  lineIds: number[];
-  isProductConforming: boolean;
-  rejectionId: number;
-  traceability: Traceability;
-  controls: Controls;
-  physicals: Physicals;
-  dimensionalSpecs: DimensionalSpec[];
-  visualChecklists: any[];
+  id?: number | null | undefined;
+  shiftId?: number | null | undefined;
+  fcdsProcessId?: number | null | undefined;
+  partNumber?: string | undefined;
+  lineIds?: number[] | undefined;
+  isProductConforming?: boolean | undefined;
+  rejectionId?: number | undefined;
+  traceability?: Traceability | undefined;
+  controls?: Controls | undefined;
+  physicals?: Physicals | undefined;
+  dimensionalSpecs?: DimensionalSpec[] | undefined;
+  visualChecklists?: any[];
 }
 
 export interface CreateAuditFcds {
-  id: number;
-  shiftId: number;
-  fcdsProcessId: number;
-  partNumber: string;
-  lineIds: number[];
-  isProductConforming: boolean;
-  rejectionId: number;
-  traceability: Traceability;
-  controls: Controls;
-  physicals: Physicals;
-  dimensionalSpecs: DimensionalSpec[];
-  visualChecklists: any[];
+  id?: number | null | undefined;
+  shiftId?: number | null | undefined;
+  fcdsProcessId?: number | null | undefined;
+  partNumber?: string | undefined;
+  lineIds?: number[] | undefined;
+  isProductConforming?: boolean | undefined;
+  rejectionId?: number | undefined;
+  traceability?: Traceability | undefined;
+  controls?: Controls | undefined;
+  physicals?: Physicals | undefined;
+  dimensionalSpecs?: DimensionalSpec[] | undefined;
+  visualChecklists?: any[];
 }
 
 export interface UpdateAuditFcds {
