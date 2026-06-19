@@ -341,13 +341,15 @@ export const AuditsFCDS = () => {
                               <Pencil size={18} />
                             </button>
                           </RoleGuard>
-                          <button
-                            onClick={() => handleDelete(row.id)}
-                            className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 
-                            rounded-lg transition-colors cursor-pointer"
-                          >
-                            <Trash2 size={18} />
-                          </button>
+                          <RoleGuard allowedRoles={[UserRole.Admin]}>
+                            <button
+                              onClick={() => handleDelete(row.id)}
+                              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 
+                              rounded-lg transition-colors cursor-pointer"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                          </RoleGuard>
                         </div>
                       </td>
                     </tr>
