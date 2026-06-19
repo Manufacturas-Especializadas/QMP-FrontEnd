@@ -53,6 +53,26 @@ export const useAuditsFcds = () => {
     }
   };
 
+  const exportAuditsToExcel = async (
+    year: number,
+    month: number,
+  ): Promise<boolean> => {
+    setLoading(true);
+    try {
+      await auditsFcdsService.exportToExcel(year, month);
+
+      toast.success("Reporte de Excel descargado con éxito");
+      return true;
+    } catch (error: any) {
+      toast.error(
+        "No existen registros de auditorías en el mes seleccionado o hubo un error en el servidor.",
+      );
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const createAudit = async (data: CreateAuditFcds): Promise<boolean> => {
     setIsSaving(true);
     try {
@@ -113,6 +133,7 @@ export const useAuditsFcds = () => {
     isSaving,
     fetchAudits,
     fetchAuditById,
+    exportAuditsToExcel,
     createAudit,
     updateAudit,
     deleteAudit,
