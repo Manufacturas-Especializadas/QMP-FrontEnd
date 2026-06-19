@@ -1,5 +1,6 @@
 import { API_CONFIG } from "../../config/api";
 import type {
+  CategoryOperators,
   Clients,
   Condition,
   ContainmentActions,
@@ -7,13 +8,17 @@ import type {
   DefectsRejections,
   Lines,
   MachineCodes,
+  MachinesByLines,
   Material,
+  PipeDiameters,
   Process,
   RejectionRead,
   Roles,
   ScrapList,
   Shifts,
+  TypeMeasuringEquipment,
   TypeScrap,
+  WallsOfDiameters,
 } from "../../types/types";
 import { apiClient } from "../client";
 
@@ -28,6 +33,10 @@ class CatalogsService {
   private getContainmentActionsEndpoint =
     API_CONFIG.endpoints.catalags.getContainmentActions;
   private getTypeScrapEndpoint = API_CONFIG.endpoints.catalags.getTypeScrap;
+  private getCategoryOperatorEndpoint =
+    API_CONFIG.endpoints.catalags.getCategoryOperators;
+  private getTypeMeasuringEquipmentEndpoint =
+    API_CONFIG.endpoints.catalags.getTypeMeasuringEquipment;
   private getScrapEndpoint = API_CONFIG.endpoints.catalags.getScrap;
   private getConditionByDefectEndpoint =
     API_CONFIG.endpoints.catalags.getConditionByDefect;
@@ -35,6 +44,12 @@ class CatalogsService {
     API_CONFIG.endpoints.catalags.getProcessByLine;
   private getMachineCodesByProcessEndpoint =
     API_CONFIG.endpoints.catalags.getMachineCodesByProcess;
+  private getMachinesByLinesEndpoint =
+    API_CONFIG.endpoints.catalags.getMachinesByLines;
+  private getPipeDiametersEndpoint =
+    API_CONFIG.endpoints.catalags.getPipeDiameters;
+  private getWallsOfDiametersEndpoint =
+    API_CONFIG.endpoints.catalags.getWallsOfDiameter;
   private getDefectByTypeScrapEndpoint =
     API_CONFIG.endpoints.catalags.getDefectByTypeScrap;
   private getRejectionsEndpoint = API_CONFIG.endpoints.catalags.getRejections;
@@ -57,6 +72,24 @@ class CatalogsService {
 
   async getMaterial(): Promise<Material[]> {
     return apiClient.get<Material[]>(this.getMaterialEndpoint);
+  }
+
+  async getCategorysOperators(): Promise<CategoryOperators[]> {
+    return apiClient.get<CategoryOperators[]>(this.getCategoryOperatorEndpoint);
+  }
+
+  async getTypeMeasuringEquipment(): Promise<TypeMeasuringEquipment[]> {
+    return apiClient.get<TypeMeasuringEquipment[]>(
+      this.getTypeMeasuringEquipmentEndpoint,
+    );
+  }
+
+  async getPipeDiameters(): Promise<PipeDiameters[]> {
+    return apiClient.get<PipeDiameters[]>(this.getPipeDiametersEndpoint);
+  }
+
+  async getWallsOfDiameters(): Promise<WallsOfDiameters[]> {
+    return apiClient.get<WallsOfDiameters[]>(this.getWallsOfDiametersEndpoint);
   }
 
   async getDefetcsRejections(): Promise<DefectsRejections[]> {
@@ -97,6 +130,15 @@ class CatalogsService {
     return apiClient.get<MachineCodes[]>(
       `${this.getMachineCodesByProcessEndpoint}${id}`,
     );
+  }
+
+  async getMachinesByLines(linesIds: number[]): Promise<MachinesByLines[]> {
+    const params = new URLSearchParams();
+    linesIds.forEach((id) => params.append("lineIds", id.toString()));
+
+    return apiClient.get<MachinesByLines[]>(this.getMachinesByLinesEndpoint, {
+      params,
+    });
   }
 
   async getDefectByTypeScrap(id: number): Promise<Defects[]> {

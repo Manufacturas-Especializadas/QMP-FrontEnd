@@ -1,6 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ScrapIndex } from "../pages/Scrap/ScrapIndex";
-import { ProcessAudit } from "../pages/ProcessAudit/ProcessAudit";
 import { ScrapForm } from "../pages/Scrap/ScrapForm";
 import { Configuration } from "../pages/Configuration/Configuration";
 import { LinesConfig } from "../pages/Configuration/Lines/LinesConfig";
@@ -14,6 +13,7 @@ import { ScrapReports } from "../pages/Scrap/ScrapReports";
 import { RejectionsIndex } from "../pages/Rejections/RejectionsIndex";
 import { RejectionReports } from "../pages/Rejections/RejectionReports";
 import { ScrapConfig } from "../pages/Configuration/Scrap/ScrapConfig";
+import { AuditsFCDS } from "../pages/AuditsFCDS/AuditsFCDS";
 
 export const MyRoutes = () => {
   return (
@@ -23,7 +23,7 @@ export const MyRoutes = () => {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<ProcessAudit />} />
+          <Route path="/" element={<AuditsFCDS />} />
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/registro" element={<ScrapForm />} />
           <Route path="/scrap/reportes" element={<ScrapReports />} />

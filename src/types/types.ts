@@ -99,6 +99,32 @@ export interface ClientRead {
   clientName: string;
 }
 
+export interface MachinesByLines {
+  id: number;
+  name: string;
+  lineId: number;
+}
+
+export interface CategoryOperators {
+  id: number;
+  name: string;
+}
+
+export interface TypeMeasuringEquipment {
+  id: number;
+  name: string;
+}
+
+export interface PipeDiameters {
+  id: number;
+  name: string;
+}
+
+export interface WallsOfDiameters {
+  id: number;
+  name: string;
+}
+
 export interface UsersList {
   id: number;
   payRollNumber: string;
@@ -244,4 +270,104 @@ export interface RejectionList {
   imageUrl: string | null;
   hasEvidence: boolean;
   creatingPayroll: number;
+}
+
+export interface DetailedAuditFcds {
+  id?: number | null | undefined;
+  shiftId?: number | null | undefined;
+  fcdsProcessId?: number | null | undefined;
+  partNumber?: string | undefined;
+  lineIds?: number[] | undefined;
+  isProductConforming?: boolean | undefined;
+  rejectionId?: number | undefined;
+  traceability?: Traceability | undefined;
+  controls?: Controls | undefined;
+  physicals?: Physicals | undefined;
+  dimensionalSpecs?: DimensionalSpec[] | undefined;
+  visualChecklists?: any[];
+}
+
+export interface CreateAuditFcds {
+  id?: number | null | undefined;
+  shiftId?: number | null | undefined;
+  fcdsProcessId?: number | null | undefined;
+  partNumber?: string | undefined;
+  lineIds?: number[] | undefined;
+  isProductConforming?: boolean | undefined;
+  rejectionId?: number | undefined;
+  traceability?: Traceability | undefined;
+  controls?: Controls | undefined;
+  physicals?: Physicals | undefined;
+  dimensionalSpecs?: DimensionalSpec[] | undefined;
+  visualChecklists?: any[];
+}
+
+export interface UpdateAuditFcds {
+  shiftId: number;
+  fcdsProcessId: number;
+  partNumber: string;
+  lineIds: number[];
+  rejectionId: number;
+  isProductConforming: boolean;
+  traceability: Traceability;
+  controls: Controls;
+  physicals: Physicals;
+  dimensionalSpecs: DimensionalSpec[];
+  visualChecklists: VisualChecklist[];
+}
+
+export interface AuditFcdsList {
+  id: number;
+  auditDate: string;
+  inspectorName: string;
+  processName: string;
+  partNumber: string;
+  linesSummary: string;
+  isProductConforming: boolean;
+  folioRDM: any;
+}
+
+export interface Traceability {
+  machineCodeIds: number[];
+  operatorsPayroll: string;
+  categoryId: number;
+  typeMeasuringEquipmentId: number | null;
+  shopOrder: string | null;
+  batchPipe: string | null;
+  pipeDiameterId: number | null;
+  pipeWallId: number | null;
+  equipmentSerials: string[];
+}
+
+export interface Controls {
+  mttoValidation: number;
+  realese1stPiece: number;
+  spc: number;
+  materialCorrectlyIdentified: number;
+  identifiedMeasuringEquipment: number;
+  calibratedMeasuringEquipment: number;
+  itProcess: number;
+  typeOil: string;
+  lastHourOfRelease: string;
+}
+
+export interface Physicals {
+  brands: number;
+  blows: number;
+  pollution: number;
+  ovality: number;
+  burr: number;
+  warped: number;
+  excessOil: number;
+}
+
+export interface DimensionalSpec {
+  specName: string;
+  expectedValue: string;
+  realValue: string;
+}
+
+export interface VisualChecklist {
+  checkpointName: string;
+  resultValue: number;
 }
