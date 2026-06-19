@@ -11,10 +11,13 @@ import {
   SlidersHorizontal,
   FileText,
   Loader2,
+  File,
 } from "lucide-react";
 import { useAuditsFcds } from "../../hooks/useAuditsFcds";
 import { AuditFormContainer } from "../../components/Layouts/AuditsFCDSLayout/Form/AuditFormContainer";
 import { AuditDetailsModal } from "../../components/Layouts/AuditsFCDSLayout/AuditDetailsModal/AuditDetailsModal";
+import { RoleGuard } from "../../components/Auth/RoleGuard";
+import { UserRole } from "../../types/types";
 
 export const AuditsFCDS = () => {
   const [showForm, setShowForm] = useState(false);
@@ -107,15 +110,35 @@ export const AuditsFCDS = () => {
           </p>
         </div>
 
-        <button
-          onClick={handleCreate}
-          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black 
-          text-sm uppercase tracking-wider px-6 py-4 rounded-2xl shadow-lg shadow-blue-100 
-          transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center 
-          justify-center gap-2 shrink-0 hover:cursor-pointer"
-        >
-          <Plus size={18} /> Nueva Auditoría
-        </button>
+        <div className="flex justify-end gap-3">
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.InspectorCalidad,
+              UserRole.AnalistaCalidad,
+            ]}
+          >
+            <button
+              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-black 
+                text-sm uppercase tracking-wider px-6 py-4 rounded-2xl shadow-lg shadow-green-100 
+                transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center 
+                justify-center gap-2 shrink-0 hover:cursor-pointer"
+            >
+              <File size={18} /> Reportes
+            </button>
+          </RoleGuard>
+          <RoleGuard allowedRoles={[UserRole.Admin, UserRole.InspectorCalidad]}>
+            <button
+              onClick={handleCreate}
+              className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black 
+              text-sm uppercase tracking-wider px-6 py-4 rounded-2xl shadow-lg shadow-blue-100 
+              transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer flex items-center 
+              justify-center gap-2 shrink-0 hover:cursor-pointer"
+            >
+              <Plus size={18} /> Nueva Auditoría
+            </button>
+          </RoleGuard>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
