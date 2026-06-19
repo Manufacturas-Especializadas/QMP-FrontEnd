@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import type {
   AuditFcdsList,
+  AvailableMonth,
   CreateAuditFcds,
   DetailedAuditFcds,
 } from "../types/types";
@@ -20,6 +21,7 @@ export interface AuditFcdsListDto {
 
 export const useAuditsFcds = () => {
   const [audits, setAudits] = useState<AuditFcdsList[]>([]);
+  const [availableMonths, setAvailableMonths] = useState<AvailableMonth[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
@@ -52,6 +54,15 @@ export const useAuditsFcds = () => {
       setLoading(false);
     }
   };
+
+  const fetchAvailableMonths = useCallback(async () => {
+    try {
+      const response = await auditsFcdsService.availableMonths();
+      setAvailableMonths(response);
+    } catch (error: any) {
+      console.error("No se pudieron cargar los meses con registros", error);
+    }
+  }, []);
 
   const exportAuditsToExcel = async (
     year: number,
@@ -129,10 +140,12 @@ export const useAuditsFcds = () => {
 
   return {
     audits,
+    availableMonths,
     loading,
     isSaving,
     fetchAudits,
     fetchAuditById,
+    fetchAvailableMonths,
     exportAuditsToExcel,
     createAudit,
     updateAudit,
