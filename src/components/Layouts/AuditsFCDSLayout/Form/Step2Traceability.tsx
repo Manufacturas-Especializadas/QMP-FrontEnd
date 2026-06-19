@@ -166,6 +166,7 @@ export const Step2Traceability = ({
           <input
             type="text"
             placeholder="ID Equipo 1 (Ej: VER-08)"
+            required
             value={data.equipmentSerials[0] || ""}
             onChange={(e) => handleSerialChange(0, e.target.value)}
             className="bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-xs 

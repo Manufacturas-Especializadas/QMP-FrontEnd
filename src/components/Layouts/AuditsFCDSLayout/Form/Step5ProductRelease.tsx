@@ -256,18 +256,20 @@ export const Step5ProductRelease = ({
             </button>
           )}
 
-          <button
-            type="button"
-            disabled={!isFormFilled || saving}
-            onClick={() => onSubmit()}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-black text-xs 
-            uppercase tracking-wider px-6 py-4 rounded-xl shadow-lg shadow-blue-100 
-            transition-all flex items-center justify-center gap-2 cursor-pointer 
-            disabled:opacity-40"
-          >
-            <Save size={14} />{" "}
-            {saving ? "Procesando..." : "Finalizar Auditoría"}
-          </button>
+          {data.isProductConforming && (
+            <button
+              type="button"
+              disabled={!isFormFilled || saving}
+              onClick={() => onSubmit()}
+              className="bg-blue-600 hover:bg-blue-700 text-white font-black text-xs 
+              uppercase tracking-wider px-6 py-4 rounded-xl shadow-lg shadow-blue-100 
+              transition-all flex items-center justify-center gap-2 cursor-pointer 
+              disabled:opacity-40"
+            >
+              <Save size={14} />{" "}
+              {saving ? "Procesando..." : "Finalizar Auditoría"}
+            </button>
+          )}
         </div>
       </div>
     </div>
