@@ -272,6 +272,12 @@ export interface RejectionList {
   creatingPayroll: number;
 }
 
+export interface AvailableMonth {
+  year: number;
+  month: number;
+  monthName: string;
+}
+
 export interface DetailedAuditFcds {
   id?: number | null | undefined;
   shiftId?: number | null | undefined;

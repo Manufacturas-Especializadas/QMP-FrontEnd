@@ -14,6 +14,7 @@ import { RejectionsIndex } from "../pages/Rejections/RejectionsIndex";
 import { RejectionReports } from "../pages/Rejections/RejectionReports";
 import { ScrapConfig } from "../pages/Configuration/Scrap/ScrapConfig";
 import { AuditsFCDS } from "../pages/AuditsFCDS/AuditsFCDS";
+import { AuditsReportFCDS } from "../pages/AuditsFCDS/AuditsReportFCDS";
 
 export const MyRoutes = () => {
   return (
@@ -24,6 +25,10 @@ export const MyRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/" element={<AuditsFCDS />} />
+          <Route
+            path="/auditoriasFCDS/reportes"
+            element={<AuditsReportFCDS />}
+          />
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/registro" element={<ScrapForm />} />
           <Route path="/scrap/reportes" element={<ScrapReports />} />

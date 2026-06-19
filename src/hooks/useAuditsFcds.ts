@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import type {
   AuditFcdsList,
+  AvailableMonth,
   CreateAuditFcds,
   DetailedAuditFcds,
 } from "../types/types";
@@ -20,6 +21,7 @@ export interface AuditFcdsListDto {
 
 export const useAuditsFcds = () => {
   const [audits, setAudits] = useState<AuditFcdsList[]>([]);
+  const [availableMonths, setAvailableMonths] = useState<AvailableMonth[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
@@ -48,6 +50,35 @@ export const useAuditsFcds = () => {
     } catch (error: any) {
       toast.error("No se pudo recuperar la información de la auditoría");
       return null;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchAvailableMonths = useCallback(async () => {
+    try {
+      const response = await auditsFcdsService.availableMonths();
+      setAvailableMonths(response);
+    } catch (error: any) {
+      console.error("No se pudieron cargar los meses con registros", error);
+    }
+  }, []);
+
+  const exportAuditsToExcel = async (
+    year: number,
+    month: number,
+  ): Promise<boolean> => {
+    setLoading(true);
+    try {
+      await auditsFcdsService.exportToExcel(year, month);
+
+      toast.success("Reporte de Excel descargado con éxito");
+      return true;
+    } catch (error: any) {
+      toast.error(
+        "No existen registros de auditorías en el mes seleccionado o hubo un error en el servidor.",
+      );
+      return false;
     } finally {
       setLoading(false);
     }
@@ -109,10 +140,13 @@ export const useAuditsFcds = () => {
 
   return {
     audits,
+    availableMonths,
     loading,
     isSaving,
     fetchAudits,
     fetchAuditById,
+    fetchAvailableMonths,
+    exportAuditsToExcel,
     createAudit,
     updateAudit,
     deleteAudit,

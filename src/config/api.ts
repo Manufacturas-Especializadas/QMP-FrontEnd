@@ -38,6 +38,8 @@ export const API_CONFIG = {
     auditsFCDS: {
       getAuditFcds: "/api/AuditsFcds/List",
       getById: "/api/AuditsFcds/GetById/",
+      availableMonths: "/api/AuditsFcds/AvailableMonths",
+      exportToExcel: "/api/AuditsFcds/DownloadExcelReport",
       create: "/api/AuditsFcds/Create",
       update: "/api/AuditsFcds/Update/",
       delete: "/api/AuditsFcds/Delte/",
