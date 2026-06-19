@@ -45,10 +45,10 @@ export const Step2Traceability = ({
   };
 
   const isValid =
-    data.machineCodeIds.length > 0 &&
-    data.operatorsPayroll.trim() !== "" &&
-    data.categoryId > 0 &&
-    data.equipmentSerials[0].trim() === "";
+    (data.machineCodeIds ?? []).length > 0 &&
+    (data.operatorsPayroll ?? "").trim() !== "" &&
+    (data.categoryId ?? 0) > 0 &&
+    (data.equipmentSerials?.[0] ?? "").trim() !== "";
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
