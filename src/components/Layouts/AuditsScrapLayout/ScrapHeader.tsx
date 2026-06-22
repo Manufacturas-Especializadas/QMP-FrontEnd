@@ -51,8 +51,8 @@ export const ScrapHeader = ({
           >
             Total Evaluadas
           </span>
-          <span className="text-lg font-black text-slate-700">
-            {totalAudits} Periodos
+          <span className="text-lg font-black text-slate-700 flex justify-center">
+            {totalAudits}
           </span>
         </div>
 
