@@ -377,3 +377,74 @@ export interface VisualChecklist {
   checkpointName: string;
   resultValue: number;
 }
+
+export interface AuditScrapList {
+  id: number;
+  auditDate: string;
+  userId: number;
+  inspectorName: string;
+  shiftId: number;
+  leaderPayroll: number;
+  shiftName: string;
+  lineNames: string[];
+  findingsCount: number;
+}
+
+export interface AuditFindingScrapRead {
+  id: number;
+  typeScrapId: number;
+  typeScrapName: string;
+  estimatedWeight: number;
+  materialCorrectlyIdentified: number;
+  materialCorrectlySegregated: number;
+  unreportedReason: string | null;
+  imageEvidence: string | null;
+  supervisorSignature: string | null;
+}
+
+export interface DetailedAuditScrap {
+  id: number;
+  auditDate: string;
+  userId: number;
+  inspectorName: string;
+  lineIds: number[];
+  shiftId: number;
+  shiftName: string;
+  leaderPayroll: number;
+  lineNames: string[];
+  findings: AuditFindingScrapRead[];
+}
+
+export interface CreateAuditScrapPayload {
+  shiftId: number;
+  leaderPayroll: number;
+  lineIds: number[];
+  findings: {
+    id: number;
+    typeScrapId: number;
+    estimatedWeight: number;
+    materialCorrectlyIdentified: number;
+    materialCorrectlySegregated: number;
+    unreportedReason?: string;
+    imageFiles?: File[] | null | undefined;
+    signatureFile?: File | null;
+  }[];
+}
+
+export interface UpdateAuditScrapPayload {
+  shiftId: number;
+  leaderPayroll: number;
+  lineIds: number[];
+  findings: {
+    id: number;
+    typeScrapId: number;
+    estimatedWeight: number;
+    materialCorrectlyIdentified: number;
+    materialCorrectlySegregated: number;
+    unreportedReason?: string;
+    imageFile?: File | null;
+    signatureFile?: File | null;
+    keepImageUrl?: string | null;
+    keepSignatureUrl?: string | null;
+  }[];
+}
