@@ -6,6 +6,7 @@ import { Database, Loader2 } from "lucide-react";
 import { ScrapGrid } from "../../components/Layouts/AuditsScrapLayout/ScrapGrid";
 import { ScrapDetailsModal } from "../../components/Layouts/AuditsScrapLayout/ScrapDetailsModal";
 import { ScrapWizardModal } from "../../components/Layouts/AuditsScrapLayout/ScrapWizardModal";
+import { useNavigate } from "react-router-dom";
 
 export const AuditsScrap = () => {
   const { audits, loading, fetchAudits, deleteAudit } = useAuditsScrap();
@@ -14,6 +15,8 @@ export const AuditsScrap = () => {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [selectedAuditId, setSelectedAuditId] = useState<number | null>(null);
   const [editAuditId, setEditAuditId] = useState<number | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAudits();
@@ -39,6 +42,7 @@ export const AuditsScrap = () => {
     >
       <ScrapHeader
         totalAudits={audits.length}
+        onNavigate={() => navigate("/scrap/auditoria/reportes")}
         onNewAuditClick={() => setIsWizardOpen(true)}
       />
 
