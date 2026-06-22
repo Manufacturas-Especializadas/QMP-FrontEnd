@@ -407,6 +407,7 @@ export interface DetailedAuditScrap {
   auditDate: string;
   userId: number;
   inspectorName: string;
+  lineIds: number[];
   shiftId: number;
   shiftName: string;
   leaderPayroll: number;
