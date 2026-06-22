@@ -384,6 +384,7 @@ export interface AuditScrapList {
   userId: number;
   inspectorName: string;
   shiftId: number;
+  leaderPayroll: number;
   shiftName: string;
   lineNames: string[];
   findingsCount: number;
@@ -408,12 +409,14 @@ export interface DetailedAuditScrap {
   inspectorName: string;
   shiftId: number;
   shiftName: string;
+  leaderPayroll: number;
   lineNames: string[];
   findings: AuditFindingScrapRead[];
 }
 
 export interface CreateAuditScrapPayload {
   shiftId: number;
+  leaderPayroll: number;
   lineIds: number[];
   findings: {
     typeScrapId: number;
@@ -428,6 +431,7 @@ export interface CreateAuditScrapPayload {
 
 export interface UpdateAuditScrapPayload {
   shiftId: number;
+  leaderPayroll: number;
   lineIds: number[];
   findings: {
     id: number;

@@ -30,6 +30,8 @@ class AuditsScrapService {
     const formData = new FormData();
     formData.append("ShiftId", payload.shiftId.toString());
 
+    formData.append("LeaderPayroll", payload.leaderPayroll.toString());
+
     payload.lineIds.forEach((id, index) => {
       formData.append(`LineIds[${index}]`, id.toString());
     });
@@ -80,6 +82,8 @@ class AuditsScrapService {
   async update(id: number, payload: UpdateAuditScrapPayload): Promise<any> {
     const formData = new FormData();
     formData.append("ShiftId", payload.shiftId.toString());
+
+    formData.append("LeaderPayroll", payload.leaderPayroll.toString());
 
     payload.lineIds.forEach((lId, index) => {
       formData.append(`LineIds[${index}]`, lId.toString());
