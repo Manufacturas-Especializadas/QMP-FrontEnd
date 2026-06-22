@@ -16,6 +16,7 @@ import { ScrapConfig } from "../pages/Configuration/Scrap/ScrapConfig";
 import { AuditsFCDS } from "../pages/AuditsFCDS/AuditsFCDS";
 import { AuditsReportFCDS } from "../pages/AuditsFCDS/AuditsReportFCDS";
 import { AuditsScrap } from "../pages/AuditsScrap/AuditsScrap";
+import { AuditsScrapReport } from "../pages/AuditsScrap/AuditsScrapReport";
 
 export const MyRoutes = () => {
   return (
@@ -32,6 +33,10 @@ export const MyRoutes = () => {
           />
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/auditoria" element={<AuditsScrap />} />
+          <Route
+            path="/scrap/auditoria/reportes"
+            element={<AuditsScrapReport />}
+          />
           <Route path="/scrap/registro" element={<ScrapForm />} />
           <Route path="/scrap/reportes" element={<ScrapReports />} />
           <Route path="/rechazos" element={<RejectionsIndex />} />
