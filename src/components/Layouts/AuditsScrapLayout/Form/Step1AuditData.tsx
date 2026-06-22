@@ -1,6 +1,6 @@
 import { useShifts } from "../../../../hooks/useShifts";
 import { useLines } from "../../../../hooks/useLines";
-import { SlidersHorizontal, Layers, ArrowRight, UserCheck } from "lucide-react";
+import { SlidersHorizontal, Layers, ArrowRight } from "lucide-react";
 import type { CreateAuditScrapPayload } from "../../../../types/types";
 
 interface Step1Props {
@@ -22,30 +22,10 @@ export const Step1AuditData = ({ data, updateFields, onNext }: Step1Props) => {
     }
   };
 
-  const isValid =
-    (data.shiftId ?? 0) > 0 &&
-    (data.lineIds ?? []).length > 0 &&
-    (data.leaderPayroll ?? 0) > 0;
+  const isValid = (data.shiftId ?? 0) > 0 && (data.lineIds ?? []).length > 0;
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in duration-200">
-      <div className="space-y-2 bg-blue-50/30 p-4 rounded-2xl border border-blue-100/50">
-        <label
-          className="text-xs uppercase font-black text-blue-800 tracking-wider flex 
-          items-center gap-1.5"
-        >
-          <UserCheck size={14} /> Nómina del Líder de Línea
-        </label>
-        <input
-          type="number"
-          placeholder="Ingresa número de nómina (Ej: 14520)"
-          value={data.leaderPayroll || ""}
-          onChange={(e) =>
-            updateFields({ leaderPayroll: Number(e.target.value) })
-          }
-          className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold outline-none focus:border-blue-500 shadow-inner"
-        />
-      </div>
       <div className="space-y-2">
         <label
           className="text-xs uppercase font-black text-slate-500 tracking-wider flex 
@@ -75,8 +55,8 @@ export const Step1AuditData = ({ data, updateFields, onNext }: Step1Props) => {
 
       <div className="space-y-2">
         <label
-          className="text-xs uppercase font-black text-slate-500 tracking-wider 
-          flex items-center gap-1.5"
+          className="text-xs uppercase font-black text-slate-500 tracking-wider flex 
+          items-center gap-1.5"
         >
           <Layers size={14} className="text-blue-500" /> Asociar Líneas a la
           Inspección (Selección Múltiple)
@@ -98,12 +78,11 @@ export const Step1AuditData = ({ data, updateFields, onNext }: Step1Props) => {
               >
                 {line.name}
                 <div
-                  className={`w-4 h-4 rounded border flex items-center justify-center 
-                    text-[9px] ${
-                      isSelected
-                        ? "bg-blue-600 border-blue-600 text-white"
-                        : "border-slate-200 bg-slate-50"
-                    }`}
+                  className={`w-4 h-4 rounded border flex items-center justify-center text-[9px] ${
+                    isSelected
+                      ? "bg-blue-600 border-blue-600 text-white"
+                      : "border-slate-200 bg-slate-50"
+                  }`}
                 >
                   {isSelected && "✓"}
                 </div>
