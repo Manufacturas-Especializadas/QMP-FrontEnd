@@ -1,15 +1,17 @@
-import { Calendar, User, Layers, Eye, Trash2 } from "lucide-react";
+import { Calendar, User, Layers, Eye, Trash2, Pencil } from "lucide-react";
 import type { AuditScrapList } from "../../../types/types";
 
 interface ScrapGridProps {
   data: AuditScrapList[];
   onViewDetails: (id: number) => void;
+  onEdit: (id: number) => void;
   onDelete: (id: number) => Promise<boolean>;
 }
 
 export const ScrapGrid = ({
   data,
   onViewDetails,
+  onEdit,
   onDelete,
 }: ScrapGridProps) => {
   return (
@@ -101,6 +103,14 @@ export const ScrapGrid = ({
               <Eye size={12} /> Ver Detalles
             </button>
 
+            <button
+              onClick={() => onEdit(audit.id)}
+              className="px-3 py-2.5 bg-white border border-slate-200 text-slate-600 
+                hover:text-blue-600 hover:border-blue-200 font-black text-[10px] uppercase 
+                tracking-wider rounded-xl flex items-center gap-1 transition-all cursor-pointer shadow-sm"
+            >
+              <Pencil size={11} /> Editar
+            </button>
             <button
               onClick={() => {
                 if (

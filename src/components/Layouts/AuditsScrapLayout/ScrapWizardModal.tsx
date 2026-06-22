@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuditsScrap } from "../../../hooks/useAuditsScrap";
 import { Step1AuditData } from "./Form/Step1AuditData";
 import { X, ArrowRight, FileSpreadsheet } from "lucide-react";
@@ -7,14 +7,17 @@ import { Step2Findings } from "./Form/Step2Findings";
 
 interface ScrapWizardModalProps {
   isOpen: boolean;
+  auditId?: number | null;
   onClose: () => void;
 }
 
 export const ScrapWizardModal = ({
   isOpen,
+  auditId,
   onClose,
 }: ScrapWizardModalProps) => {
-  const { createAudit, isSaving } = useAuditsScrap();
+  const { createAudit, updateAudit, fetchAuditById, isSaving } =
+    useAuditsScrap();
   const [step, setStep] = useState(1);
 
   const [formData, setFormData] = useState<CreateAuditScrapPayload>({
@@ -23,6 +26,40 @@ export const ScrapWizardModal = ({
     lineIds: [],
     findings: [],
   });
+
+  useEffect(() => {
+    if (isOpen && auditId) {
+      fetchAuditById(auditId).then((res) => {
+        if (res) {
+          setFormData({
+            shiftId: res.shiftId,
+            leaderPayroll: res.leaderPayroll,
+            lineIds: res.lineIds ?? [],
+            findings: res.findings.map((f) => ({
+              id: f.id,
+              typeScrapId: f.typeScrapId,
+              estimatedWeight: f.estimatedWeight,
+              materialCorrectlyIdentified: f.materialCorrectlyIdentified,
+              materialCorrectlySegregated: f.materialCorrectlySegregated,
+              unreportedReason: f.unreportedReason ?? "",
+              keepImageUrl: f.imageEvidence,
+              keepSignatureUrl: f.supervisorSignature,
+              imageFiles: [],
+              signatureFile: null,
+            })),
+          });
+        }
+      });
+    } else if (isOpen && !auditId) {
+      setFormData({
+        shiftId: 0,
+        leaderPayroll: 0,
+        lineIds: [],
+        findings: [],
+      });
+      setStep(1);
+    }
+  }, [auditId, isOpen]);
 
   if (!isOpen) return null;
 
@@ -36,7 +73,16 @@ export const ScrapWizardModal = ({
       return;
     }
 
-    const success = await createAudit(formData);
+    let success = false;
+
+    if (auditId) {
+      // 🆙 Sincronización en Modo Edición
+      success = await updateAudit(auditId, formData as any);
+    } else {
+      // 📥 Registro en Modo Creación Nueva
+      success = await createAudit(formData);
+    }
+
     if (success) onClose();
   };
 

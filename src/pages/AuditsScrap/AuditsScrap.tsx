@@ -13,6 +13,7 @@ export const AuditsScrap = () => {
   const [selectedShift, setSelectedShift] = useState("");
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [selectedAuditId, setSelectedAuditId] = useState<number | null>(null);
+  const [editAuditId, setEditAuditId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchAudits();
@@ -82,6 +83,7 @@ export const AuditsScrap = () => {
         <ScrapGrid
           data={filteredAudits}
           onViewDetails={(id) => setSelectedAuditId(id)}
+          onEdit={(id) => setEditAuditId(id)}
           onDelete={deleteAudit}
         />
       )}
@@ -93,8 +95,12 @@ export const AuditsScrap = () => {
       />
 
       <ScrapWizardModal
-        isOpen={isWizardOpen}
-        onClose={() => setIsWizardOpen(false)}
+        isOpen={isWizardOpen || editAuditId !== null}
+        auditId={editAuditId}
+        onClose={() => {
+          setIsWizardOpen(false);
+          setEditAuditId(null);
+        }}
       />
     </div>
   );
