@@ -377,3 +377,68 @@ export interface VisualChecklist {
   checkpointName: string;
   resultValue: number;
 }
+
+export interface AuditScrapList {
+  id: number;
+  auditDate: string;
+  userId: number;
+  inspectorName: string;
+  shiftId: number;
+  shiftName: string;
+  lineNames: string[];
+  findingsCount: number;
+}
+
+export interface AuditFindingScrapRead {
+  id: number;
+  typeScrapId: number;
+  typeScrapName: string;
+  estimatedWeight: number;
+  materialCorrectlyIdentified: number;
+  materialCorrectlySegregated: number;
+  unreportedReason: string | null;
+  imageEvidence: string | null;
+  supervisorSignature: string | null;
+}
+
+export interface DetailedAuditScrap {
+  id: number;
+  auditDate: string;
+  userId: number;
+  inspectorName: string;
+  shiftId: number;
+  shiftName: string;
+  lineNames: string[];
+  findings: AuditFindingScrapRead[];
+}
+
+export interface CreateAuditScrapPayload {
+  shiftId: number;
+  lineIds: number[];
+  findings: {
+    typeScrapId: number;
+    estimatedWeight: number;
+    materialCorrectlyIdentified: number;
+    materialCorrectlySegregated: number;
+    unreportedReason?: string;
+    imageFile?: File | null;
+    signatureFile?: File | null;
+  }[];
+}
+
+export interface UpdateAuditScrapPayload {
+  shiftId: number;
+  lineIds: number[];
+  findings: {
+    id: number;
+    typeScrapId: number;
+    estimatedWeight: number;
+    materialCorrectlyIdentified: number;
+    materialCorrectlySegregated: number;
+    unreportedReason?: string;
+    imageFile?: File | null;
+    signatureFile?: File | null;
+    keepImageUrl?: string | null;
+    keepSignatureUrl?: string | null;
+  }[];
+}
