@@ -3,6 +3,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Clock,
+  FileText,
   Layers,
   Plus,
   TrendingUp,
@@ -12,6 +13,8 @@ import { useScrap } from "../../hooks/useScrap";
 import { formatDateTime } from "../../utils/dateFormatter";
 import { useMemo, useState } from "react";
 import { ScrapDetailModal } from "../../components/ScrapDetailModal/ScrapDetailModal";
+import { RoleGuard } from "../../components/Auth/RoleGuard";
+import { UserRole } from "../../types/types";
 
 const ITEMS_PER_PAGE = 4;
 
@@ -64,15 +67,45 @@ export const ScrapIndex = () => {
             </p>
           </div>
         </div>
-        <button
-          onClick={() => navigate("/scrap/registro")}
-          className="flex items-center justify-center gap-2 bg-linear-to-r 
-          from-secondary to-primary text-white px-4 py-2 rounded-2xl 
-          font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
-          transition-all hover:cursor-pointer"
-        >
-          <Plus size={20} strokeWidth={3} /> Nuevo Scrap
-        </button>
+
+        <div className="flex items-center gap-3">
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.CalidadProveedores,
+              UserRole.AnalistaCalidad,
+            ]}
+          >
+            <button
+              onClick={() => navigate("/scrap/reportes")}
+              className="flex items-center justify-center gap-2 bg-green-50 text-green-600 px-4 py-2 
+              rounded-2xl font-bold border border-green-100 hover:bg-green-100 transition-all 
+              hover:cursor-pointer"
+            >
+              <FileText size={20} />
+              Reportes
+            </button>
+          </RoleGuard>
+
+          <RoleGuard
+            allowedRoles={[
+              UserRole.Admin,
+              UserRole.CalidadProveedores,
+              UserRole.InspectorScrap,
+              UserRole.Produccion,
+            ]}
+          >
+            <button
+              onClick={() => navigate("/scrap/registro")}
+              className="flex items-center justify-center gap-2 bg-linear-to-r 
+              from-secondary to-primary text-white px-4 py-2 rounded-2xl 
+              font-bold shadow-lg shadow-blue-200 hover:scale-[1.02] active:scale-[0.98] 
+              transition-all hover:cursor-pointer"
+            >
+              <Plus size={20} strokeWidth={3} /> Nuevo Scrap
+            </button>
+          </RoleGuard>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -198,12 +231,20 @@ export const ScrapIndex = () => {
         )}
       </div>
 
-      <ScrapDetailModal
-        isOpen={isModalOpen}
-        scrapId={selectedScrapId}
-        onClose={() => setIsModalOpen(false)}
-        onRefresh={refresh}
-      />
+      <RoleGuard
+        allowedRoles={[
+          UserRole.Admin,
+          UserRole.CalidadProveedores,
+          UserRole.InspectorScrap,
+        ]}
+      >
+        <ScrapDetailModal
+          isOpen={isModalOpen}
+          scrapId={selectedScrapId}
+          onClose={() => setIsModalOpen(false)}
+          onRefresh={refresh}
+        />
+      </RoleGuard>
     </div>
   );
 };

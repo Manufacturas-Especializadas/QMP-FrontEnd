@@ -1,4 +1,4 @@
-import { Trash2, Save } from "lucide-react";
+import { Trash2, Save, ChevronLeft } from "lucide-react";
 import { useMemo } from "react";
 import { useLines } from "../../hooks/useLines";
 import { useShifts } from "../../hooks/useShifts";
@@ -10,6 +10,7 @@ import { useMaterial } from "../../hooks/useMaterial";
 import { useTypeScrap } from "../../hooks/useTypeScrap";
 import { useDefectByTypeScrap } from "../../hooks/useDefectByTypeScrap";
 import { useScrapForm } from "../../hooks/useCreateScrap";
+import { useNavigate } from "react-router-dom";
 
 export const ScrapForm = () => {
   const { formData, loading, handleChange, handleLineClick, handleSubmit } =
@@ -55,6 +56,8 @@ export const ScrapForm = () => {
     () => defects.map((d) => ({ label: d.name, value: d.id })),
     [defects],
   );
+
+  const navigate = useNavigate();
 
   return (
     <div
@@ -206,7 +209,19 @@ export const ScrapForm = () => {
           />
         </div>
 
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-end gap-2 pt-4">
+          <button
+            type="button"
+            onClick={() => navigate("/scrap")}
+            className={`bg-gray-500 text-white px-10 py-4 rounded-2xl font-bold flex 
+                items-center gap-2 shadow-lg shadow-blue-200 transition-all ${
+                  loading
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:scale-[1.02] active:scale-[0.98] hover:cursor-pointer"
+                }`}
+          >
+            <ChevronLeft /> Cancelar
+          </button>
           <button
             type="submit"
             disabled={loading}

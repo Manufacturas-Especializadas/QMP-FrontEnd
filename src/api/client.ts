@@ -55,22 +55,44 @@ class ApiClient {
     data?: any,
     config?: AxiosRequestConfig,
   ): Promise<T> {
-    const response = await this.client.post<T>(endpoint, data, config);
+    const isFormData = data instanceof FormData;
+
+    const response = await this.client.post<T>(endpoint, data, {
+      ...config,
+      headers: {
+        ...config?.headers,
+        ...(isFormData
+          ? { "Content-Type": undefined }
+          : { "Content-Type": "application/json" }),
+      },
+    });
+
     return response.data;
   }
 
   async put<T>(
     endpoint: string,
-    data: any,
+    data?: any,
     config?: AxiosRequestConfig,
   ): Promise<T> {
-    const response = await this.client.put<T>(endpoint, data, config);
+    const isFormData = data instanceof FormData;
+
+    const response = await this.client.put<T>(endpoint, data, {
+      ...config,
+      headers: {
+        ...config?.headers,
+        ...(isFormData
+          ? { "Content-Type": undefined }
+          : { "Content-Type": "application/json" }),
+      },
+    });
+
     return response.data;
   }
 
   async patch<T>(
     endpoint: string,
-    data: any,
+    data?: any,
     config?: AxiosRequestConfig,
   ): Promise<T> {
     const response = await this.client.patch<T>(endpoint, data, config);
