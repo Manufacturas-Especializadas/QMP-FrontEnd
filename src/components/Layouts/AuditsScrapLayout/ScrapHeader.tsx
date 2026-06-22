@@ -3,11 +3,13 @@ import { FileSpreadsheet, Plus } from "lucide-react";
 interface ScrapHeaderProps {
   totalAudits: number;
   onNewAuditClick: () => void;
+  onNavigate: () => void;
 }
 
 export const ScrapHeader = ({
   totalAudits,
   onNewAuditClick,
+  onNavigate,
 }: ScrapHeaderProps) => {
   return (
     <div
@@ -56,6 +58,16 @@ export const ScrapHeader = ({
           </span>
         </div>
 
+        <button
+          onClick={onNavigate}
+          className="w-full md:w-auto px-6 py-4 bg-linear-to-r from-green-600 
+          to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white 
+          font-black text-xs uppercase tracking-wider rounded-2xl shadow-lg 
+          shadow-green-200 hover:shadow-xl hover:shadow-green-300 transition-all 
+          active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <Plus size={16} strokeWidth={3} /> Nueva Auditoría de Scrap
+        </button>
         <button
           onClick={onNewAuditClick}
           className="w-full md:w-auto px-6 py-4 bg-linear-to-r from-blue-600 
