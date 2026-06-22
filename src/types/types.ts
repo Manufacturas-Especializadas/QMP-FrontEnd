@@ -420,12 +420,13 @@ export interface CreateAuditScrapPayload {
   leaderPayroll: number;
   lineIds: number[];
   findings: {
+    id: number;
     typeScrapId: number;
     estimatedWeight: number;
     materialCorrectlyIdentified: number;
     materialCorrectlySegregated: number;
     unreportedReason?: string;
-    imageFiles?: File[] | null;
+    imageFiles?: File[] | null | undefined;
     signatureFile?: File | null;
   }[];
 }
