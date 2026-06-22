@@ -39,6 +39,7 @@ export const API_CONFIG = {
       getAll: "/api/AuditScrap/List",
       getById: "/api/AuditScrap/GetById/",
       availableMonths: "/api/AuditScrap/AvailableMonths",
+      exportToExcel: "/api/AuditScrap/ExportExcel",
       create: "/api/AuditScrap/Create",
       update: "/api/AuditScrap/Update/",
       delete: "/api/AuditScrap/Delete/",
