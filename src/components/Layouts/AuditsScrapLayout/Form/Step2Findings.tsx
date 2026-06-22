@@ -8,6 +8,7 @@ import {
   Save,
   Pencil,
   X,
+  UserCheck,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import type { CreateAuditScrapPayload } from "../../../../types/types";
@@ -31,7 +32,6 @@ export const Step2Findings = ({
 }: Step2Props) => {
   const { typeScrap, refresh } = useTypeScrap();
   const [isPadOpen, setIsPadOpen] = useState(false);
-
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Step2Findings = ({
     setCurrentFinding({
       id: finding.id ?? 0,
       typeScrapId: finding.typeScrapId,
-      estimatedWeight: finding.estimatedWeight,
+      estimatedWeight: finding.estimatedWeight ?? 0,
       materialCorrectlyIdentified: finding.materialCorrectlyIdentified,
       materialCorrectlySegregated: finding.materialCorrectlySegregated,
       unreportedReason: finding.unreportedReason ?? "",
@@ -72,11 +72,8 @@ export const Step2Findings = ({
   };
 
   const handleSaveFinding = () => {
-    if (
-      currentFinding.typeScrapId === 0 ||
-      currentFinding.estimatedWeight <= 0
-    ) {
-      alert("Por favor rellena el Tipo de Scrap y el Peso Estimado.");
+    if (currentFinding.typeScrapId === 0) {
+      alert("Por favor selecciona el Tipo de Scrap para este contenedor.");
       return;
     }
 
@@ -128,13 +125,19 @@ export const Step2Findings = ({
 
     if (totalFiles.length > 3) {
       alert(
-        "El estándar corporativo MESA restringe la carga a un máximo de 3 fotografías de evidencia.",
+        "El estándar corporativo MESA restringe la carga a un máximo de 3 fotografías.",
       );
       setCurrentFinding((p) => ({ ...p, imageFiles: totalFiles.slice(0, 3) }));
     } else {
       setCurrentFinding((p) => ({ ...p, imageFiles: totalFiles }));
     }
   };
+
+  const isAuditReadyToFinalize =
+    data.findings.length > 0 &&
+    !isSaving &&
+    editingIndex === null &&
+    (data.leaderPayroll ?? 0) > 0;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 animate-in fade-in duration-200">
@@ -188,7 +191,10 @@ export const Step2Findings = ({
           </div>
           <div className="space-y-1">
             <label className="text-[10px] font-black uppercase text-slate-400 block">
-              Peso Estimado (KG)
+              Peso Estimado (KG){" "}
+              <span className="text-[9px] text-slate-400 lowercase">
+                (opcional)
+              </span>
             </label>
             <input
               type="number"
@@ -200,8 +206,8 @@ export const Step2Findings = ({
                   estimatedWeight: Number(e.target.value),
                 }))
               }
-              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 
-              text-xs font-bold outline-none focus:border-blue-500"
+              className="w-full bg-white border border-slate-200 rounded-xl px-3 
+              py-2.5 text-xs font-bold outline-none focus:border-blue-500"
             />
           </div>
         </div>
@@ -269,21 +275,44 @@ export const Step2Findings = ({
                 unreportedReason: e.target.value,
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 
-            py-2 text-xs font-bold outline-none focus:border-blue-500 shadow-inner"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 
+            text-xs font-bold outline-none focus:border-blue-500 shadow-inner"
+          />
+        </div>
+
+        <div
+          className="space-y-1.5 bg-blue-50/40 p-3.5 rounded-2xl border 
+          border-blue-100/40"
+        >
+          <label
+            className="text-[10px] uppercase font-black text-blue-800 
+            tracking-wider flex items-center gap-1"
+          >
+            <UserCheck size={12} /> Nómina del Líder de Línea (Obligatorio para
+            Cierre)
+          </label>
+          <input
+            type="number"
+            placeholder="Nómina del líder encargado de autorizar..."
+            value={data.leaderPayroll || ""}
+            onChange={(e) =>
+              updateFields({ leaderPayroll: Number(e.target.value) })
+            }
+            className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 
+            text-xs font-bold outline-none focus:border-blue-500 shadow-sm"
           />
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
           <label
-            className={`border border-dashed p-3 rounded-xl flex items-center 
-              justify-center gap-2 text-xs font-bold cursor-pointer transition-all 
-                relative overflow-hidden bg-white ${
-                  currentFinding.imageFiles.length > 0 ||
-                  currentFinding.keepImageUrl
-                    ? "border-emerald-300 text-emerald-700"
-                    : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
-                }`}
+            className={`border border-dashed p-3 rounded-xl flex items-center justify-center 
+              gap-2 text-xs font-bold cursor-pointer transition-all relative 
+              overflow-hidden bg-white ${
+                currentFinding.imageFiles.length > 0 ||
+                currentFinding.keepImageUrl
+                  ? "border-emerald-300 text-emerald-700"
+                  : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
+              }`}
           >
             <input
               type="file"
@@ -297,7 +326,7 @@ export const Step2Findings = ({
               {currentFinding.imageFiles.length > 0
                 ? `Nuevas Fotos (${currentFinding.imageFiles.length}/3)`
                 : currentFinding.keepImageUrl
-                  ? "Fotos en Azure ✓ (Reemplazar)"
+                  ? "Fotos ✓ (Reemplazar)"
                   : "Cargar Fotos (Max 3)"}
             </span>
           </label>
@@ -306,12 +335,13 @@ export const Step2Findings = ({
             type="button"
             onClick={() => setIsPadOpen(true)}
             className={`border border-dashed p-3 rounded-xl flex items-center 
-              justify-center gap-2 text-xs font-bold cursor-pointer transition-all 
-              bg-white ${
-                currentFinding.signatureFile || currentFinding.keepSignatureUrl
-                  ? "border-emerald-300 text-emerald-700"
-                  : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
-              }`}
+                justify-center gap-2 text-xs font-bold cursor-pointer transition-all 
+                  bg-white ${
+                    currentFinding.signatureFile ||
+                    currentFinding.keepSignatureUrl
+                      ? "border-emerald-300 text-emerald-700"
+                      : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
+                  }`}
           >
             <PenTool size={14} />
             <span className="truncate">
@@ -395,8 +425,8 @@ export const Step2Findings = ({
                 return (
                   <div
                     key={i}
-                    className={`border rounded-xl p-3 flex justify-between items-center 
-                      shadow-sm transition-all ${
+                    className={`border rounded-xl p-3 flex justify-between items-center shadow-sm 
+                      transition-all ${
                         isItemBeingEdited
                           ? "bg-amber-50/40 border-amber-300 ring-1 ring-amber-300"
                           : "bg-white border-slate-100"
@@ -412,7 +442,9 @@ export const Step2Findings = ({
                       </span>
                       <div className="flex gap-2 text-[10px] text-slate-400 font-bold">
                         <span className="text-blue-600 font-extrabold">
-                          {f.estimatedWeight} KG
+                          {f.estimatedWeight
+                            ? `${f.estimatedWeight} KG`
+                            : "S/P"}
                         </span>
                         <span>•</span>
                         <span className="text-slate-500">
@@ -430,18 +462,17 @@ export const Step2Findings = ({
                         type="button"
                         onClick={() => handleSelectEdit(i)}
                         disabled={isItemBeingEdited}
-                        className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 
-                        rounded-lg transition-colors cursor-pointer disabled:opacity-30"
-                        title="Editar parámetros"
+                        className="p-2 text-slate-400 hover:text-blue-600 
+                        hover:bg-blue-50 rounded-lg transition-colors cursor-pointer 
+                        disabled:opacity-30"
                       >
                         <Pencil size={13} />
                       </button>
                       <button
                         type="button"
                         onClick={() => handleRemoveFinding(i)}
-                        className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 
-                        rounded-lg transition-colors cursor-pointer"
-                        title="Remover de la lista"
+                        className="p-2 text-slate-400 hover:text-rose-600 
+                        hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
                       >
                         <Trash2 size={14} />
                       </button>
@@ -459,25 +490,23 @@ export const Step2Findings = ({
             onClick={onBack}
             disabled={isSaving || editingIndex !== null}
             className="w-full sm:w-auto order-2 sm:order-1 border border-slate-200 
-            hover:bg-slate-50 text-slate-500 font-bold text-xs uppercase tracking-wider px-4 
-            py-3.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer 
-            disabled:opacity-40"
+            hover:bg-slate-50 text-slate-500 font-bold text-xs uppercase tracking-wider 
+            px-4 py-3.5 rounded-xl transition-all flex items-center justify-center gap-1.5 
+            cursor-pointer disabled:opacity-40"
           >
             <ArrowLeft size={14} /> Atrás
           </button>
 
           <button
             type="button"
-            disabled={
-              data.findings.length === 0 || isSaving || editingIndex !== null
-            }
+            disabled={!isAuditReadyToFinalize}
             onClick={onSubmit}
             className="w-full flex-1 order-1 sm:order-2 bg-linear-to-r from-emerald-600 
             to-teal-600 hover:from-emerald-700 hover:to-teal-700 
             disabled:from-slate-200 disabled:to-slate-200 text-white 
-            disabled:text-slate-400 font-black text-xs uppercase tracking-wider px-6 py-4 
-            rounded-xl shadow-lg shadow-emerald-100 transition-all flex items-center 
-            justify-center gap-2 cursor-pointer"
+            disabled:text-slate-400 font-black text-xs uppercase tracking-wider 
+            px-6 py-4 rounded-xl shadow-lg shadow-emerald-100 transition-all flex 
+            items-center justify-center gap-2 cursor-pointer"
           >
             <Save size={14} />{" "}
             {isSaving ? "Guardando..." : "Finalizar Auditoría"}
