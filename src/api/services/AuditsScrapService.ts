@@ -58,8 +58,10 @@ class AuditsScrapService {
           finding.unreportedReason,
         );
       }
-      if (finding.imageFile) {
-        formData.append(`Findings[${index}].ImageFile`, finding.imageFile);
+      if (finding.imageFiles && finding.imageFiles.length > 0) {
+        finding.imageFiles.forEach((file) => {
+          formData.append(`Findings[${index}].ImageFiles`, file);
+        });
       }
       if (finding.signatureFile) {
         formData.append(

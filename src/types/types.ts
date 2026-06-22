@@ -421,7 +421,7 @@ export interface CreateAuditScrapPayload {
     materialCorrectlyIdentified: number;
     materialCorrectlySegregated: number;
     unreportedReason?: string;
-    imageFile?: File | null;
+    imageFiles?: File[] | null;
     signatureFile?: File | null;
   }[];
 }
