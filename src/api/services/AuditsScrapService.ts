@@ -1,6 +1,7 @@
 import { API_CONFIG } from "../../config/api";
 import type {
   AuditScrapList,
+  AvailableMonth,
   CreateAuditScrapPayload,
   DetailedAuditScrap,
   UpdateAuditScrapPayload,
@@ -10,6 +11,10 @@ import { apiClient } from "../client";
 class AuditsScrapService {
   private getAllEndpoint = API_CONFIG.endpoints.auditsScrap.getAll;
   private getByIdEndpoint = API_CONFIG.endpoints.auditsScrap.getById;
+  private getAvailableMonthsEndpoint =
+    API_CONFIG.endpoints.auditsScrap.availableMonths;
+  private exportToExcelEndpoint =
+    API_CONFIG.endpoints.auditsScrap.exportToExcel;
   private createEndpoint = API_CONFIG.endpoints.auditsScrap.create;
   private updateEndpoint = API_CONFIG.endpoints.auditsScrap.update;
   private deleteEndpoint = API_CONFIG.endpoints.auditsScrap.delete;
@@ -24,6 +29,20 @@ class AuditsScrapService {
       `${this.getByIdEndpoint}${id}`,
     );
     return response;
+  }
+
+  async getAvaliableMonth(): Promise<AvailableMonth[]> {
+    return apiClient.get<AvailableMonth[]>(this.getAvailableMonthsEndpoint);
+  }
+
+  async exportToExcel(year: number, month: number): Promise<void> {
+    const formattedMonth = month.toString().padStart(2, "0");
+
+    const urlWithParams = `${this.exportToExcelEndpoint}?year=${year}&month=${formattedMonth}`;
+
+    const filename = `Reporte_Auditorias_FCD_${year}_${formattedMonth}.xlsx`;
+
+    await apiClient.downloadFile(urlWithParams, filename);
   }
 
   async create(payload: CreateAuditScrapPayload): Promise<any> {
