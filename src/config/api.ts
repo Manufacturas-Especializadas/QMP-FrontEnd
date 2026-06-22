@@ -38,6 +38,7 @@ export const API_CONFIG = {
     auditsScrap: {
       getAll: "/api/AuditScrap/List",
       getById: "/api/AuditScrap/GetById/",
+      availableMonths: "/api/AuditScrap/AvailableMonths",
       create: "/api/AuditScrap/Create",
       update: "/api/AuditScrap/Update/",
       delete: "/api/AuditScrap/Delete/",
