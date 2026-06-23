@@ -448,3 +448,78 @@ export interface UpdateAuditScrapPayload {
     keepSignatureUrl?: string | null;
   }[];
 }
+
+export interface AuditFindingACDRead {
+  id: number;
+  startPointId: number;
+  startPointName: string;
+  endPointId: number;
+  endPointName: string;
+  partNumber: string;
+  numberOfPieces: number;
+  sampleSize: string;
+  packerPayroll: number;
+  containerIdMatch: boolean | null;
+  frontView: number;
+  sideView: number;
+  topView: number;
+  isometricView: number;
+  completeProcess: boolean | null;
+  isProductConforming: boolean;
+}
+
+export interface AuditACDRead {
+  id: number;
+  auditDate: string;
+  userId: number;
+  inspectorName: string;
+  shiftId: number;
+  shiftName: string;
+  rejectionId: number | null;
+  lineNames: string[];
+  lineIds: number[];
+  findings: AuditFindingACDRead[];
+}
+
+export interface CreateAuditACDPayload {
+  shiftId: number;
+  rejectionId: number | null;
+  lineIds: number[];
+  findings: {
+    startPointId: number;
+    endPointId: number;
+    partNumber: string;
+    numberOfPieces: number;
+    sampleSize: string;
+    packerPayroll: number;
+    containerIdMatch: boolean | null;
+    frontView: number;
+    sideView: number;
+    topView: number;
+    isometricView: number;
+    completeProcess: boolean | null;
+    isProductConforming: boolean;
+  }[];
+}
+
+export interface UpdateAuditACDPayload {
+  shiftId: number;
+  rejectionId: number | null;
+  lineIds: number[];
+  findings: {
+    id: number;
+    startPointId: number;
+    endPointId: number;
+    partNumber: string;
+    numberOfPieces: number;
+    sampleSize: string;
+    packerPayroll: number;
+    containerIdMatch: boolean | null;
+    frontView: number;
+    sideView: number;
+    topView: number;
+    isometricView: number;
+    completeProcess: boolean | null;
+    isProductConforming: boolean;
+  }[];
+}
