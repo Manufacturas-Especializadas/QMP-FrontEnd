@@ -1,4 +1,4 @@
-import { FileSpreadsheet, Plus } from "lucide-react";
+import { File, FileSpreadsheet, Plus } from "lucide-react";
 
 interface ScrapHeaderProps {
   totalAudits: number;
@@ -66,7 +66,7 @@ export const ScrapHeader = ({
           shadow-green-200 hover:shadow-xl hover:shadow-green-300 transition-all 
           active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
         >
-          <Plus size={16} strokeWidth={3} /> Nueva Auditoría de Scrap
+          <File size={16} strokeWidth={3} /> Reportes
         </button>
         <button
           onClick={onNewAuditClick}
