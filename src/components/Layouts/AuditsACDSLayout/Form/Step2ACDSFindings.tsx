@@ -234,7 +234,7 @@ export const Step2ACDSFindings = ({
               <option value="0">-- Seleccionar --</option>
               {startPoints?.map((t: any) => (
                 <option key={t.id} value={t.id}>
-                  {t.processName}
+                  {t.name}
                 </option>
               ))}
             </select>
@@ -258,7 +258,7 @@ export const Step2ACDSFindings = ({
               <option value="0">-- Seleccionar --</option>
               {endPoints?.map((t: any) => (
                 <option key={t.id} value={t.id}>
-                  {t.processName}
+                  {t.name}
                 </option>
               ))}
             </select>
