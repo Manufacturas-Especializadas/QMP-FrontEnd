@@ -35,6 +35,13 @@ export const API_CONFIG = {
       getMachinesByLines: "/api/Catalogs/machinesByLines",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
+    auditsACD: {
+      getAll: "/api/AuditACD/List",
+      getById: "/api/AuditACD/GetById/",
+      create: "/api/AuditACD/Create",
+      update: "/api/AuditACD/Update/",
+      delete: "/api/AuditACD/Delete/",
+    },
     auditsScrap: {
       getAll: "/api/AuditScrap/List",
       getById: "/api/AuditScrap/GetById/",
