@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import type { CreateAuditACDPayload } from "../../../../types/types";
+import { useAuditStartPoints } from "../../../../hooks/useAuditStartPoints";
+import { useAuditEndPoints } from "../../../../hooks/useAuditEndPoints";
 
 interface Step2Props {
   data: CreateAuditACDPayload;
@@ -26,8 +28,8 @@ export const Step2ACDSFindings = ({
   onSubmit,
   isSaving,
 }: Step2Props) => {
-  // const { startPoints } = useAuditStartPoints();
-  // const { endPoints } = useAuditEndPoints();
+  const { startPoints } = useAuditStartPoints();
+  const { endPoints } = useAuditEndPoints();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   const [currentFinding, setCurrentFinding] = useState({
@@ -50,7 +52,22 @@ export const Step2ACDSFindings = ({
   const handleSelectEdit = (index: number) => {
     setEditingIndex(index);
     const finding = data.findings[index];
-    setCurrentFinding({ ...finding });
+    setCurrentFinding({
+      id: (finding as any).id ?? 0,
+      startPointId: finding.startPointId,
+      endPointId: finding.endPointId,
+      partNumber: finding.partNumber,
+      numberOfPieces: finding.numberOfPieces,
+      sampleSize: finding.sampleSize,
+      packerPayroll: finding.packerPayroll,
+      containerIdMatch: finding.containerIdMatch,
+      frontView: finding.frontView,
+      sideView: finding.sideView,
+      topView: finding.topView,
+      isometricView: finding.isometricView,
+      completeProcess: finding.completeProcess,
+      isProductConforming: finding.isProductConforming,
+    });
   };
 
   const handleSaveFinding = () => {
