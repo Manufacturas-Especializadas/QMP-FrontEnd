@@ -1,5 +1,6 @@
 import { API_CONFIG } from "../../config/api";
 import type {
+  AuditsPoints,
   CategoryOperators,
   Clients,
   Condition,
@@ -28,6 +29,10 @@ class CatalogsService {
   private getClientsEndpoint = API_CONFIG.endpoints.catalags.getClients;
   private getShiftsEndpoint = API_CONFIG.endpoints.catalags.getShifts;
   private getMaterialEndpoint = API_CONFIG.endpoints.catalags.getMaterial;
+  private getAuditsStartPointsEndpoint =
+    API_CONFIG.endpoints.catalags.getStartPoints;
+  private getAuditsEndPointsEndpoint =
+    API_CONFIG.endpoints.catalags.getEndPonints;
   private getDefectsRejectionsEndpoint =
     API_CONFIG.endpoints.catalags.getDefects;
   private getContainmentActionsEndpoint =
@@ -76,6 +81,14 @@ class CatalogsService {
 
   async getCategorysOperators(): Promise<CategoryOperators[]> {
     return apiClient.get<CategoryOperators[]>(this.getCategoryOperatorEndpoint);
+  }
+
+  async getAuditsStartPoints(): Promise<AuditsPoints[]> {
+    return apiClient.get<AuditsPoints[]>(this.getAuditsStartPointsEndpoint);
+  }
+
+  async getAuditsEndPoints(): Promise<AuditsPoints[]> {
+    return apiClient.get<AuditsPoints[]>(this.getAuditsEndPointsEndpoint);
   }
 
   async getTypeMeasuringEquipment(): Promise<TypeMeasuringEquipment[]> {
