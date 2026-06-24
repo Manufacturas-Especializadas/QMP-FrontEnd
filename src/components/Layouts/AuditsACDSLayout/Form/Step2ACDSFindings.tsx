@@ -40,7 +40,7 @@ export const Step2ACDSFindings = ({
     endPointId: 0,
     partNumber: "",
     numberOfPieces: 0,
-    sampleSize: "100%",
+    sampleSize: "",
     packerPayroll: 0,
     containerIdMatch: true as boolean | null,
     frontView: 1,
