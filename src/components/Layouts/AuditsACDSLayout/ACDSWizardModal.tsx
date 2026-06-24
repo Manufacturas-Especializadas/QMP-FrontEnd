@@ -9,12 +9,14 @@ import type { CreateAuditACDPayload } from "../../../types/types";
 interface ACDSWizardModalProps {
   isOpen: boolean;
   auditId?: number | null;
+  onSuccess: () => void;
   onClose: () => void;
 }
 
 export const ACDSWizardModal = ({
   isOpen,
   auditId,
+  onSuccess,
   onClose,
 }: ACDSWizardModalProps) => {
   const { createAudit, updateAudit, fetchAuditById, isSaving } = useAuditsACD();
@@ -121,7 +123,10 @@ export const ACDSWizardModal = ({
       success = await createAudit(finalPayload);
     }
 
-    if (success) onClose();
+    if (success) {
+      onSuccess();
+      onClose();
+    }
   };
 
   return (
