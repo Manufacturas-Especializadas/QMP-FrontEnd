@@ -35,7 +35,9 @@ const initialFormData: RejectionFormState = {
   signature: null,
 };
 
-export const useRejectionForm = (onSuccess?: () => void) => {
+export const useRejectionForm = (
+  onSuccess?: (rejectionId?: number) => void,
+) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState<RejectionFormState>(initialFormData);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -110,7 +112,6 @@ export const useRejectionForm = (onSuccess?: () => void) => {
 
     try {
       const data = new FormData();
-
       const photoKey = isEditMode ? "NewPhotos" : "Photos";
 
       data.append("Inspector", formData.inspector);
@@ -146,25 +147,37 @@ export const useRejectionForm = (onSuccess?: () => void) => {
         data.append(photoKey, signatureFile);
       }
 
+      let serverResponse: any;
       if (isEditMode && rejectionId) {
-        await rejectionService.updateRejection(rejectionId, data);
+        serverResponse = await rejectionService.updateRejection(
+          rejectionId,
+          data,
+        );
       } else {
-        await rejectionService.createRejection(data);
+        serverResponse = await rejectionService.createRejection(data);
       }
+
+      const realRdmId =
+        serverResponse?.data?.id ??
+        serverResponse?.id ??
+        serverResponse?.data?.rejectionId ??
+        serverResponse?.rejectionId ??
+        rejectionId;
 
       toast.dismiss(loadingToast);
       toast.success(
         isEditMode ? "Actualizado correctamente" : "Registrado exitosamente",
       );
 
-      if (onSuccess) onSuccess();
+      if (onSuccess) onSuccess(realRdmId);
       resetForm();
     } catch (err: any) {
       toast.dismiss(loadingToast);
       toast.error(
         err?.response?.data?.message || "Error al guardar el rechazo",
       );
-    } finally {
+    }
+    {
       setLoading(false);
     }
   };

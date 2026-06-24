@@ -24,6 +24,8 @@ export const API_CONFIG = {
       getContainmentActions: "/api/Catalogs/containmentActions",
       getTypeScrap: "/api/Catalogs/typeScrap",
       getScrap: "/api/Catalogs/Scrap",
+      getStartPoints: "/api/Catalogs/startPoints",
+      getEndPonints: "/api/Catalogs/endPoints",
       getRejections: "/api/Catalogs/Rejections",
       getConditionByDefect: "/api/Catalogs/conditions/",
       getCategoryOperators: "/api/Catalogs/categorys",
@@ -34,6 +36,13 @@ export const API_CONFIG = {
       getMachineCodesByProcess: "/api/Catalogs/machineCodes/",
       getMachinesByLines: "/api/Catalogs/machinesByLines",
       getDefectByTypeScrap: "/api/Catalogs/defects/",
+    },
+    auditsACD: {
+      getAll: "/api/AuditACD/List",
+      getById: "/api/AuditACD/GetById/",
+      create: "/api/AuditACD/Create",
+      update: "/api/AuditACD/Update/",
+      delete: "/api/AuditACD/Delete/",
     },
     auditsScrap: {
       getAll: "/api/AuditScrap/List",

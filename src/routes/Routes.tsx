@@ -17,6 +17,7 @@ import { AuditsFCDS } from "../pages/AuditsFCDS/AuditsFCDS";
 import { AuditsReportFCDS } from "../pages/AuditsFCDS/AuditsReportFCDS";
 import { AuditsScrap } from "../pages/AuditsScrap/AuditsScrap";
 import { AuditsScrapReport } from "../pages/AuditsScrap/AuditsScrapReport";
+import { AuditsACDS } from "../pages/AuditsACDS/AuditsACDS";
 
 export const MyRoutes = () => {
   return (
@@ -31,6 +32,7 @@ export const MyRoutes = () => {
             path="/auditoriasFCDS/reportes"
             element={<AuditsReportFCDS />}
           />
+          <Route path="/auditorias-producto" element={<AuditsACDS />} />
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/auditoria" element={<AuditsScrap />} />
           <Route
