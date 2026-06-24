@@ -20,7 +20,6 @@ export const FindingFormInputs = ({
           </label>
           <input
             type="text"
-            placeholder="Ej: P-2540-X"
             value={currentFinding.partNumber}
             onChange={(e) =>
               setCurrentFinding((p: any) => ({
@@ -28,7 +27,8 @@ export const FindingFormInputs = ({
                 partNumber: e.target.value,
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold outline-none focus:border-blue-500 shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
+            font-bold outline-none focus:border-blue-500 shadow-sm"
           />
         </div>
         <div className="space-y-1">
@@ -37,7 +37,6 @@ export const FindingFormInputs = ({
           </label>
           <input
             type="number"
-            placeholder="Ej: 8520"
             value={currentFinding.packerPayroll || ""}
             onChange={(e) =>
               setCurrentFinding((p: any) => ({
@@ -45,7 +44,8 @@ export const FindingFormInputs = ({
                 packerPayroll: Number(e.target.value),
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold outline-none focus:border-blue-500 shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
+            font-bold outline-none focus:border-blue-500 shadow-sm"
           />
         </div>
       </div>
@@ -57,7 +57,6 @@ export const FindingFormInputs = ({
           </label>
           <input
             type="text"
-            placeholder="Ej: 100%, AQL 1.0"
             value={currentFinding.sampleSize}
             onChange={(e) =>
               setCurrentFinding((p: any) => ({
@@ -65,7 +64,8 @@ export const FindingFormInputs = ({
                 sampleSize: e.target.value,
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold outline-none focus:border-blue-500 shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
+            font-bold outline-none focus:border-blue-500 shadow-sm"
           />
         </div>
         <div className="space-y-1">
@@ -74,7 +74,6 @@ export const FindingFormInputs = ({
           </label>
           <input
             type="number"
-            placeholder="0"
             value={currentFinding.numberOfPieces || ""}
             onChange={(e) =>
               setCurrentFinding((p: any) => ({
@@ -82,7 +81,8 @@ export const FindingFormInputs = ({
                 numberOfPieces: Number(e.target.value),
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold outline-none focus:border-blue-500 shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs
+            font-bold outline-none focus:border-blue-500 shadow-sm"
           />
         </div>
       </div>
@@ -100,7 +100,8 @@ export const FindingFormInputs = ({
                 startPointId: Number(e.target.value),
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-700 outline-none focus:border-blue-500 cursor-pointer shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
+            font-bold text-slate-700 outline-none focus:border-blue-500 cursor-pointer shadow-sm"
           >
             <option value="0">-- Seleccionar --</option>
             {startPoints?.map((t) => (
@@ -122,7 +123,8 @@ export const FindingFormInputs = ({
                 endPointId: Number(e.target.value),
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs font-bold text-slate-700 outline-none focus:border-blue-500 cursor-pointer shadow-sm"
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
+            font-bold text-slate-700 outline-none focus:border-blue-500 cursor-pointer shadow-sm"
           >
             <option value="0">-- Seleccionar --</option>
             {endPoints?.map((t) => (
