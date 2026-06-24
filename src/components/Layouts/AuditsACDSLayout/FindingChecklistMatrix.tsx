@@ -10,8 +10,14 @@ export const FindingChecklistMatrix = ({
   return (
     <>
       {[
-        { l: "ID Contenedor versus ID Pieza coinciden", k: "containerIdMatch" },
-        { l: "Flujo de Operación / Proceso Completo", k: "completeProcess" },
+        {
+          l: "Coinciden el ID del contenedor vs ID de la pieza",
+          k: "containerIdMatch",
+        },
+        {
+          l: "Procesos completos(Pieza fisica vs dibujo)",
+          k: "completeProcess",
+        },
       ].map((t) => (
         <div
           key={t.k}
