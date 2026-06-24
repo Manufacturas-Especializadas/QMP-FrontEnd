@@ -166,18 +166,12 @@ export const ACDSDetailsModal = ({
                   </span>
                   <p className="text-xs font-black uppercase">
                     {auditData.rejectionId ? (
-                      <span
-                        className="text-rose-600 font-black bg-rose-50 px-2 py-0.5 
-                        rounded border border-rose-100"
-                      >
-                        RDM Folio #{auditData.rejectionId}
+                      <span className="text-rose-600 font-black bg-rose-50 px-2 py-0.5 rounded border border-rose-100">
+                        RDM FOLIO #{auditData.rejectionFolio}
                       </span>
                     ) : (
-                      <span
-                        className="text-emerald-600 font-black bg-emerald-50 px-2 
-                        py-0.5 rounded border border-emerald-100"
-                      >
-                        Producto Conforme ✓
+                      <span className="text-emerald-600 font-black bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100">
+                        PRODUCTO CONFORME ✓
                       </span>
                     )}
                   </p>

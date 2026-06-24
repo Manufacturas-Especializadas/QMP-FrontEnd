@@ -481,6 +481,7 @@ export interface AuditACDRead {
   shiftId: number;
   shiftName: string;
   rejectionId: number | null;
+  rejectionFolio: number | null;
   lineNames: string[];
   lineIds: number[];
   findings: AuditFindingACDRead[];
