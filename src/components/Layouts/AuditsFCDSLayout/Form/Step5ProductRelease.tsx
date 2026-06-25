@@ -201,6 +201,21 @@ const PROCESS_CONFIGS: Record<
       { checkpointName: "Defectos de soldadura", resultValue: 0 },
     ],
   },
+  11: {
+    dimensionalSpecs: [
+      {
+        specName: "Distancia C",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Distancia D (Extremo de tubería a inicio de dimple)",
+        expectedValue: "",
+        realValue: "",
+      },
+    ],
+    visualChecklists: [],
+  },
 };
 
 export const Step5ProductRelease = ({
