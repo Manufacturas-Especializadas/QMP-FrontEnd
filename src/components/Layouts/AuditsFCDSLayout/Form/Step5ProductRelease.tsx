@@ -75,24 +75,23 @@ export const Step5ProductRelease = ({
       });
     } else if (data.fcdsProcessId === 3) {
       updateFields({
+        /* 1. Campos numéricos Esp / Real */
         dimensionalSpecs: [
           {
-            specName: "Diámetro de perforación",
+            specName: "Cantidad de lados rectos",
             expectedValue: "",
             realValue: "",
           },
+          { specName: "Longitud 1° extremo", expectedValue: "", realValue: "" },
           {
-            specName: "Cantidad de perforaciones",
-            expectedValue: "",
-            realValue: "",
-          },
-          {
-            specName: "Distancia de perforación 1",
+            specName: "Longitud último extremo",
             expectedValue: "",
             realValue: "",
           },
         ],
-        visualChecklists: [],
+        visualChecklists: [
+          { checkpointName: "Configuración de pieza correcta", resultValue: 0 },
+        ],
       });
     } else if (data.fcdsProcessId === 8) {
       updateFields({
