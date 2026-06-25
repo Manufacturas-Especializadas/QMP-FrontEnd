@@ -20,7 +20,6 @@ export const VisualChecklistRow = ({
       {[
         { v: 1, l: "Sí" },
         { v: 2, l: "No" },
-        { v: 3, l: "N/A" },
       ].map((opt) => (
         <button
           key={opt.v}
