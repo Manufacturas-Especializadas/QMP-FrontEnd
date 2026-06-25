@@ -73,6 +73,38 @@ export const Step5ProductRelease = ({
         ],
         visualChecklists: [],
       });
+    } else if (data.fcdsProcessId === 3) {
+      updateFields({
+        dimensionalSpecs: [
+          {
+            specName: "Diámetro de perforación",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Cantidad de perforacióin Incial",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Distancia a perforación Final",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Distancia a perforación Final",
+            expectedValue: "",
+            realValue: "",
+          },
+        ],
+        visualChecklists: [
+          {
+            checkpointName:
+              "¿Cumple con las referencias de las distancias entre perforaciones?",
+            resultValue: 0,
+          },
+        ],
+      });
     } else if (data.fcdsProcessId === 4) {
       updateFields({
         dimensionalSpecs: [
