@@ -121,8 +121,25 @@ export const Step5ProductRelease = ({
     });
   };
 
-  const isDimensional = data.fcdsProcessId !== 8;
-  const isFormFilled = (data.partNumber ?? "").trim() !== "";
+  const isDimensional = ![7, 8].includes(data.fcdsProcessId ?? 0);
+
+  const areSpecsFilled =
+    data.fcdsProcessId === 2
+      ? data.dimensionalSpecs
+          ?.slice(0, 4)
+          .every(
+            (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
+          )
+      : data.dimensionalSpecs?.every(
+          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
+        );
+
+  const areVisualsFilled = data.visualChecklists?.every(
+    (v) => v.resultValue !== 0,
+  );
+  const isFormFilled =
+    (data.partNumber ?? "").trim() !== "" &&
+    (isDimensional ? areSpecsFilled : areVisualsFilled);
 
   return (
     <div className="space-y-5 animate-in fade-in duration-200">
