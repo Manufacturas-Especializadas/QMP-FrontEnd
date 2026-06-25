@@ -40,11 +40,27 @@ export const Step5ProductRelease = ({
     } else if (data.fcdsProcessId === 2) {
       updateFields({
         dimensionalSpecs: [
-          { specName: "DI/DO", expectedValue: "", realValue: "" },
-          { specName: "Profundidad", expectedValue: "", realValue: "" },
-          { specName: "Altura de flare", expectedValue: "", realValue: "" },
+          { specName: "P1 - ID/OD", expectedValue: "", realValue: "" },
+          { specName: "P1 - Profundidad", expectedValue: "", realValue: "" },
           {
-            specName: "Ancho de beading o chaflán",
+            specName: "P1 - Altura de flare",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "P1 - Ancho de beading o chaflán",
+            expectedValue: "",
+            realValue: "",
+          },
+          { specName: "P2 - ID/OD", expectedValue: "", realValue: "" },
+          { specName: "P2 - Profundidad", expectedValue: "", realValue: "" },
+          {
+            specName: "P2 - Altura de flare",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "P2 - Ancho de beading o chaflán",
             expectedValue: "",
             realValue: "",
           },
