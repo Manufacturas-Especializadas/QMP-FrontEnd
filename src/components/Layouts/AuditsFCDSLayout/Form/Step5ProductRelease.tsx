@@ -142,6 +142,41 @@ const PROCESS_CONFIGS: Record<
       },
     ],
   },
+  6: {
+    dimensionalSpecs: [
+      {
+        specName: "Longitud de Identación 1",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Profundidad 1",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Distancia de perforación a Identación",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Longitud de Identación 2",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Profundidad 2",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Distancia de perforación a Identación 2",
+        expectedValue: "",
+        realValue: "",
+      },
+    ],
+    visualChecklists: [],
+  },
   8: {
     dimensionalSpecs: [],
     visualChecklists: [
