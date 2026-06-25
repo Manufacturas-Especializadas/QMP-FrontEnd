@@ -124,6 +124,68 @@ export const Step5ProductRelease = ({
           { checkpointName: "Configuración de pieza correcta", resultValue: 0 },
         ],
       });
+    } else if (data.fcdsProcessId === 5) {
+      updateFields({
+        dimensionalSpecs: [
+          {
+            specName: "Ex1 - Cantidad de perforaciones",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex1 - Diámetro de perforación",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex1 - Altura de extruido",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex1 - Pared de extruido",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex1 - Distancia de perforación",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex2 - Cantidad de perforaciones",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex2 - Diámetro de perforación",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex2 - Altura de extruido",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex2 - Pared de extruido",
+            expectedValue: "",
+            realValue: "",
+          },
+          {
+            specName: "Ex2 - Distancia de perforación",
+            expectedValue: "",
+            realValue: "",
+          },
+        ],
+        visualChecklists: [
+          {
+            checkpointName:
+              "¿Cumple con las referencias de las distancias entre perforaciones?",
+            resultValue: 0,
+          },
+        ],
+      });
     } else if (data.fcdsProcessId === 8) {
       updateFields({
         dimensionalSpecs: [],
