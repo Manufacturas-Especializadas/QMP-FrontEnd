@@ -29,7 +29,6 @@ const PROCESS_BUTTONS = [
   { id: 6, name: "Indentación" },
   { id: 7, name: "Sello" },
   { id: 8, name: "Soldadura" },
-  { id: 9, name: "Perforación" },
   { id: 10, name: "Integradora" },
   { id: 11, name: "Dimple" },
   { id: 12, name: "Crimpado" },
