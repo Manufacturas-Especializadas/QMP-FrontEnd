@@ -177,6 +177,21 @@ const PROCESS_CONFIGS: Record<
     ],
     visualChecklists: [],
   },
+  7: {
+    dimensionalSpecs: [
+      {
+        specName: "Desarrollo previo al proceso",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Desarrollo con proceso",
+        expectedValue: "",
+        realValue: "",
+      },
+    ],
+    visualChecklists: [],
+  },
   8: {
     dimensionalSpecs: [],
     visualChecklists: [
