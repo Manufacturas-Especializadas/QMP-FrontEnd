@@ -73,9 +73,8 @@ export const Step5ProductRelease = ({
         ],
         visualChecklists: [],
       });
-    } else if (data.fcdsProcessId === 3) {
+    } else if (data.fcdsProcessId === 4) {
       updateFields({
-        /* 1. Campos numéricos Esp / Real */
         dimensionalSpecs: [
           {
             specName: "Cantidad de lados rectos",
@@ -139,6 +138,9 @@ export const Step5ProductRelease = ({
           (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
         );
 
+  const hasSpecs = (data.dimensionalSpecs ?? []).length > 0;
+  const hasVisuals = (data.visualChecklists ?? []).length > 0;
+
   const areVisualsFilled = data.visualChecklists?.every(
     (v) => v.resultValue !== 0,
   );
@@ -187,108 +189,116 @@ export const Step5ProductRelease = ({
       </div>
 
       <div className="max-h-104 overflow-y-auto pr-1 space-y-4 custom-scrollbar">
-        {isDimensional ? (
-          data.fcdsProcessId === 2 ? (
-            <div className="space-y-5">
-              <div
-                className="p-4 bg-white border-2 border-blue-50 rounded-3xl 
-                space-y-3 shadow-xs"
-              >
-                <div
-                  className="flex justify-between items-center border-b 
-                  border-slate-100 pb-2"
-                >
-                  <h4
-                    className="text-[11px] font-black text-blue-700 uppercase 
-                    tracking-wider flex items-center gap-1"
-                  >
-                    <CheckCircle2 size={13} /> Proceso 1
-                  </h4>
-                  <span
-                    className="text-[9px] font-black uppercase bg-blue-600 
-                    text-white px-2 py-0.5 rounded-md tracking-widest"
-                  >
-                    Obligatorio
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  {data.dimensionalSpecs
-                    ?.slice(0, 4)
-                    .map((spec, idx) => renderSpecRow(spec, idx))}
-                </div>
-              </div>
-
-              <div
-                className="p-4 bg-slate-50/70 border border-slate-200/60 rounded-3xl 
-                space-y-3"
-              >
-                <div
-                  className="flex justify-between items-center border-b 
-                  border-slate-200/40 pb-2"
-                >
-                  <h4
-                    className="text-[11px] font-black text-slate-500 uppercase 
-                    tracking-wider flex items-center gap-1"
-                  >
-                    <HelpCircle size={13} /> Proceso 2
-                  </h4>
-                  <span
-                    className="text-[9px] font-black uppercase bg-slate-200 
-                    text-slate-500 px-2 py-0.5 rounded-md tracking-widest"
-                  >
-                    Opcional
-                  </span>
-                </div>
-                <div className="space-y-2">
-                  {data.dimensionalSpecs
-                    ?.slice(4, 8)
-                    .map((spec, idx) => renderSpecRow(spec, idx + 4))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {data.dimensionalSpecs?.map((spec, idx) =>
-                renderSpecRow(spec, idx),
-              )}
-            </div>
-          )
-        ) : (
-          data.visualChecklists?.map((check, idx) => (
+        {data.fcdsProcessId === 2 ? (
+          <div className="space-y-5">
             <div
-              key={check.checkpointName}
-              className="flex items-center justify-between p-3 bg-slate-50 rounded-xl 
-              border border-slate-100"
+              className="p-4 bg-white border-2 border-blue-50 rounded-3xl space-y-3 
+              shadow-xs"
             >
-              <span className="text-xs font-black text-slate-700 uppercase tracking-tight">
-                {check.checkpointName}
-              </span>
               <div
-                className="flex gap-1 bg-white p-1 rounded-lg border border-slate-200 
-                shrink-0"
+                className="flex justify-between items-center border-b border-slate-100 
+                pb-2"
               >
-                {[
-                  { v: 1, l: "Sí" },
-                  { v: 2, l: "No" },
-                  { v: 3, l: "N/A" },
-                ].map((opt) => (
-                  <button
-                    key={opt.v}
-                    type="button"
-                    onClick={() => handleChecklistChange(idx, opt.v)}
-                    className={`px-2.5 py-1 rounded text-[9px] uppercase font-black 
-                        transition-all cursor-pointer ${
-                          check.resultValue === opt.v
-                            ? "bg-blue-600 text-white"
-                            : "text-slate-400 hover:text-slate-600"
-                        }`}
+                <h4
+                  className="text-[11px] font-black text-blue-700 uppercase 
+                  tracking-wider flex items-center gap-1"
+                >
+                  <CheckCircle2 size={13} /> Proceso 1
+                </h4>
+                <span
+                  className="text-[9px] font-black uppercase bg-blue-600 
+                  text-white px-2 py-0.5 rounded-md tracking-widest"
+                >
+                  Obligatorio
+                </span>
+              </div>
+              <div className="space-y-2">
+                {data.dimensionalSpecs
+                  ?.slice(0, 4)
+                  .map((spec, idx) => renderSpecRow(spec, idx))}
+              </div>
+            </div>
+
+            <div
+              className="p-4 bg-slate-50/70 border border-slate-200/60 rounded-3xl 
+              space-y-3"
+            >
+              <div
+                className="flex justify-between items-center border-b 
+                border-slate-200/40 pb-2"
+              >
+                <h4
+                  className="text-[11px] font-black text-slate-500 uppercase 
+                  tracking-wider flex items-center gap-1"
+                >
+                  <HelpCircle size={13} /> Proceso 2
+                </h4>
+                <span
+                  className="text-[9px] font-black uppercase bg-slate-200 
+                  text-slate-500 px-2 py-0.5 rounded-md tracking-widest"
+                >
+                  Opcional
+                </span>
+              </div>
+              <div className="space-y-2">
+                {data.dimensionalSpecs
+                  ?.slice(4, 8)
+                  .map((spec, idx) => renderSpecRow(spec, idx + 4))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {hasSpecs && (
+              <div className="space-y-2">
+                {data.dimensionalSpecs?.map((spec, idx) =>
+                  renderSpecRow(spec, idx),
+                )}
+              </div>
+            )}
+
+            {hasVisuals && (
+              <div className="space-y-2 border-t border-slate-100 pt-3">
+                {data.visualChecklists?.map((check, idx) => (
+                  <div
+                    key={check.checkpointName}
+                    className="flex items-center justify-between p-3 bg-slate-50 rounded-xl 
+                    border border-slate-100"
                   >
-                    {opt.l}
-                  </button>
+                    <span
+                      className="text-xs font-black text-slate-700 uppercase 
+                      tracking-tight"
+                    >
+                      {check.checkpointName}
+                    </span>
+                    <div
+                      className="flex gap-1 bg-white p-1 rounded-lg border 
+                      border-slate-200 shrink-0"
+                    >
+                      {[
+                        { v: 1, l: "Sí" },
+                        { v: 2, l: "No" },
+                      ].map((opt) => (
+                        <button
+                          key={opt.v}
+                          type="button"
+                          onClick={() => handleChecklistChange(idx, opt.v)}
+                          className={`px-2.5 py-1 rounded text-[9px] uppercase font-black 
+                            transition-all cursor-pointer ${
+                              check.resultValue === opt.v
+                                ? "bg-blue-600 text-white"
+                                : "text-slate-400 hover:text-slate-600"
+                            }`}
+                        >
+                          {opt.l}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
-          ))
+            )}
+          </div>
         )}
       </div>
 
@@ -331,8 +341,8 @@ export const Step5ProductRelease = ({
           onClick={onBack}
           disabled={saving}
           className="w-full sm:w-auto order-3 sm:order-1 border border-slate-200 
-          hover:bg-slate-50 text-slate-500 font-bold text-xs uppercase tracking-wider 
-          px-5 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 
+          hover:bg-slate-50 text-slate-500 font-bold text-xs uppercase tracking-wider px-5 
+          py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 
           cursor-pointer"
         >
           <ArrowLeft size={14} /> Atrás
