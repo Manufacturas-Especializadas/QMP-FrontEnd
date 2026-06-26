@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Save, AlertTriangle } from "lucide-react";
 import type { CreateAuditFcds } from "../../../../types/types";
 import { ProcessSpecsContainer } from "./Step5Layout/ProcessSpecsContainer";
@@ -23,6 +23,10 @@ export const Step5ProductRelease = ({
   onBack,
   saving,
 }: Step5Props) => {
+  const [selectedSubProcessId, setSelectedSubProcessId] = useState<
+    number | null
+  >(null);
+
   useEffect(() => {
     const hasExistingData = data.dimensionalSpecs?.some(
       (s) => s.expectedValue !== "" || s.realValue !== "",
