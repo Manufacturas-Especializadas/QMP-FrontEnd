@@ -120,6 +120,103 @@ export const ProcessSpecsContainer = ({
     );
   }
 
+  if (processId === 10) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          {visuals.slice(0, 3).map((check, idx) => (
+            <VisualChecklistRow
+              key={idx}
+              check={check}
+              idx={idx}
+              onChecklistChange={onChecklistChange}
+            />
+          ))}
+        </div>
+
+        <div className="space-y-3 pt-4 border-t border-slate-100">
+          <label
+            className="text-[10px] font-black uppercase text-slate-400 block 
+            tracking-wider"
+          >
+            Seleccionar Proceso a Integrar
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {INTEGRATION_BUTTONS.map((proc) => (
+              <button
+                key={proc.id}
+                type="button"
+                onClick={() => onSubProcessChange(proc.id)}
+                className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase 
+                      tracking-wider border transition-all cursor-pointer ${
+                        selectedSubProcessId === proc.id
+                          ? "bg-slate-900 text-white border-slate-900 shadow-md shadow-slate-200"
+                          : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                      }`}
+              >
+                {proc.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="pt-2">
+          {selectedSubProcessId === 2 && (
+            <SegmentedProcessBlock
+              title1="Proceso 1"
+              title2="Proceso 2"
+              specs={specs}
+              sliceIndex={4}
+              onSpecChange={onSpecChange}
+            />
+          )}
+
+          {selectedSubProcessId === 7 && (
+            <div className="space-y-2">
+              {specs.map((spec, idx) => (
+                <DimensionalSpecRow
+                  key={idx}
+                  spec={spec}
+                  idx={idx}
+                  onSpecChange={onSpecChange}
+                />
+              ))}
+            </div>
+          )}
+
+          {[3, 4].includes(selectedSubProcessId ?? 0) && (
+            <div className="space-y-4">
+              {specs.length > 0 && (
+                <div className="space-y-2">
+                  {specs.map((spec, idx) => (
+                    <DimensionalSpecRow
+                      key={idx}
+                      spec={spec}
+                      idx={idx}
+                      onSpecChange={onSpecChange}
+                    />
+                  ))}
+                </div>
+              )}
+              {visuals.length > 3 && (
+                <div className="space-y-2 border-t border-slate-100 pt-3">
+                  {visuals.slice(3).map((check, idx) => (
+                    <VisualChecklistRow
+                      key={idx + 3}
+                      check={check}
+                      idx={idx + 3}
+                      onChecklistChange={onChecklistChange}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {specs.length > 0 && (
