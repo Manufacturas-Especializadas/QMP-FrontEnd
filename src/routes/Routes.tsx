@@ -18,6 +18,7 @@ import { AuditsReportFCDS } from "../pages/AuditsFCDS/AuditsReportFCDS";
 import { AuditsScrap } from "../pages/AuditsScrap/AuditsScrap";
 import { AuditsScrapReport } from "../pages/AuditsScrap/AuditsScrapReport";
 import { AuditsACDS } from "../pages/AuditsACDS/AuditsACDS";
+import { ProcesesConfig } from "../pages/Configuration/Processes/ProcesesConfig";
 
 export const MyRoutes = () => {
   return (
@@ -48,6 +49,7 @@ export const MyRoutes = () => {
             <Route path="/usuarios" element={<UserIndex />} />
             <Route path="/config" element={<Configuration />} />
             <Route path="/config/lineas" element={<LinesConfig />} />
+            <Route path="/config/procesos" element={<ProcesesConfig />} />
             <Route path="/config/clientes" element={<ClientConfig />} />
             <Route path="/config/scrap" element={<ScrapConfig />} />
           </Route>
