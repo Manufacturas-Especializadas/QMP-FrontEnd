@@ -5,6 +5,7 @@ import {
   FileCheck,
   ArrowRight,
   Trash,
+  Cpu,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +15,12 @@ const configOptions = [
     description: "Configura las líneas de producción y estaciones de trabajo.",
     icon: <Settings2 className="w-8 h-8 text-blue-600" />,
     path: "/config/lineas",
+  },
+  {
+    title: "Administrar Procesos",
+    description: "Configura los procesos ligados a la linea de producción.",
+    icon: <Cpu className="w-8 h-8 text-blue-600" />,
+    path: "/config/procesos",
   },
   {
     title: "Clientes",
