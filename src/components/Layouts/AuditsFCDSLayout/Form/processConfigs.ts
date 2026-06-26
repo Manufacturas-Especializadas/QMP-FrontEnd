@@ -199,4 +199,34 @@ export const PROCESS_CONFIGS: Record<
     ],
     visualChecklists: [],
   },
+  12: {
+    dimensionalSpecs: [
+      {
+        specName: "Distancia D1",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Distancia D2",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Distancia D3",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Diámetro 1",
+        expectedValue: "",
+        realValue: "",
+      },
+      {
+        specName: "Diámetro 2",
+        expectedValue: "",
+        realValue: "",
+      },
+    ],
+    visualChecklists: [],
+  },
 };
