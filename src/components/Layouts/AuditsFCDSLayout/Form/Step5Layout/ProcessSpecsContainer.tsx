@@ -1,6 +1,7 @@
 import { DimensionalSpecRow } from "./DimensionalSpecRow";
 import { VisualChecklistRow } from "./VisualChecklistRow";
 import { SegmentedProcessBlock } from "./SegmentedProcessBlock";
+
 interface SpecsContainerProps {
   processId: number;
   specs: any[];
@@ -68,6 +69,42 @@ export const ProcessSpecsContainer = ({
             ))}
           </div>
         )}
+      </div>
+    );
+  }
+
+  if (processId === 8) {
+    return (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          {visuals.slice(0, 5).map((check, idx) => (
+            <VisualChecklistRow
+              key={idx}
+              check={check}
+              idx={idx}
+              onChecklistChange={onChecklistChange}
+            />
+          ))}
+        </div>
+
+        <div className="p-4 bg-slate-50 border border-slate-200/60 rounded-3xl space-y-3">
+          <div className="border-b border-slate-200/40 pb-2">
+            <h4 className="text-[11px] font-black text-slate-500 uppercase tracking-wider">
+              La configuración de la pieza es correcta
+            </h4>
+          </div>
+          <div className="space-y-2">
+            {visuals.slice(5).map((check, idx) => (
+              <VisualChecklistRow
+                key={idx + 5}
+                check={check}
+                idx={idx + 5}
+                onChecklistChange={onChecklistChange}
+                showNA={true}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
