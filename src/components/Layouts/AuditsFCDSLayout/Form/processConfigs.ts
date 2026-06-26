@@ -198,6 +198,17 @@ export const PROCESS_CONFIGS: Record<
       { checkpointName: "Vista isométrica correcta", resultValue: 0 },
     ],
   },
+  10: {
+    dimensionalSpecs: [],
+    visualChecklists: [
+      {
+        checkpointName: "Coincide el ID del contenedor vs ID de la pieza",
+        resultValue: 0,
+      },
+      { checkpointName: "Procesos completos", resultValue: 0 },
+      { checkpointName: "Configuración correcta", resultValue: 0 },
+    ],
+  },
   11: {
     dimensionalSpecs: [
       {
