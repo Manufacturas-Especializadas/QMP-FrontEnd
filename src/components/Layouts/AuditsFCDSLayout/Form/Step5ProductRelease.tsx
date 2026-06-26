@@ -80,6 +80,11 @@ export const Step5ProductRelease = ({
     });
   };
 
+  const isExpansionActive =
+    data.fcdsProcessId === 2 || selectedSubProcessId === 2;
+  const isExtrusionActive =
+    data.fcdsProcessId === 5 || selectedSubProcessId === 5;
+
   const areSpecsFilled =
     data.fcdsProcessId === 2
       ? data.dimensionalSpecs
