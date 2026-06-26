@@ -106,6 +106,9 @@ export const Step5ProductRelease = ({
     (v) => v.resultValue !== 0,
   );
 
+  const isSubProcessValid =
+    data.fcdsProcessId === 10 ? selectedSubProcessId !== null : true;
+
   const isFormFilled =
     (data.partNumber ?? "").trim() !== "" &&
     (!(data.dimensionalSpecs ?? []).length || areSpecsFilled) &&
