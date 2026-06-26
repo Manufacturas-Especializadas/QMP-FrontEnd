@@ -25,7 +25,13 @@ const PROCESS_BUTTONS = [
   { id: 2, name: "Expansión / Reducción" },
   { id: 3, name: "Perforación" },
   { id: 4, name: "Doblez" },
+  { id: 5, name: "Perforación con Extrusion" },
+  { id: 6, name: "Indentación" },
+  { id: 7, name: "Sello" },
   { id: 8, name: "Soldadura" },
+  { id: 10, name: "Integradora" },
+  { id: 11, name: "Dimple" },
+  { id: 12, name: "Crimpado" },
 ];
 
 export const Step4PhysicalCondition = ({
