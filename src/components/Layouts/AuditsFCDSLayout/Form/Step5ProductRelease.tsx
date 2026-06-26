@@ -42,6 +42,24 @@ export const Step5ProductRelease = ({
     }
   }, [data.fcdsProcessId]);
 
+  const handleSubProcessChange = (subId: number) => {
+    const coreIntegradoraVisuals = PROCESS_CONFIGS[10].visualChecklists;
+    const subConfig = PROCESS_CONFIGS[subId];
+
+    updateFields({
+      dimensionalSpecs: subConfig?.dimensionalSpecs
+        ? JSON.parse(JSON.stringify(subConfig.dimensionalSpecs))
+        : [],
+      visualChecklists: [
+        ...JSON.parse(JSON.stringify(coreIntegradoraVisuals)),
+        ...(subConfig?.visualChecklists
+          ? JSON.parse(JSON.stringify(subConfig.visualChecklists))
+          : []),
+      ],
+    });
+    setSelectedSubProcessId(subId);
+  };
+
   const handleSpecChange = (
     index: number,
     key: "expectedValue" | "realValue",
