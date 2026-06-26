@@ -16,6 +16,13 @@ interface SpecsContainerProps {
   onSubProcessChange: (subId: number) => void;
 }
 
+const INTEGRATION_BUTTONS = [
+  { id: 2, name: "Expansión / Reducción" },
+  { id: 3, name: "Perforación" },
+  { id: 4, name: "Doblez" },
+  { id: 7, name: "Sello" },
+];
+
 export const ProcessSpecsContainer = ({
   processId,
   specs,
