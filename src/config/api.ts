@@ -90,5 +90,11 @@ export const API_CONFIG = {
       update: "/api/Clients/UpdateClient/",
       delete: "/api/Clients/DeleteClient/",
     },
+    machinesCodes: {
+      getAll: "/api/MachineCodes/GetList",
+      create: "/api/MachineCodes/Create",
+      update: "/api/MachineCodes/Update/",
+      delete: "/api/MachineCodes/Delete/",
+    },
   },
 };
