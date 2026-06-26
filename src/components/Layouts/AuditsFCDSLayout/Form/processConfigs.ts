@@ -178,10 +178,24 @@ export const PROCESS_CONFIGS: Record<
   8: {
     dimensionalSpecs: [],
     visualChecklists: [
+      {
+        checkpointName: "Conicide el ID del contenedor vs ID de la pieza",
+        resultValue: 0,
+      },
+      {
+        checkpointName: "Procesos completos (Pieza física vs dibujo)",
+        resultValue: 0,
+      },
+      {
+        checkpointName: "Configuración de la pieza OK (Pieza física vs dibujo)",
+        resultValue: 0,
+      },
+      { checkpointName: "Se detectan defectos de Soldadura", resultValue: 0 },
+      { checkpointName: "% de soldadura correcto", resultValue: 0 },
       { checkpointName: "Vista frontal correcta", resultValue: 0 },
       { checkpointName: "Vista lateral correcta", resultValue: 0 },
       { checkpointName: "Vista superior correcta", resultValue: 0 },
-      { checkpointName: "Defectos de soldadura", resultValue: 0 },
+      { checkpointName: "Vista isométrica correcta", resultValue: 0 },
     ],
   },
   11: {
