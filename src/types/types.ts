@@ -171,6 +171,25 @@ export interface ProcessUpdate {
   processName: string;
 }
 
+export interface MachineCode {
+  id: number;
+  machineCodeName: string;
+  processId: number;
+  processName: string;
+  lineId: number;
+  lineName: string;
+}
+
+export interface MachineCodeCreate {
+  processId: number;
+  machineCodeName: string;
+}
+
+export interface MachineCodeUpdate {
+  processId: number;
+  machineCodeName: string;
+}
+
 export interface ScrapRead {
   id: number;
   payRollNumber: number;
