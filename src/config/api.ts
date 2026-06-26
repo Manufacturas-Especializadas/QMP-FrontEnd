@@ -90,6 +90,13 @@ export const API_CONFIG = {
       update: "/api/Clients/UpdateClient/",
       delete: "/api/Clients/DeleteClient/",
     },
+    processes: {
+      getAll: "/api/Processes/GetList",
+      getById: "/api/Processes/GetById/",
+      create: "/api/Processes/Create",
+      update: "/api/Processes/Update/",
+      delete: "/api/Processes/Delete/",
+    },
     machinesCodes: {
       getAll: "/api/MachineCodes/GetList",
       create: "/api/MachineCodes/Create",
