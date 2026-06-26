@@ -12,6 +12,8 @@ interface SpecsContainerProps {
     value: string,
   ) => void;
   onChecklistChange: (index: number, value: number) => void;
+  selectedSubProcessId: number | null;
+  onSubProcessChange: (subId: number) => void;
 }
 
 export const ProcessSpecsContainer = ({
@@ -20,6 +22,8 @@ export const ProcessSpecsContainer = ({
   visuals,
   onSpecChange,
   onChecklistChange,
+  selectedSubProcessId,
+  onSubProcessChange,
 }: SpecsContainerProps) => {
   if (processId === 2) {
     return (
