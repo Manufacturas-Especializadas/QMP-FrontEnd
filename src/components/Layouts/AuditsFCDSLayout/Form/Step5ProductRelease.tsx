@@ -85,22 +85,21 @@ export const Step5ProductRelease = ({
   const isExtrusionActive =
     data.fcdsProcessId === 5 || selectedSubProcessId === 5;
 
-  const areSpecsFilled =
-    data.fcdsProcessId === 2
+  const areSpecsFilled = isExpansionActive
+    ? data.dimensionalSpecs
+        ?.slice(0, 4)
+        .every(
+          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
+        )
+    : isExtrusionActive
       ? data.dimensionalSpecs
-          ?.slice(0, 4)
+          ?.slice(0, 5)
           .every(
             (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
           )
-      : data.fcdsProcessId === 5
-        ? data.dimensionalSpecs
-            ?.slice(0, 5)
-            .every(
-              (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-            )
-        : data.dimensionalSpecs?.every(
-            (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-          );
+      : data.dimensionalSpecs?.every(
+          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
+        );
 
   const areVisualsFilled = data.visualChecklists?.every(
     (v) => v.resultValue !== 0,
