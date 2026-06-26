@@ -154,6 +154,23 @@ export interface UserLogin {
   password: string;
 }
 
+export interface ProcessData {
+  id: number;
+  processName: string;
+  lineId: number;
+  lineName: string;
+}
+
+export interface ProcessCreate {
+  lineId: number;
+  processName: string;
+}
+
+export interface ProcessUpdate {
+  lineId: number;
+  processName: string;
+}
+
 export interface ScrapRead {
   id: number;
   payRollNumber: number;
