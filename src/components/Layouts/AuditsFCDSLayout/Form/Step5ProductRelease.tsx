@@ -110,6 +110,7 @@ export const Step5ProductRelease = ({
 
   const isFormFilled =
     (data.partNumber ?? "").trim() !== "" &&
+    isSubProcessValid &&
     (!(data.dimensionalSpecs ?? []).length || areSpecsFilled) &&
     (!(data.visualChecklists ?? []).length || areVisualsFilled);
 
