@@ -136,6 +136,8 @@ export const Step5ProductRelease = ({
           visuals={data.visualChecklists ?? []}
           onSpecChange={handleSpecChange}
           onChecklistChange={handleChecklistChange}
+          selectedSubProcessId={selectedSubProcessId}
+          onSubProcessChange={handleSubProcessChange}
         />
       </div>
 
