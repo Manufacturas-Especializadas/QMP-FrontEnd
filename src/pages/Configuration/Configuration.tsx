@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Trash,
   Cpu,
+  MonitorCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +22,12 @@ const configOptions = [
     description: "Configura los procesos ligados a la linea de producción.",
     icon: <Cpu className="w-8 h-8 text-blue-600" />,
     path: "/config/procesos",
+  },
+  {
+    title: "Administrar los codigos de maquinas",
+    description: "Configura los codigos de maquina ligadas a un proceso.",
+    icon: <MonitorCheck className="w-8 h-8 text-blue-600" />,
+    path: "/config/codigo-maquinas",
   },
   {
     title: "Clientes",
