@@ -80,30 +80,23 @@ export const Step5ProductRelease = ({
     });
   };
 
-  const isExpansionActive =
-    data.fcdsProcessId === 2 || selectedSubProcessId === 2;
-  const isExtrusionActive =
-    data.fcdsProcessId === 5 || selectedSubProcessId === 5;
+  const areSpecsFilled =
+    data.dimensionalSpecs?.every(
+      (s) =>
+        s.isOptional ||
+        (s.expectedValue.trim() !== "" && s.realValue.trim() !== ""),
+    ) ?? true;
 
-  const areSpecsFilled = isExpansionActive
-    ? data.dimensionalSpecs
-        ?.slice(0, 4)
-        .every(
-          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-        )
-    : isExtrusionActive
-      ? data.dimensionalSpecs
-          ?.slice(0, 5)
-          .every(
-            (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-          )
-      : data.dimensionalSpecs?.every(
-          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-        );
+  const areVisualsFilled =
+    data.visualChecklists?.every((v) => v.resultValue !== 0) ?? true;
 
-  const areVisualsFilled = data.visualChecklists?.every(
-    (v) => v.resultValue !== 0,
+  const invalidSpecs = data.dimensionalSpecs?.filter(
+    (s) =>
+      !s.isOptional &&
+      (s.expectedValue.trim() === "" || s.realValue.trim() === ""),
   );
+
+  console.table(invalidSpecs);
 
   const isSubProcessValid =
     data.fcdsProcessId === 10 ? selectedSubProcessId !== null : true;
@@ -111,8 +104,8 @@ export const Step5ProductRelease = ({
   const isFormFilled =
     (data.partNumber ?? "").trim() !== "" &&
     isSubProcessValid &&
-    (!(data.dimensionalSpecs ?? []).length || areSpecsFilled) &&
-    (!(data.visualChecklists ?? []).length || areVisualsFilled);
+    areSpecsFilled &&
+    areVisualsFilled;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
