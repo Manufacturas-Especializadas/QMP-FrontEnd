@@ -22,10 +22,11 @@ const CHECKPOINTS = [
     isGroup: true,
     subChecks: [
       {
-        key: "measuringEquipmentIdentified",
+        key: "identifiedMeasuringEquipment",
         label: "Identificado correctamente",
       },
-      { key: "measuringEquipmentCalibrated", label: "Calibrado o verificado" },
+      { key: "calibratedMeasuringEquipment", label: "Calibrado o verificado" },
+
       { key: "measuringEquipmentAdequate", label: "Adecuado para la medición" },
       {
         key: "measuringEquipmentOperatorMatch",
