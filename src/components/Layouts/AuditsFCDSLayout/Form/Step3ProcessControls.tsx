@@ -55,6 +55,42 @@ export const Step3ProcessControls = ({
     data.typeOil.trim() !== "" &&
     data.lastHourOfRelease.trim() !== "";
 
+  const renderButtonGroup = (key: string, currentValue: number) => (
+    <div className="flex gap-1.5 bg-slate-100 p-1 rounded-xl shrink-0 self-start sm:self-center">
+      {[
+        {
+          val: 1,
+          label: "Cumple",
+          activeClass: "bg-emerald-600 text-white shadow-sm",
+        },
+        {
+          val: 2,
+          label: "No Cumple",
+          activeClass: "bg-rose-600 text-white shadow-sm",
+        },
+        {
+          val: 3,
+          label: "N/A",
+          activeClass: "bg-slate-400 text-white shadow-sm",
+        },
+      ].map((btn) => (
+        <button
+          key={btn.val}
+          type="button"
+          onClick={() => handleSelectOption(key, btn.val)}
+          className={`px-3 py-1.5 rounded-lg text-[10px] uppercase font-black tracking-wider 
+              transition-all cursor-pointer ${
+                currentValue === btn.val
+                  ? btn.activeClass
+                  : "text-slate-400 hover:text-slate-600"
+              }`}
+        >
+          {btn.label}
+        </button>
+      ))}
+    </div>
+  );
+
   return (
     <div className="space-y-5 animate-in fade-in duration-200">
       <div className="space-y-3 max-h-87.5 overflow-y-auto pr-2 divide-y divide-slate-100">
