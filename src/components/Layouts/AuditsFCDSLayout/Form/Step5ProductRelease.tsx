@@ -23,9 +23,9 @@ export const Step5ProductRelease = ({
   onBack,
   saving,
 }: Step5Props) => {
-  const [selectedSubProcessId, setSelectedSubProcessId] = useState<
-    number | null
-  >(null);
+  const [selectedSubProcessIds, setSelectedSubProcessIds] = useState<number[]>(
+    [],
+  );
 
   useEffect(() => {
     const hasExistingData = data.dimensionalSpecs?.some(
