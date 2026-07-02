@@ -38,7 +38,7 @@ export const EvaluationControlsSection = ({ controls }: { controls: any }) => {
         className="flex items-center gap-2 border-b border-slate-50 pb-2 
         text-slate-800 font-black text-xs uppercase tracking-wider"
       >
-        <Activity size={14} className="text-blue-500" /> Controles de Evaluación
+        <Activity size={14} className="text-blue-500" /> Validación de controles
       </div>
 
       <div className="space-y-2 max-h-47.5 overflow-y-auto pr-1 custom-scrollbar">

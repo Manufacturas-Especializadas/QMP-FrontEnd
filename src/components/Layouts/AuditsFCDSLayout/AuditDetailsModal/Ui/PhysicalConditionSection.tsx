@@ -18,8 +18,8 @@ export const PhysicalConditionSection = ({ physicals }: { physicals: any }) => {
         className="flex items-center gap-2 border-b border-slate-50 pb-2 
         text-slate-800 font-black text-xs uppercase tracking-wider"
       >
-        <ShieldAlert size={14} className="text-blue-500" /> Defectos y Condición
-        Física
+        <ShieldAlert size={14} className="text-blue-500" /> Estética y condición
+        físicas Física
       </div>
       <div
         className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 max-h-37.5 

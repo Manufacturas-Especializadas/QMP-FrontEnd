@@ -6,7 +6,8 @@ export const TraceabilitySection = ({ data }: { data: any }) => (
       className="flex items-center gap-2 border-b border-slate-50 pb-2 text-slate-800
       font-black text-xs uppercase tracking-wider"
     >
-      <Calendar size={14} className="text-blue-500" /> Trazabilidad de Planta
+      <Calendar size={14} className="text-blue-500" /> Trazabilidad del producto
+      en proceso
     </div>
     <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs font-semibold text-slate-600">
       <div>
