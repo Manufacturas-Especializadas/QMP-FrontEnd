@@ -393,6 +393,10 @@ export interface Controls {
   materialCorrectlyIdentified: number;
   identifiedMeasuringEquipment: number;
   calibratedMeasuringEquipment: number;
+  measuringEquipmentIdentified: number;
+  measuringEquipmentCalibrated: number;
+  measuringEquipmentAdequate: number;
+  measuringEquipmentOperatorMatch: number;
   itProcess: number;
   typeOil: string;
   lastHourOfRelease: string;
