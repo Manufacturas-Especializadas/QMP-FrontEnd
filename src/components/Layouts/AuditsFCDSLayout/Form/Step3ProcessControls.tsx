@@ -153,7 +153,6 @@ export const Step3ProcessControls = ({
           </label>
           <input
             type="text"
-            placeholder="Ej: Quaker Mobil 15W40"
             value={data.typeOil}
             onChange={(e) => updateFields({ typeOil: e.target.value })}
             className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 
