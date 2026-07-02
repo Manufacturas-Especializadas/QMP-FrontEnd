@@ -46,6 +46,10 @@ export const Step3ProcessControls = ({
     updateFields({ [key]: value });
   };
 
+  const allKeysToValidate = CHECKPOINTS.flatMap((cp) =>
+    cp.isGroup ? cp.subChecks!.map((sub) => sub.key) : cp.key,
+  );
+
   const isValid =
     CHECKPOINTS.every((cp) => (data as any)[cp.key] > 0) &&
     data.typeOil.trim() !== "" &&
