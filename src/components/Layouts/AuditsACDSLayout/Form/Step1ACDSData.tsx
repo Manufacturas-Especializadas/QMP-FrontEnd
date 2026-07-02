@@ -26,7 +26,6 @@ export const Step1ACDSData = ({ data, updateFields, onNext }: Step1Props) => {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in duration-200">
-      {/* SELECCIONAR TURNO LABORAL */}
       <div className="space-y-2">
         <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
           <SlidersHorizontal size={14} className="text-blue-500" /> Seleccionar
