@@ -227,6 +227,7 @@ export const PROCESS_CONFIGS: Record<
         resultValue: 0,
       },
       { checkpointName: "Se detectan defectos de Soldadura", resultValue: 0 },
+      { checkpointName: "PP según BOM", resultValue: 0 },
       { checkpointName: "% de soldadura correcto", resultValue: 0 },
       { checkpointName: "Vista frontal correcta", resultValue: 0 },
       { checkpointName: "Vista lateral correcta", resultValue: 0 },
