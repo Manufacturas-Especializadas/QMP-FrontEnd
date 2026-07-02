@@ -12,7 +12,7 @@ interface SpecsContainerProps {
     value: string,
   ) => void;
   onChecklistChange: (index: number, value: number) => void;
-  selectedSubProcessId: number | null;
+  selectedSubProcessIds: number[] | null;
   onSubProcessChange: (subId: number) => void;
 }
 
