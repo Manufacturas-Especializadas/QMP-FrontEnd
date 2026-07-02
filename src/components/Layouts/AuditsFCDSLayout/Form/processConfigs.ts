@@ -63,7 +63,7 @@ export const PROCESS_CONFIGS: Record<
         isOptional: true,
       },
       {
-        specName: "Distancia a perforación Final",
+        specName: "Distancia a perforación Inicial",
         expectedValue: "",
         realValue: "",
         isOptional: true,
