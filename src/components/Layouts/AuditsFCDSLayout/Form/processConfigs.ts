@@ -60,11 +60,13 @@ export const PROCESS_CONFIGS: Record<
         specName: "Cantidad de perforacióin Incial",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Distancia a perforación Final",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Distancia a perforación Final",
@@ -116,27 +118,37 @@ export const PROCESS_CONFIGS: Record<
         specName: "Ex1 - Distancia de perforación",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Ex2 - Cantidad de perforaciones",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Ex2 - Diámetro de perforación",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Ex2 - Altura de extruido",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
-      { specName: "Ex2 - Pared de extruido", expectedValue: "", realValue: "" },
+      {
+        specName: "Ex2 - Pared de extruido",
+        expectedValue: "",
+        realValue: "",
+        isOptional: true,
+      },
       {
         specName: "Ex2 - Distancia de perforación",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
     ],
     visualChecklists: [
@@ -168,11 +180,13 @@ export const PROCESS_CONFIGS: Record<
         specName: "Longitud de Identación 2",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Profundidad 2",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Distancia de perforación a Identación 2",
