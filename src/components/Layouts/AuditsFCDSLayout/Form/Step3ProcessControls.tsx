@@ -53,7 +53,6 @@ export const Step3ProcessControls = ({
 
   const isValid =
     allKeysToValidate.every((key) => (data as any)[key] > 0) &&
-    data.typeOil.trim() !== "" &&
     data.lastHourOfRelease.trim() !== "";
 
   const renderButtonGroup = (key: string, currentValue: number) => (
