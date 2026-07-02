@@ -14,17 +14,26 @@ const CHECKPOINTS = [
   { key: "spc", label: "SPC" },
   {
     key: "materialCorrectlyIdentified",
-    label: "Material Identificado Correctamente",
+    label: "Material identificado correctamente",
   },
   {
-    key: "identifiedMeasuringEquipment",
-    label: "Equipo de Medición Identificado",
+    key: "measuringEquipmentGroup",
+    label: "Equipo de medición",
+    isGroup: true,
+    subChecks: [
+      {
+        key: "measuringEquipmentIdentified",
+        label: "Identificado correctamente",
+      },
+      { key: "measuringEquipmentCalibrated", label: "Calibrado o verificado" },
+      { key: "measuringEquipmentAdequate", label: "Adecuado para la medición" },
+      {
+        key: "measuringEquipmentOperatorMatch",
+        label: "Corresponde al operador auditado",
+      },
+    ],
   },
-  {
-    key: "calibratedMeasuringEquipment",
-    label: "Equipo de Medición Calibrado",
-  },
-  { key: "itProcess", label: "IT del Proceso" },
+  { key: "itProcess", label: "IT del proceso" },
 ];
 
 export const Step3ProcessControls = ({
