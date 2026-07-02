@@ -22,7 +22,6 @@ export const Step1ACDSData = ({ data, updateFields, onNext }: Step1Props) => {
     }
   };
 
-  // Validamos que se haya seleccionado un turno y al menos una línea de producción
   const isValid = (data.shiftId ?? 0) > 0 && (data.lineIds ?? []).length > 0;
 
   return (
