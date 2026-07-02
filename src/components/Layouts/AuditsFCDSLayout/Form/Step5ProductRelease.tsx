@@ -43,21 +43,59 @@ export const Step5ProductRelease = ({
   }, [data.fcdsProcessId]);
 
   const handleSubProcessChange = (subId: number) => {
-    const coreIntegradoraVisuals = PROCESS_CONFIGS[10].visualChecklists;
-    const subConfig = PROCESS_CONFIGS[subId];
+    setSelectedSubProcessIds((prev) => {
+      const isSelected = prev.includes(subId);
+      const newSelection = isSelected
+        ? prev.filter((id) => id !== subId)
+        : [...prev, subId];
 
-    updateFields({
-      dimensionalSpecs: subConfig?.dimensionalSpecs
-        ? JSON.parse(JSON.stringify(subConfig.dimensionalSpecs))
-        : [],
-      visualChecklists: [
-        ...JSON.parse(JSON.stringify(coreIntegradoraVisuals)),
-        ...(subConfig?.visualChecklists
-          ? JSON.parse(JSON.stringify(subConfig.visualChecklists))
-          : []),
-      ],
+      const coreIntegradoraVisuals = PROCESS_CONFIGS[10].visualChecklists;
+      const newSpecs: any[] = [];
+      const newVisuals: any[] = JSON.parse(
+        JSON.stringify(coreIntegradoraVisuals),
+      );
+
+      [...newSelection].sort().forEach((id) => {
+        const config = PROCESS_CONFIGS[id];
+        if (config?.dimensionalSpecs) {
+          newSpecs.push(...JSON.parse(JSON.stringify(config.dimensionalSpecs)));
+        }
+        if (config?.visualChecklists) {
+          newVisuals.push(
+            ...JSON.parse(JSON.stringify(config.visualChecklists)),
+          );
+        }
+      });
+
+      const preservedSpecs = newSpecs.map((newSpec) => {
+        const existing = data.dimensionalSpecs?.find(
+          (s) => s.specName === newSpec.specName,
+        );
+        return existing
+          ? {
+              ...newSpec,
+              realValue: existing.realValue,
+              expectedValue: existing.expectedValue,
+            }
+          : newSpec;
+      });
+
+      const preservedVisuals = newVisuals.map((newCheck) => {
+        const existing = data.visualChecklists?.find(
+          (v) => v.checkpointName === newCheck.checkpointName,
+        );
+        return existing
+          ? { ...newCheck, resultValue: existing.resultValue }
+          : newCheck;
+      });
+
+      updateFields({
+        dimensionalSpecs: preservedSpecs,
+        visualChecklists: preservedVisuals,
+      });
+
+      return newSelection;
     });
-    setSelectedSubProcessId(subId);
   };
 
   const handleSpecChange = (
