@@ -416,6 +416,7 @@ export interface DimensionalSpec {
   specName: string;
   expectedValue: string;
   realValue: string;
+  isOptional?: boolean;
 }
 
 export interface VisualChecklist {
