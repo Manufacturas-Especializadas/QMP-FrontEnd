@@ -137,7 +137,7 @@ export const Step5ProductRelease = ({
   console.table(invalidSpecs);
 
   const isSubProcessValid =
-    data.fcdsProcessId === 10 ? selectedSubProcessId !== null : true;
+    data.fcdsProcessId === 10 ? selectedSubProcessIds.length > 0 : true;
 
   const isFormFilled =
     (data.partNumber ?? "").trim() !== "" &&
@@ -170,7 +170,7 @@ export const Step5ProductRelease = ({
           visuals={data.visualChecklists ?? []}
           onSpecChange={handleSpecChange}
           onChecklistChange={handleChecklistChange}
-          selectedSubProcessId={selectedSubProcessId}
+          selectedSubProcessIds={selectedSubProcessIds}
           onSubProcessChange={handleSubProcessChange}
         />
       </div>
