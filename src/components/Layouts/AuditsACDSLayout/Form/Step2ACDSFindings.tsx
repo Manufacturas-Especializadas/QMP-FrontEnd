@@ -102,6 +102,10 @@ export const Step2ACDSFindings = ({
       isometricView: 1,
       completeProcess: true,
       isProductConforming: true,
+      shopOrder: "",
+      weldingDefects: 3,
+      ppBom: 3,
+      imageFile: null,
     });
   };
 
