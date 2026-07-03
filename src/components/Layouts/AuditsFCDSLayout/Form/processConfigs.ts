@@ -172,7 +172,7 @@ export const PROCESS_CONFIGS: Record<
         realValue: "",
       },
       {
-        specName: "Distancia de perforación a Identación",
+        specName: "Distancia de perforación a Identación 1",
         expectedValue: "",
         realValue: "",
       },
