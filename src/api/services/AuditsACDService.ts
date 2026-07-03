@@ -114,11 +114,13 @@ class AuditsACDService {
   }
 
   async create(payload: CreateAuditACDPayload): Promise<any> {
-    return apiClient.post<any>(this.createEndpoint, payload);
+    const formData = this.buildFormData(payload);
+    return apiClient.post<any>(this.createEndpoint, formData);
   }
 
   async update(id: number, payload: UpdateAuditACDPayload): Promise<any> {
-    return apiClient.put<any>(`${this.updateEndpoint}${id}`, payload);
+    const formData = this.buildFormData(payload);
+    return apiClient.put<any>(`${this.updateEndpoint}${id}`, formData);
   }
 
   async delete(id: number): Promise<any> {
