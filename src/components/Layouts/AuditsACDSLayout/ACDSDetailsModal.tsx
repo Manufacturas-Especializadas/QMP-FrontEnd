@@ -249,7 +249,6 @@ export const ACDSDetailsModal = ({
                         )}
                       </div>
 
-                      {/* Parámetros Geométricos de Fin de Proceso */}
                       <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-100/70">
                         <div className="bg-slate-50/80 p-3 rounded-xl border border-slate-100 space-y-1">
                           <span className="text-[9px] font-black text-slate-400 uppercase block tracking-wider">
@@ -300,7 +299,6 @@ export const ACDSDetailsModal = ({
                         </div>
                       </div>
 
-                      {/* Checklist Matricial de las 4 Vistas Cosméticas */}
                       <div className="bg-slate-50/40 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                         <div className="space-y-1">
                           <span className="text-[8px] font-black text-slate-400 uppercase tracking-tight block">
