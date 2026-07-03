@@ -51,6 +51,10 @@ export const Step2ACDSFindings = ({
     isometricView: 1,
     completeProcess: true as boolean | null,
     isProductConforming: true,
+    shopOrder: "",
+    weldingDefects: 3,
+    ppBom: 3,
+    imageFile: null as File | null,
   });
 
   const handleSelectEdit = (index: number) => {
