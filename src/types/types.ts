@@ -546,6 +546,10 @@ export interface CreateAuditACDPayload {
     isometricView: number;
     completeProcess: boolean | null;
     isProductConforming: boolean;
+    shopOrder: string | null;
+    weldingDefects: number;
+    ppBom: number;
+    imageFile: File | null;
   }[];
 }
 
@@ -568,5 +572,10 @@ export interface UpdateAuditACDPayload {
     isometricView: number;
     completeProcess: boolean | null;
     isProductConforming: boolean;
+    shopOrder: string | null;
+    weldingDefects: number;
+    ppBom: number;
+    imageFile: File | null;
+    existingImageUrl?: string | null;
   }[];
 }
