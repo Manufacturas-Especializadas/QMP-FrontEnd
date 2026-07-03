@@ -57,7 +57,7 @@ export const PROCESS_CONFIGS: Record<
     dimensionalSpecs: [
       { specName: "Diámetro de perforación", expectedValue: "", realValue: "" },
       {
-        specName: "Cantidad de perforacióin Incial",
+        specName: "Cantidad de perforaciones",
         expectedValue: "",
         realValue: "",
         isOptional: true,
