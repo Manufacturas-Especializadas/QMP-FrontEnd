@@ -60,7 +60,11 @@ export const Step2ACDSFindings = ({
   const handleSelectEdit = (index: number) => {
     setEditingIndex(index);
     const finding = data.findings[index];
-    setCurrentFinding({ id: (finding as any).id ?? 0, ...finding });
+    setCurrentFinding({
+      id: (finding as any).id ?? 0,
+      ...finding,
+      shopOrder: finding.shopOrder ?? "",
+    });
   };
 
   const handleSaveFinding = () => {
