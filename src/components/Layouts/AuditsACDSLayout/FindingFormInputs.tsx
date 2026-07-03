@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 interface FindingFormInputsProps {
   currentFinding: any;
   setCurrentFinding: React.Dispatch<React.SetStateAction<any>>;
@@ -11,6 +13,8 @@ export const FindingFormInputs = ({
   startPoints,
   endPoints,
 }: FindingFormInputsProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
