@@ -97,8 +97,17 @@ class AuditsACDService {
       );
       formData.append(`findings[${index}].ppBom`, finding.ppBom.toString());
 
-      if (finding.imageFile) {
-        formData.append(`findings[${index}].imageFile`, finding.imageFile);
+      if (finding.existingImageUrls) {
+        formData.append(
+          `findings[${index}].existingImageUrls`,
+          finding.existingImageUrls,
+        );
+      }
+
+      if (finding.imageFiles && finding.imageFiles.length > 0) {
+        finding.imageFiles.forEach((file: File) => {
+          formData.append(`findings[${index}].imageFiles`, file);
+        });
       }
     });
 
