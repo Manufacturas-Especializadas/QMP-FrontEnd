@@ -8,6 +8,7 @@ import {
   Activity,
   Package,
   Loader2,
+  Camera,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuditsACD } from "../../../hooks/useAuditsACD";
@@ -45,7 +46,7 @@ export const ACDSDetailsModal = ({
       return (
         <span
           className="px-2.5 py-0.5 bg-emerald-50 border border-emerald-100 
-          text-emerald-700 rounded-md text-[9px] font-black uppercase tracking-wider"
+          text-emerald-700 rounded-md text-[9px] font-black uppercase tracking-wider block w-max mx-auto"
         >
           Cumple
         </span>
@@ -54,7 +55,7 @@ export const ACDSDetailsModal = ({
       return (
         <span
           className="px-2.5 py-0.5 bg-rose-50 border border-rose-100 text-rose-700 
-          rounded-md text-[9px] font-black uppercase tracking-wider"
+          rounded-md text-[9px] font-black uppercase tracking-wider block w-max mx-auto"
         >
           No Cumple
         </span>
@@ -62,7 +63,7 @@ export const ACDSDetailsModal = ({
     return (
       <span
         className="px-2.5 py-0.5 bg-slate-50 border border-slate-200 text-slate-400 
-        rounded-md text-[9px] font-black uppercase tracking-wider"
+        rounded-md text-[9px] font-black uppercase tracking-wider block w-max mx-auto"
       >
         N/A
       </span>
@@ -102,7 +103,7 @@ export const ACDSDetailsModal = ({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6 custom-scrollbar">
           {loading || !auditData ? (
             <div
               className="py-24 flex flex-col items-center justify-center gap-2 
@@ -204,13 +205,13 @@ export const ACDSDetailsModal = ({
                   {auditData.findings.length})
                 </h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   {auditData.findings.map((f, i) => (
                     <div
                       key={f.id || i}
                       className={`border rounded-[2.2rem] p-5 space-y-4 shadow-sm bg-white relative overflow-hidden transition-all hover:border-slate-200 ${
                         !f.isProductConforming
-                          ? "border-rose-100 bg-rose-50/5"
+                          ? "border-rose-100 bg-rose-50/10"
                           : "border-slate-100"
                       }`}
                     >
@@ -229,6 +230,12 @@ export const ACDSDetailsModal = ({
                             {f.partNumber}
                           </h4>
                           <p className="text-[10px] font-bold text-slate-400 uppercase">
+                            Shop Order:{" "}
+                            <span className="text-blue-600 font-extrabold">
+                              {f.shopOrder || "N/A"}
+                            </span>
+                          </p>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase">
                             Muestra:{" "}
                             <span className="text-slate-600 font-extrabold">
                               {f.sampleSize}
@@ -239,11 +246,11 @@ export const ACDSDetailsModal = ({
                         </div>
 
                         {f.isProductConforming ? (
-                          <span className="bg-emerald-50 border border-emerald-100 text-emerald-700 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                          <span className="bg-emerald-50 border border-emerald-100 text-emerald-700 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-md flex items-center gap-1 shrink-0">
                             <CheckCircle2 size={11} /> Conforme
                           </span>
                         ) : (
-                          <span className="bg-rose-50 border border-rose-100 text-rose-700 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-md flex items-center gap-1">
+                          <span className="bg-rose-50 border border-rose-100 text-rose-700 text-[9px] font-black uppercase px-2.5 py-0.5 rounded-md flex items-center gap-1 shrink-0">
                             <AlertTriangle size={11} /> Rechazado
                           </span>
                         )}
@@ -299,7 +306,7 @@ export const ACDSDetailsModal = ({
                         </div>
                       </div>
 
-                      <div className="bg-slate-50/40 p-3 rounded-2xl border border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+                      <div className="bg-slate-50/40 p-3 rounded-2xl border border-slate-100 grid grid-cols-3 sm:grid-cols-6 gap-2 text-center">
                         <div className="space-y-1">
                           <span className="text-[8px] font-black text-slate-400 uppercase tracking-tight block">
                             V. Frontal
@@ -324,7 +331,52 @@ export const ACDSDetailsModal = ({
                           </span>
                           {renderViewStatus(f.isometricView)}
                         </div>
+                        <div className="space-y-1">
+                          <span className="text-[8px] font-black text-slate-400 uppercase tracking-tight block">
+                            PP BOM
+                          </span>
+                          {renderViewStatus(f.ppBom)}
+                        </div>
+                        <div className="space-y-1">
+                          <span
+                            className="text-[8px] font-black text-slate-400 uppercase 
+                            tracking-tight block"
+                          >
+                            Soldadura
+                          </span>
+                          {renderViewStatus(f.weldingDefects)}
+                        </div>
                       </div>
+
+                      {f.imagesEvidence && (
+                        <div className="pt-3 border-t border-slate-100/70">
+                          <span
+                            className="text-[10px] font-black text-slate-400 uppercase 
+                            tracking-wider flex items-center gap-1 mb-2"
+                          >
+                            <Camera size={12} /> Evidencia Fotográfica
+                          </span>
+                          <div className="flex gap-2 overflow-x-auto pb-1 custom-scrollbar">
+                            {f.imagesEvidence.split(",").map((url, idx) => (
+                              <a
+                                key={idx}
+                                href={url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="shrink-0 transition-transform hover:scale-105"
+                                title="Click para ver en tamaño completo"
+                              >
+                                <img
+                                  src={url}
+                                  alt={`Evidencia ${idx + 1}`}
+                                  className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl 
+                                  border border-slate-200 shadow-sm bg-slate-50"
+                                />
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>
