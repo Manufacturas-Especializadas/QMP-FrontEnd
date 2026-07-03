@@ -549,7 +549,7 @@ export interface CreateAuditACDPayload {
     shopOrder: string | null;
     weldingDefects: number;
     ppBom: number;
-    imageFile: File | null;
+    imageFiles: File[];
   }[];
 }
 
@@ -575,7 +575,7 @@ export interface UpdateAuditACDPayload {
     shopOrder: string | null;
     weldingDefects: number;
     ppBom: number;
-    imageFile: File | null;
-    existingImageUrl?: string | null;
+    imageFiles: File[];
+    existingImageUrls?: string;
   }[];
 }
