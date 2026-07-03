@@ -58,7 +58,7 @@ export const FindingFormInputs = ({
       <div className="grid grid-cols-3 gap-3">
         <div className="col-span-2 space-y-1">
           <label className="text-[10px] font-black uppercase text-slate-400 block">
-            Tamaño Muestra
+            Tamaño de muestra
           </label>
           <input
             type="text"
