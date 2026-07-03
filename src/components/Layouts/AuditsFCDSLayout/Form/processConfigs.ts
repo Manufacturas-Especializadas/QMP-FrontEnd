@@ -72,6 +72,7 @@ export const PROCESS_CONFIGS: Record<
         specName: "Distancia a perforación Final",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
     ],
     visualChecklists: [
