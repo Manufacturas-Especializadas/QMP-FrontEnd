@@ -141,7 +141,7 @@ export const FindingFormInputs = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-100">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-100">
         <div className="space-y-1">
           <label
             className="text-[10px] font-black uppercase text-slate-400 flex items-center 
@@ -162,46 +162,81 @@ export const FindingFormInputs = ({
             font-bold outline-none focus:border-blue-500 shadow-sm"
           />
         </div>
+
         <div className="space-y-1">
           <label
             className="text-[10px] font-black uppercase text-slate-400 flex items-center 
             gap-1 justify-between"
           >
             <span className="flex items-center gap-1">
-              <Camera size={12} /> Evidencia Fotográfica
-            </span>
-            <span className="text-[8px] bg-slate-100 text-slate-400 px-1.5 rounded-sm">
-              Opcional
+              <Camera size={12} /> Evidencias (Max 3)
             </span>
           </label>
-          <div className="flex items-center gap-2">
-            <div className="relative flex-1">
+
+          <div className="space-y-2">
+            <div className="relative">
               <input
                 ref={fileInputRef}
                 type="file"
+                multiple
                 accept="image/*"
                 onChange={(e) => {
-                  const file = e.target.files?.[0] || null;
-                  setCurrentFinding((p: any) => ({ ...p, imageFile: file }));
-                }}
-                className="w-full text-xs font-bold px-3 py-2 bg-white border border-slate-200 rounded-xl 
-                file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-black 
-                file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer shadow-sm"
-              />
-            </div>
-            {currentFinding.imageFile && (
-              <button
-                type="button"
-                onClick={() => {
-                  setCurrentFinding((p: any) => ({ ...p, imageFile: null }));
+                  const newFiles = Array.from(e.target.files || []);
+                  const totalCount =
+                    (currentFinding.imageFiles?.length || 0) + newFiles.length;
+
+                  if (totalCount > 3) {
+                    alert(
+                      "Solo puedes adjuntar un máximo de 3 imágenes por hallazgo.",
+                    );
+                    if (fileInputRef.current) fileInputRef.current.value = "";
+                    return;
+                  }
+
+                  setCurrentFinding((p: any) => ({
+                    ...p,
+                    imageFiles: [...(p.imageFiles || []), ...newFiles],
+                  }));
+
                   if (fileInputRef.current) fileInputRef.current.value = "";
                 }}
-                className="p-2.5 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-100 
-                transition-colors shadow-sm"
-                title="Remover imagen"
-              >
-                <X size={14} />
-              </button>
+                disabled={(currentFinding.imageFiles?.length || 0) >= 3}
+                className="w-full text-xs font-bold px-3 py-2 bg-white border border-slate-200 rounded-xl 
+                  file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-[10px] file:font-black 
+                  file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer shadow-sm
+                  disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+            </div>
+
+            {currentFinding.imageFiles?.length > 0 && (
+              <div className="flex flex-col gap-1.5 mt-2">
+                {currentFinding.imageFiles.map((file: File, idx: number) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between bg-blue-50/50 border 
+                    border-blue-100 p-1.5 rounded-lg"
+                  >
+                    <span className="text-[10px] font-bold text-slate-600 truncate max-w-50">
+                      {file.name}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newArray = [...currentFinding.imageFiles];
+                        newArray.splice(idx, 1);
+                        setCurrentFinding((p: any) => ({
+                          ...p,
+                          imageFiles: newArray,
+                        }));
+                      }}
+                      className="p-1 bg-white text-rose-500 rounded-md shadow-sm border 
+                      border-slate-200 hover:bg-rose-50"
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         </div>

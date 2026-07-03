@@ -54,16 +54,20 @@ export const Step2ACDSFindings = ({
     shopOrder: "",
     weldingDefects: 3,
     ppBom: 3,
-    imageFile: null as File | null,
+    imageFiles: [] as File[],
+    existingImageUrls: "",
   });
 
   const handleSelectEdit = (index: number) => {
     setEditingIndex(index);
     const finding = data.findings[index];
+
     setCurrentFinding({
       id: (finding as any).id ?? 0,
       ...finding,
       shopOrder: finding.shopOrder ?? "",
+      imageFiles: (finding as any).imageFiles || [],
+      existingImageUrls: (finding as any).existingImageUrls || "",
     });
   };
 
@@ -109,7 +113,8 @@ export const Step2ACDSFindings = ({
       shopOrder: "",
       weldingDefects: 3,
       ppBom: 3,
-      imageFile: null,
+      imageFiles: [],
+      existingImageUrls: "",
     });
 
     if (fileInputRef.current) {
