@@ -19,7 +19,7 @@ export const PhysicalConditionSection = ({ physicals }: { physicals: any }) => {
         text-slate-800 font-black text-xs uppercase tracking-wider"
       >
         <ShieldAlert size={14} className="text-blue-500" /> Estética y condición
-        físicas Física
+        físicas
       </div>
       <div
         className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2 max-h-37.5 
