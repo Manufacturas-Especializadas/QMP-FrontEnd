@@ -175,6 +175,7 @@ export const PROCESS_CONFIGS: Record<
         specName: "Distancia de perforación a Identación 1",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
       {
         specName: "Longitud de Identación 2",
@@ -192,6 +193,7 @@ export const PROCESS_CONFIGS: Record<
         specName: "Distancia de perforación a Identación 2",
         expectedValue: "",
         realValue: "",
+        isOptional: true,
       },
     ],
     visualChecklists: [],
