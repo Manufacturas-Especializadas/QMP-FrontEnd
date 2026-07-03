@@ -23,9 +23,9 @@ export const Step5ProductRelease = ({
   onBack,
   saving,
 }: Step5Props) => {
-  const [selectedSubProcessId, setSelectedSubProcessId] = useState<
-    number | null
-  >(null);
+  const [selectedSubProcessIds, setSelectedSubProcessIds] = useState<number[]>(
+    [],
+  );
 
   useEffect(() => {
     const hasExistingData = data.dimensionalSpecs?.some(
@@ -43,21 +43,59 @@ export const Step5ProductRelease = ({
   }, [data.fcdsProcessId]);
 
   const handleSubProcessChange = (subId: number) => {
-    const coreIntegradoraVisuals = PROCESS_CONFIGS[10].visualChecklists;
-    const subConfig = PROCESS_CONFIGS[subId];
+    setSelectedSubProcessIds((prev) => {
+      const isSelected = prev.includes(subId);
+      const newSelection = isSelected
+        ? prev.filter((id) => id !== subId)
+        : [...prev, subId];
 
-    updateFields({
-      dimensionalSpecs: subConfig?.dimensionalSpecs
-        ? JSON.parse(JSON.stringify(subConfig.dimensionalSpecs))
-        : [],
-      visualChecklists: [
-        ...JSON.parse(JSON.stringify(coreIntegradoraVisuals)),
-        ...(subConfig?.visualChecklists
-          ? JSON.parse(JSON.stringify(subConfig.visualChecklists))
-          : []),
-      ],
+      const coreIntegradoraVisuals = PROCESS_CONFIGS[10].visualChecklists;
+      const newSpecs: any[] = [];
+      const newVisuals: any[] = JSON.parse(
+        JSON.stringify(coreIntegradoraVisuals),
+      );
+
+      [...newSelection].sort().forEach((id) => {
+        const config = PROCESS_CONFIGS[id];
+        if (config?.dimensionalSpecs) {
+          newSpecs.push(...JSON.parse(JSON.stringify(config.dimensionalSpecs)));
+        }
+        if (config?.visualChecklists) {
+          newVisuals.push(
+            ...JSON.parse(JSON.stringify(config.visualChecklists)),
+          );
+        }
+      });
+
+      const preservedSpecs = newSpecs.map((newSpec) => {
+        const existing = data.dimensionalSpecs?.find(
+          (s) => s.specName === newSpec.specName,
+        );
+        return existing
+          ? {
+              ...newSpec,
+              realValue: existing.realValue,
+              expectedValue: existing.expectedValue,
+            }
+          : newSpec;
+      });
+
+      const preservedVisuals = newVisuals.map((newCheck) => {
+        const existing = data.visualChecklists?.find(
+          (v) => v.checkpointName === newCheck.checkpointName,
+        );
+        return existing
+          ? { ...newCheck, resultValue: existing.resultValue }
+          : newCheck;
+      });
+
+      updateFields({
+        dimensionalSpecs: preservedSpecs,
+        visualChecklists: preservedVisuals,
+      });
+
+      return newSelection;
     });
-    setSelectedSubProcessId(subId);
   };
 
   const handleSpecChange = (
@@ -80,39 +118,32 @@ export const Step5ProductRelease = ({
     });
   };
 
-  const isExpansionActive =
-    data.fcdsProcessId === 2 || selectedSubProcessId === 2;
-  const isExtrusionActive =
-    data.fcdsProcessId === 5 || selectedSubProcessId === 5;
+  const areSpecsFilled =
+    data.dimensionalSpecs?.every(
+      (s) =>
+        s.isOptional ||
+        (s.expectedValue.trim() !== "" && s.realValue.trim() !== ""),
+    ) ?? true;
 
-  const areSpecsFilled = isExpansionActive
-    ? data.dimensionalSpecs
-        ?.slice(0, 4)
-        .every(
-          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-        )
-    : isExtrusionActive
-      ? data.dimensionalSpecs
-          ?.slice(0, 5)
-          .every(
-            (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-          )
-      : data.dimensionalSpecs?.every(
-          (s) => s.expectedValue.trim() !== "" && s.realValue.trim() !== "",
-        );
+  const areVisualsFilled =
+    data.visualChecklists?.every((v) => v.resultValue !== 0) ?? true;
 
-  const areVisualsFilled = data.visualChecklists?.every(
-    (v) => v.resultValue !== 0,
+  const invalidSpecs = data.dimensionalSpecs?.filter(
+    (s) =>
+      !s.isOptional &&
+      (s.expectedValue.trim() === "" || s.realValue.trim() === ""),
   );
 
+  console.table(invalidSpecs);
+
   const isSubProcessValid =
-    data.fcdsProcessId === 10 ? selectedSubProcessId !== null : true;
+    data.fcdsProcessId === 10 ? selectedSubProcessIds.length > 0 : true;
 
   const isFormFilled =
     (data.partNumber ?? "").trim() !== "" &&
     isSubProcessValid &&
-    (!(data.dimensionalSpecs ?? []).length || areSpecsFilled) &&
-    (!(data.visualChecklists ?? []).length || areVisualsFilled);
+    areSpecsFilled &&
+    areVisualsFilled;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200">
@@ -139,7 +170,7 @@ export const Step5ProductRelease = ({
           visuals={data.visualChecklists ?? []}
           onSpecChange={handleSpecChange}
           onChecklistChange={handleChecklistChange}
-          selectedSubProcessId={selectedSubProcessId}
+          selectedSubProcessIds={selectedSubProcessIds}
           onSubProcessChange={handleSubProcessChange}
         />
       </div>

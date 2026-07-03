@@ -7,7 +7,7 @@ import {
   Columns,
   AlertOctagon,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CreateAuditACDPayload } from "../../../../types/types";
 import { useAuditStartPoints } from "../../../../hooks/useAuditStartPoints";
 import { useAuditEndPoints } from "../../../../hooks/useAuditEndPoints";
@@ -34,6 +34,8 @@ export const Step2ACDSFindings = ({
   const { endPoints } = useAuditEndPoints();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [currentFinding, setCurrentFinding] = useState({
     id: 0,
     startPointId: 0,
@@ -49,12 +51,24 @@ export const Step2ACDSFindings = ({
     isometricView: 1,
     completeProcess: true as boolean | null,
     isProductConforming: true,
+    shopOrder: "",
+    weldingDefects: 3,
+    ppBom: 3,
+    imageFiles: [] as File[],
+    existingImageUrls: "",
   });
 
   const handleSelectEdit = (index: number) => {
     setEditingIndex(index);
     const finding = data.findings[index];
-    setCurrentFinding({ id: (finding as any).id ?? 0, ...finding });
+
+    setCurrentFinding({
+      id: (finding as any).id ?? 0,
+      ...finding,
+      shopOrder: finding.shopOrder ?? "",
+      imageFiles: (finding as any).imageFiles || [],
+      existingImageUrls: (finding as any).existingImageUrls || "",
+    });
   };
 
   const handleSaveFinding = () => {
@@ -96,7 +110,16 @@ export const Step2ACDSFindings = ({
       isometricView: 1,
       completeProcess: true,
       isProductConforming: true,
+      shopOrder: "",
+      weldingDefects: 3,
+      ppBom: 3,
+      imageFiles: [],
+      existingImageUrls: "",
     });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const hasRejectedItems = data.findings.some((f) => !f.isProductConforming);
@@ -165,7 +188,6 @@ export const Step2ACDSFindings = ({
           </div>
         </div>
 
-        {/* SUBMIT INDIVIDUAL */}
         <div className="flex gap-2">
           {editingIndex !== null && (
             <button

@@ -53,6 +53,11 @@ export const ACDSWizardModal = ({
               isometricView: f.isometricView,
               completeProcess: f.completeProcess,
               isProductConforming: f.isProductConforming,
+              shopOrder: f.shopOrder ?? "",
+              weldingDefects: f.weldingDefects ?? 3,
+              ppBom: f.ppBom ?? 3,
+              existingImageUrls: f.imagesEvidence ?? "",
+              imageFiles: [],
             })),
           });
         }

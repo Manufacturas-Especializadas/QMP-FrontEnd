@@ -393,6 +393,10 @@ export interface Controls {
   materialCorrectlyIdentified: number;
   identifiedMeasuringEquipment: number;
   calibratedMeasuringEquipment: number;
+  measuringEquipmentIdentified: number;
+  measuringEquipmentCalibrated: number;
+  measuringEquipmentAdequate: number;
+  measuringEquipmentOperatorMatch: number;
   itProcess: number;
   typeOil: string;
   lastHourOfRelease: string;
@@ -412,6 +416,7 @@ export interface DimensionalSpec {
   specName: string;
   expectedValue: string;
   realValue: string;
+  isOptional?: boolean;
 }
 
 export interface VisualChecklist {
@@ -507,6 +512,10 @@ export interface AuditFindingACDRead {
   isometricView: number;
   completeProcess: boolean | null;
   isProductConforming: boolean;
+  shopOrder: string | null;
+  weldingDefects: number;
+  ppBom: number;
+  imagesEvidence: string | null;
 }
 
 export interface AuditACDRead {
@@ -541,6 +550,10 @@ export interface CreateAuditACDPayload {
     isometricView: number;
     completeProcess: boolean | null;
     isProductConforming: boolean;
+    shopOrder: string | null;
+    weldingDefects: number;
+    ppBom: number;
+    imageFiles: File[];
   }[];
 }
 
@@ -563,5 +576,10 @@ export interface UpdateAuditACDPayload {
     isometricView: number;
     completeProcess: boolean | null;
     isProductConforming: boolean;
+    shopOrder: string | null;
+    weldingDefects: number;
+    ppBom: number;
+    imageFiles: File[];
+    existingImageUrls?: string;
   }[];
 }

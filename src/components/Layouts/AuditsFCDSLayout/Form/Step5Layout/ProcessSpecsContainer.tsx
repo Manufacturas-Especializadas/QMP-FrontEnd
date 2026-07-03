@@ -1,6 +1,7 @@
 import { DimensionalSpecRow } from "./DimensionalSpecRow";
 import { VisualChecklistRow } from "./VisualChecklistRow";
 import { SegmentedProcessBlock } from "./SegmentedProcessBlock";
+import { PROCESS_CONFIGS } from "../processConfigs";
 
 interface SpecsContainerProps {
   processId: number;
@@ -12,7 +13,7 @@ interface SpecsContainerProps {
     value: string,
   ) => void;
   onChecklistChange: (index: number, value: number) => void;
-  selectedSubProcessId: number | null;
+  selectedSubProcessIds: number[];
   onSubProcessChange: (subId: number) => void;
 }
 
@@ -29,7 +30,7 @@ export const ProcessSpecsContainer = ({
   visuals,
   onSpecChange,
   onChecklistChange,
-  selectedSubProcessId,
+  selectedSubProcessIds,
   onSubProcessChange,
 }: SpecsContainerProps) => {
   if (processId === 2) {
@@ -121,12 +122,27 @@ export const ProcessSpecsContainer = ({
   }
 
   if (processId === 10) {
+    const getLocalSpecs = (id: number) => {
+      const configNames =
+        PROCESS_CONFIGS[id]?.dimensionalSpecs?.map((s: any) => s.specName) ||
+        [];
+      return specs.filter((s) => configNames.includes(s.specName));
+    };
+
+    const getLocalVisuals = (id: number) => {
+      const configNames =
+        PROCESS_CONFIGS[id]?.visualChecklists?.map(
+          (c: any) => c.checkpointName,
+        ) || [];
+      return visuals.filter((c) => configNames.includes(c.checkpointName));
+    };
+
     return (
       <div className="space-y-6">
         <div className="space-y-2">
           {visuals.slice(0, 3).map((check, idx) => (
             <VisualChecklistRow
-              key={idx}
+              key={`base-${idx}`}
               check={check}
               idx={idx}
               onChecklistChange={onChecklistChange}
@@ -135,83 +151,129 @@ export const ProcessSpecsContainer = ({
         </div>
 
         <div className="space-y-3 pt-4 border-t border-slate-100">
-          <label
-            className="text-[10px] font-black uppercase text-slate-400 block 
-            tracking-wider"
-          >
+          <label className="text-[10px] font-black uppercase text-slate-400 block tracking-wider">
             Seleccionar Proceso a Integrar
           </label>
           <div className="flex flex-wrap gap-2">
-            {INTEGRATION_BUTTONS.map((proc) => (
-              <button
-                key={proc.id}
-                type="button"
-                onClick={() => onSubProcessChange(proc.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase 
-                      tracking-wider border transition-all cursor-pointer ${
-                        selectedSubProcessId === proc.id
-                          ? "bg-slate-900 text-white border-slate-900 shadow-md shadow-slate-200"
-                          : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-                      }`}
-              >
-                {proc.name}
-              </button>
-            ))}
+            {INTEGRATION_BUTTONS.map((proc) => {
+              const isSelected = selectedSubProcessIds.includes(proc.id);
+              return (
+                <button
+                  key={proc.id}
+                  type="button"
+                  onClick={() => onSubProcessChange(proc.id)}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-slate-900 text-white border-slate-900 shadow-md shadow-slate-200"
+                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  {proc.name}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        <div className="pt-2">
-          {selectedSubProcessId === 2 && (
-            <SegmentedProcessBlock
-              title1="Proceso 1"
-              title2="Proceso 2"
-              specs={specs}
-              sliceIndex={4}
-              onSpecChange={onSpecChange}
-            />
+        <div className="pt-2 space-y-6">
+          {selectedSubProcessIds.includes(2) && (
+            <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
+              <h4 className="text-xs font-black text-slate-700 uppercase mb-3">
+                Expansión / Reducción
+              </h4>
+              <SegmentedProcessBlock
+                title1="Proceso 1"
+                title2="Proceso 2"
+                specs={getLocalSpecs(2)}
+                sliceIndex={4}
+                onSpecChange={(localIdx, key, val) => {
+                  const localSpecs = getLocalSpecs(2);
+                  const globalIdx = specs.findIndex(
+                    (s) => s.specName === localSpecs[localIdx].specName,
+                  );
+                  if (globalIdx !== -1) onSpecChange(globalIdx, key, val);
+                }}
+              />
+            </div>
           )}
 
-          {selectedSubProcessId === 7 && (
-            <div className="space-y-2">
-              {specs.map((spec, idx) => (
+          {selectedSubProcessIds.includes(7) && (
+            <div className="space-y-2 p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
+              <h4 className="text-xs font-black text-slate-700 uppercase mb-3">
+                Sello
+              </h4>
+              {getLocalSpecs(7).map((spec, localIdx) => (
                 <DimensionalSpecRow
-                  key={idx}
+                  key={`p7-${localIdx}`}
                   spec={spec}
-                  idx={idx}
-                  onSpecChange={onSpecChange}
+                  idx={localIdx}
+                  onSpecChange={(_, key, val) => {
+                    const globalIdx = specs.findIndex(
+                      (s) => s.specName === spec.specName,
+                    );
+                    if (globalIdx !== -1) onSpecChange(globalIdx, key, val);
+                  }}
                 />
               ))}
             </div>
           )}
 
-          {[3, 4].includes(selectedSubProcessId ?? 0) && (
-            <div className="space-y-4">
-              {specs.length > 0 && (
-                <div className="space-y-2">
-                  {specs.map((spec, idx) => (
-                    <DimensionalSpecRow
-                      key={idx}
-                      spec={spec}
-                      idx={idx}
-                      onSpecChange={onSpecChange}
-                    />
-                  ))}
-                </div>
-              )}
-              {visuals.length > 3 && (
-                <div className="space-y-2 border-t border-slate-100 pt-3">
-                  {visuals.slice(3).map((check, idx) => (
-                    <VisualChecklistRow
-                      key={idx + 3}
-                      check={check}
-                      idx={idx + 3}
-                      onChecklistChange={onChecklistChange}
-                    />
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          {[3, 4].map((id) => {
+            if (!selectedSubProcessIds.includes(id)) return null;
+
+            const localSpecs = getLocalSpecs(id);
+            const localVisuals = getLocalVisuals(id);
+            const title = INTEGRATION_BUTTONS.find((b) => b.id === id)?.name;
+
+            return (
+              <div
+                key={`proc-${id}`}
+                className="space-y-4 p-4 bg-slate-50/50 rounded-2xl border border-slate-100"
+              >
+                <h4 className="text-xs font-black text-slate-700 uppercase">
+                  {title}
+                </h4>
+
+                {localSpecs.length > 0 && (
+                  <div className="space-y-2">
+                    {localSpecs.map((spec, localIdx) => (
+                      <DimensionalSpecRow
+                        key={`p${id}-spec-${localIdx}`}
+                        spec={spec}
+                        idx={localIdx}
+                        onSpecChange={(_, key, val) => {
+                          const globalIdx = specs.findIndex(
+                            (s) => s.specName === spec.specName,
+                          );
+                          if (globalIdx !== -1)
+                            onSpecChange(globalIdx, key, val);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {localVisuals.length > 0 && (
+                  <div className="space-y-2 border-t border-slate-200/60 pt-3">
+                    {localVisuals.map((check, localIdx) => (
+                      <VisualChecklistRow
+                        key={`p${id}-vis-${localIdx}`}
+                        check={check}
+                        idx={localIdx}
+                        onChecklistChange={(_, val) => {
+                          const globalIdx = visuals.findIndex(
+                            (v) => v.checkpointName === check.checkpointName,
+                          );
+                          if (globalIdx !== -1)
+                            onChecklistChange(globalIdx, val);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
