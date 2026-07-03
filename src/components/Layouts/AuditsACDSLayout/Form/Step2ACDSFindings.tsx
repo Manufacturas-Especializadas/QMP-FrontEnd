@@ -7,7 +7,7 @@ import {
   Columns,
   AlertOctagon,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CreateAuditACDPayload } from "../../../../types/types";
 import { useAuditStartPoints } from "../../../../hooks/useAuditStartPoints";
 import { useAuditEndPoints } from "../../../../hooks/useAuditEndPoints";
@@ -33,6 +33,8 @@ export const Step2ACDSFindings = ({
   const { startPoints } = useAuditStartPoints();
   const { endPoints } = useAuditEndPoints();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [currentFinding, setCurrentFinding] = useState({
     id: 0,
