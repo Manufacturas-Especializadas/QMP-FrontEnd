@@ -512,6 +512,10 @@ export interface AuditFindingACDRead {
   isometricView: number;
   completeProcess: boolean | null;
   isProductConforming: boolean;
+  shopOrder: string | null;
+  weldingDefects: number;
+  ppBom: number;
+  imagesEvidence: string | null;
 }
 
 export interface AuditACDRead {
