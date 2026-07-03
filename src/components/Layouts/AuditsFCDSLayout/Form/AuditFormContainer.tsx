@@ -48,6 +48,8 @@ const INITIAL_STATE: CreateAuditFcds = {
     materialCorrectlyIdentified: 0,
     identifiedMeasuringEquipment: 0,
     calibratedMeasuringEquipment: 0,
+    measuringEquipmentAdequate: 0,
+    measuringEquipmentOperatorMatch: 0,
     itProcess: 0,
     typeOil: "",
     lastHourOfRelease: "",
