@@ -165,7 +165,6 @@ export const Step2ACDSFindings = ({
           </div>
         </div>
 
-        {/* SUBMIT INDIVIDUAL */}
         <div className="flex gap-2">
           {editingIndex !== null && (
             <button
