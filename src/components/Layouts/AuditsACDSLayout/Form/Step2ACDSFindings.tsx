@@ -111,6 +111,10 @@ export const Step2ACDSFindings = ({
       ppBom: 3,
       imageFile: null,
     });
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const hasRejectedItems = data.findings.some((f) => !f.isProductConforming);
