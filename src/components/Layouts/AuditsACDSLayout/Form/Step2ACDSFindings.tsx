@@ -38,8 +38,8 @@ export const Step2ACDSFindings = ({
 
   const [currentFinding, setCurrentFinding] = useState({
     id: 0,
-    startPointId: 0,
-    endPointId: 0,
+    // startPointId: 0,
+    // endPointId: 0,
     partNumber: "",
     numberOfPieces: 0,
     sampleSize: "",
@@ -74,8 +74,8 @@ export const Step2ACDSFindings = ({
   const handleSaveFinding = () => {
     if (
       !currentFinding.partNumber ||
-      currentFinding.startPointId === 0 ||
-      currentFinding.endPointId === 0 ||
+      // currentFinding.startPointId === 0 ||
+      // currentFinding.endPointId === 0 ||
       currentFinding.packerPayroll <= 0
     ) {
       alert(
@@ -97,8 +97,8 @@ export const Step2ACDSFindings = ({
   const resetForm = () => {
     setCurrentFinding({
       id: 0,
-      startPointId: 0,
-      endPointId: 0,
+      // startPointId: 0,
+      // endPointId: 0,
       partNumber: "",
       numberOfPieces: 0,
       sampleSize: "",

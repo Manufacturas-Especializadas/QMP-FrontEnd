@@ -36,14 +36,14 @@ class AuditsACDService {
           finding.existingImageUrl,
         );
 
-      formData.append(
-        `findings[${index}].startPointId`,
-        finding.startPointId.toString(),
-      );
-      formData.append(
-        `findings[${index}].endPointId`,
-        finding.endPointId.toString(),
-      );
+      // formData.append(
+      //   `findings[${index}].startPointId`,
+      //   finding.startPointId.toString(),
+      // );
+      // formData.append(
+      //   `findings[${index}].endPointId`,
+      //   finding.endPointId.toString(),
+      // );
       formData.append(`findings[${index}].partNumber`, finding.partNumber);
       formData.append(
         `findings[${index}].numberOfPieces`,

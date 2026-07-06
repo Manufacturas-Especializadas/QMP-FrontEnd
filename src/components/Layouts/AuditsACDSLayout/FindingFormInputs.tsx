@@ -11,8 +11,8 @@ interface FindingFormInputsProps {
 export const FindingFormInputs = ({
   currentFinding,
   setCurrentFinding,
-  startPoints,
-  endPoints,
+  // startPoints,
+  // endPoints,
 }: FindingFormInputsProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -92,7 +92,7 @@ export const FindingFormInputs = ({
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div className="space-y-1">
           <label className="text-[10px] font-black uppercase text-slate-400 block">
             Proceso Inicial (Start Point)
@@ -139,7 +139,7 @@ export const FindingFormInputs = ({
             ))}
           </select>
         </div>
-      </div>
+      </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 border-t border-slate-100">
         <div className="space-y-1">

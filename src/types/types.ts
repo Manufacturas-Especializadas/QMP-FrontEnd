@@ -535,8 +535,8 @@ export interface CreateAuditACDPayload {
   rejectionId: number | null;
   lineIds: number[];
   findings: {
-    startPointId: number;
-    endPointId: number;
+    // startPointId: number;
+    // endPointId: number;
     partNumber: string;
     numberOfPieces: number;
     sampleSize: string;
@@ -561,8 +561,8 @@ export interface UpdateAuditACDPayload {
   lineIds: number[];
   findings: {
     id: number;
-    startPointId: number;
-    endPointId: number;
+    // startPointId: number;
+    // endPointId: number;
     partNumber: string;
     numberOfPieces: number;
     sampleSize: string;
