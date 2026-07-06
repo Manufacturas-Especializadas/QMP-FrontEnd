@@ -13,10 +13,26 @@ export const FindingChecklistMatrix = ({
         {
           l: "Coinciden el ID del contenedor vs ID de la pieza",
           k: "containerIdMatch",
+          valYes: true,
+          valNo: false,
         },
         {
           l: "Procesos completos(Pieza fisica vs dibujo)",
           k: "completeProcess",
+          valYes: true,
+          valNo: false,
+        },
+        {
+          l: "PP según BOM",
+          k: "ppBom",
+          valYes: 1,
+          valNo: 2,
+        },
+        {
+          l: "Se detectan defectos de soldadura",
+          k: "weldingDefects",
+          valYes: 1,
+          valNo: 2,
         },
       ].map((t) => (
         <div
@@ -58,8 +74,6 @@ export const FindingChecklistMatrix = ({
           { label: "Vista Lateral", key: "sideView" },
           { label: "Vista Superior", key: "topView" },
           { label: "Vista Isométrica", key: "isometricView" },
-          { label: "PP BOM", key: "ppBom" },
-          { label: "Defectos de Soldadura", key: "weldingDefects" },
         ].map((v) => (
           <div
             key={v.key}
