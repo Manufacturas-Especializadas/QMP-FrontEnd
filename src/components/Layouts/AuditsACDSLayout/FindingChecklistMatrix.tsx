@@ -66,9 +66,6 @@ export const FindingChecklistMatrix = ({
       ))}
 
       <div className="space-y-2 bg-white p-4 rounded-2xl border border-slate-150">
-        <span className="text-[10px] font-black uppercase text-slate-400 block">
-          Inspección Visual Cosmética (4 Vistas)
-        </span>
         {[
           { label: "Vista Frontal", key: "frontView" },
           { label: "Vista Lateral", key: "sideView" },
