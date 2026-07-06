@@ -56,9 +56,52 @@ export const FindingFormInputs = ({
       </div>
 
       <div className="grid grid-cols-3 gap-3">
-        <div className="col-span-2 space-y-1">
+        <div className="space-y-1">
           <label className="text-[10px] font-black uppercase text-slate-400 block">
-            Tamaño de muestra
+            Nro Piezas (Lote)
+          </label>
+          <input
+            type="number"
+            value={currentFinding.numberOfPieces || ""}
+            onChange={(e) => {
+              const lotSize = Number(e.target.value);
+
+              let sample = "";
+              if (lotSize === 1) sample = "1";
+              else if (lotSize >= 2 && lotSize <= 8) sample = "2";
+              else if (lotSize >= 9 && lotSize <= 15) sample = "3";
+              else if (lotSize >= 16 && lotSize <= 25) sample = "5";
+              else if (lotSize >= 26 && lotSize <= 50) sample = "8";
+              else if (lotSize >= 51 && lotSize <= 90) sample = "13";
+              else if (lotSize >= 91 && lotSize <= 150) sample = "20";
+              else if (lotSize >= 151 && lotSize <= 280) sample = "32";
+              else if (lotSize >= 281 && lotSize <= 500) sample = "50";
+              else if (lotSize >= 501 && lotSize <= 1200) sample = "80";
+              else if (lotSize >= 1201 && lotSize <= 3200) sample = "125";
+              else if (lotSize >= 3201 && lotSize <= 10000) sample = "200";
+              else if (lotSize >= 10001 && lotSize <= 35000) sample = "315";
+              else if (lotSize >= 35001 && lotSize <= 150000) sample = "500";
+              else if (lotSize >= 150001 && lotSize <= 500000) sample = "800";
+              else if (lotSize >= 500001) sample = "1250";
+
+              setCurrentFinding((p: any) => ({
+                ...p,
+                numberOfPieces: lotSize,
+                sampleSize: sample,
+              }));
+            }}
+            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs
+            font-bold outline-none focus:border-blue-500 shadow-sm"
+            placeholder="Ej. 100"
+          />
+        </div>
+
+        <div className="col-span-2 space-y-1">
+          <label className="text-[10px] font-black uppercase text-slate-400 flex items-center justify-between">
+            <span>Tamaño de Muestra</span>
+            <span className="text-[8px] bg-blue-50 text-blue-600 font-bold px-1.5 py-0.5 rounded-sm uppercase tracking-wider border border-blue-100">
+              Cálculo Auto
+            </span>
           </label>
           <input
             type="text"
@@ -69,25 +112,9 @@ export const FindingFormInputs = ({
                 sampleSize: e.target.value,
               }))
             }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
-            font-bold outline-none focus:border-blue-500 shadow-sm"
-          />
-        </div>
-        <div className="space-y-1">
-          <label className="text-[10px] font-black uppercase text-slate-400 block">
-            Nro Piezas
-          </label>
-          <input
-            type="number"
-            value={currentFinding.numberOfPieces || ""}
-            onChange={(e) =>
-              setCurrentFinding((p: any) => ({
-                ...p,
-                numberOfPieces: Number(e.target.value),
-              }))
-            }
-            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 text-xs
-            font-bold outline-none focus:border-blue-500 shadow-sm"
+            className="w-full bg-slate-50/50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs 
+            font-black text-blue-700 outline-none focus:border-blue-500 shadow-sm transition-colors"
+            placeholder="Esperando cantidad..."
           />
         </div>
       </div>
