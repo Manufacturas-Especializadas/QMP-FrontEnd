@@ -6,7 +6,7 @@ import {
   AlertTriangle,
   Hash,
   Activity,
-  Package,
+  // Package,
   Loader2,
   Camera,
 } from "lucide-react";
@@ -84,12 +84,12 @@ export const ACDSDetailsModal = ({
           items-center shrink-0"
         >
           <div className="space-y-1">
-            <span
+            {/* <span
               className="bg-blue-50 border border-blue-100 text-blue-700 text-[10px] 
               font-black uppercase px-2.5 py-0.5 rounded-md flex items-center gap-1 w-max"
             >
               <Package size={11} /> Visor Histórico Premium
-            </span>
+            </span> */}
             <h2 className="text-xl font-black text-slate-800 uppercase tracking-tight">
               Detalles de Auditoría ACD #{auditId}
             </h2>
