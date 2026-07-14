@@ -5,6 +5,7 @@ import type {
   AvailableMonth,
   CreateAuditFcds,
   DetailedAuditFcds,
+  PaginationInfo,
 } from "../types/types";
 import { auditsFcdsService } from "../api/services/AuditsFcdsService";
 
@@ -25,11 +26,28 @@ export const useAuditsFcds = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
-  const fetchAudits = useCallback(async () => {
+  const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({
+    totalCount: 0,
+    totalPages: 1,
+    currentPage: 1,
+    pageSize: 10,
+    totalConforming: 0,
+    totalNonConforming: 0,
+  });
+
+  const fetchAudits = useCallback(async (pageNumber = 1, pageSize = 10) => {
     setLoading(true);
     try {
-      const response = await auditsFcdsService.getAuditsFcds();
-      setAudits(response);
+      const response = await auditsFcdsService.getAuditsFcds(pageNumber, pageSize);
+      setAudits(response.items || []); 
+      setPaginationInfo({
+        totalCount: response.totalCount || 0,
+        totalPages: response.totalPages || 1,
+        currentPage: response.currentPage || 1,
+        pageSize: response.pageSize || 10,
+        totalConforming: response.totalConforming || 0,
+        totalNonConforming: response.totalNonConforming || 0,
+      });
     } catch (error: any) {
       const msg =
         error.response?.data?.message ||
@@ -150,5 +168,6 @@ export const useAuditsFcds = () => {
     createAudit,
     updateAudit,
     deleteAudit,
+    paginationInfo,
   };
 };
