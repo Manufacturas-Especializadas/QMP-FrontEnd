@@ -3,6 +3,7 @@ import type {
   AuditFcdsList,
   AvailableMonth,
   CreateAuditFcds,
+  PagedResponse,
 } from "../../types/types";
 import { apiClient } from "../client";
 
@@ -16,8 +17,9 @@ class AuditsFcdsService {
   private updateEndpoint = API_CONFIG.endpoints.auditsFCDS.update;
   private deleteEndpoint = API_CONFIG.endpoints.auditsFCDS.delete;
 
-  async getAuditsFcds(): Promise<AuditFcdsList[]> {
-    return apiClient.get<AuditFcdsList[]>(this.getAuditsFcdsEndpoint);
+  async getAuditsFcds(pageNumber: number = 1, pageSize: number = 10): Promise<PagedResponse<AuditFcdsList>> {
+    const url = `${this.getAuditsFcdsEndpoint}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    return apiClient.get<PagedResponse<AuditFcdsList>>(url);
   }
 
   async getById(id: number): Promise<CreateAuditFcds> {
