@@ -26,6 +26,11 @@ export const AuditsFCDS = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedAuditId, setSelectedAuditId] = useState<number | null>(null);
 
+  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  
+
   const navigate = useNavigate();
 
   const [formMode, setFormMode] = useState<"create" | "edit" | "view">(
@@ -33,11 +38,11 @@ export const AuditsFCDS = () => {
   );
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  const { audits, loading, fetchAudits, deleteAudit } = useAuditsFcds();
+  const { audits, loading, fetchAudits, deleteAudit, paginationInfo } = useAuditsFcds();
 
   useEffect(() => {
-    fetchAudits();
-  }, [fetchAudits]);
+    fetchAudits(pageNumber, pageSize);
+  }, [fetchAudits, pageNumber, pageSize]);
 
   const filteredAudits = audits.filter(
     (audit) =>
@@ -45,9 +50,9 @@ export const AuditsFCDS = () => {
       audit.inspectorName.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const totalAudits = audits.length;
-  const totalConforming = audits.filter((a) => a.isProductConforming).length;
-  const totalRejections = audits.filter((a) => !a.isProductConforming).length;
+  const totalAudits = paginationInfo?.totalCount || 0;
+ const totalConforming = paginationInfo?.totalConforming || 0;
+  const totalRejections = paginationInfo?.totalNonConforming || 0;
 
   const handleCreate = () => {
     setFormMode("create");
@@ -451,9 +456,46 @@ export const AuditsFCDS = () => {
                   </div>
                 </div>
               ))}
+              
             </div>
           </>
         )}
+        <div className="flex flex-col sm:flex-row items-center justify-between p-4 border-t border-slate-100 bg-white gap-4">
+          <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
+                <span>Mostrar</span>
+                <select 
+                  className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500"
+                  value={pageSize}
+                  onChange={(e) => {
+                    setPageSize(Number(e.target.value));
+                    setPageNumber(1);
+                  }}
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={50}>50</option>
+                </select>
+                <span>registros</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  disabled={pageNumber === 1}
+                  onClick={() => setPageNumber(prev => Math.max(prev - 1, 1))}
+                  className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                  Anterior
+                </button>
+                <span className="text-sm font-bold text-slate-500 px-2">
+                  Pág {paginationInfo?.currentPage} de {paginationInfo?.totalPages || 1}
+                </span>
+                <button
+                  disabled={pageNumber === (paginationInfo?.totalPages || 1)}
+                  onClick={() => setPageNumber(prev => prev + 1)}
+                  className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+                  Siguiente
+                </button>
+              </div>
+        </div>
       </div>
       <AuditDetailsModal
         isOpen={showDetailsModal}
