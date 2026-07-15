@@ -7,8 +7,6 @@ import {
   ClipboardCheck,
   CheckCircle2,
   XCircle,
-  Search,
-  SlidersHorizontal,
   FileText,
   Loader2,
   File,
