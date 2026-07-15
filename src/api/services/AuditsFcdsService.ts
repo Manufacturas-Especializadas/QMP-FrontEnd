@@ -25,7 +25,7 @@ class AuditsFcdsService {
   async getById(id: number): Promise<CreateAuditFcds> {
     return apiClient.get<CreateAuditFcds>(`${this.getByIdEndpoint}${id}`);
   }
-
+  
   async availableMonths(): Promise<AvailableMonth[]> {
     return apiClient.get<AvailableMonth[]>(this.availableMonthsEndpoint);
   }

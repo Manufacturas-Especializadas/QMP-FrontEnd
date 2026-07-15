@@ -600,3 +600,19 @@ export interface PaginationInfo {
   totalConforming: number;
   totalNonConforming: number;
 }
+
+export interface StatCardProps {
+  label: string;
+  value: string | number;
+  subtitle: string;
+  loading: boolean;
+  themeColors: {
+    badge: string;
+    text: string;
+  };
+}
+
+export interface AuditSearchProps {
+    searchTerm: string;
+    onSearchChange: (value: string) => void;
+}

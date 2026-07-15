@@ -19,6 +19,8 @@ import { AuditDetailsModal } from "../../components/Layouts/AuditsFCDSLayout/Aud
 import { RoleGuard } from "../../components/Auth/RoleGuard";
 import { UserRole } from "../../types/types";
 import { useNavigate } from "react-router-dom";
+import { StatCard } from "../../components/AuditFCDS/TotalesAudit"; 
+import { AuditSearch } from "../../components/AuditFCDS/SearchBar";
 
 export const AuditsFCDS = () => {
   const [showForm, setShowForm] = useState(false);
@@ -150,89 +152,36 @@ export const AuditsFCDS = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div
-          className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex 
-          items-center gap-4"
-        >
-          <div
-            className="p-3 bg-blue-50 text-blue-600 rounded-xl font-black text-xs uppercase 
-            tracking-wider"
-          >
-            Total
-          </div>
-          <div>
-            <p className="text-2xl font-black text-slate-800">
-              {loading ? "..." : totalAudits}
-            </p>
-            <p className="text-[10px] uppercase font-black text-slate-400 tracking-wide">
-              Auditorías Totales
-            </p>
-          </div>
-        </div>
-        <div
-          className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex 
-          items-center gap-4"
-        >
-          <div
-            className="p-3 bg-emerald-50 text-emerald-600 rounded-xl font-black text-xs 
-            uppercase tracking-wider"
-          >
-            OK
-          </div>
-          <div>
-            <p className="text-2xl font-black text-emerald-600">
-              {loading ? "..." : totalConforming}
-            </p>
-            <p className="text-[10px] uppercase font-black text-slate-400 tracking-wide">
-              Conformes
-            </p>
-          </div>
-        </div>
-        <div
-          className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex 
-          items-center gap-4"
-        >
-          <div
-            className="p-3 bg-rose-50 text-rose-600 rounded-xl font-black text-xs 
-            uppercase tracking-wider"
-          >
-            RDM
-          </div>
-          <div>
-            <p className="text-2xl font-black text-rose-600">
-              {loading ? "..." : totalRejections}
-            </p>
-            <p className="text-[10px] uppercase font-black text-slate-400 tracking-wide">
-              No Conformes
-            </p>
-          </div>
-        </div>
-      </div>
+<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <StatCard 
+    label="Total" 
+    value={totalAudits} 
+    subtitle="Auditorías Totales" 
+    loading={loading}
+    themeColors={{ badge: "bg-blue-50 text-blue-600", text: "text-slate-800" }} 
+  />
+  <StatCard 
+    label="OK" 
+    value={totalConforming} 
+    subtitle="Conformes" 
+    loading={loading}
+    themeColors={{ badge: "bg-emerald-50 text-emerald-600", text: "text-emerald-600" }} 
+  />
+  <StatCard 
+    label="RDM" 
+    value={totalRejections} 
+    subtitle="No Conformes" 
+    loading={loading}
+    themeColors={{ badge: "bg-rose-50 text-rose-600", text: "text-rose-600" }} 
+  />
+</div>
 
-      <div className="flex gap-3 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
-        <div className="relative flex-1">
-          <Search
-            className="absolute left-4 top-3.5 text-slate-400"
-            size={18}
-          />
-          <input
-            type="text"
-            placeholder="Buscar por número de parte o inspector..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-100 rounded-xl pl-12 pr-4 py-3 
-            outline-none text-sm font-medium focus:bg-white focus:border-blue-500 
-            transition-colors"
-          />
-        </div>
-        <button
-          className="p-3 border border-slate-100 bg-slate-50 text-slate-600 rounded-xl 
-          transition-colors cursor-pointer"
-        >
-          <SlidersHorizontal size={18} />
-        </button>
-      </div>
+      <AuditSearch
+      searchTerm={searchTerm}
+      onSearchChange={setSearchTerm}
+      />
+
+     
 
       <div className="bg-white border border-slate-100 shadow-sm rounded-3xl overflow-hidden">
         {loading ? (
