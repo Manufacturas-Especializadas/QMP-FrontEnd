@@ -160,11 +160,10 @@ export const ScrapForm = () => {
   return (
     <div className="max-w-350 mx-auto mt-8 mb-20 px-4 animate-in fade-in slide-in-from-bottom-8 duration-500">
       
-      {/* NOTA: Se removió 'overflow-hidden' del contenedor principal para que los Dropdowns no se corten.
-      */}
+      
       <div className="relative bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] shadow-blue-900/5 rounded-[2.5rem] p-6 sm:p-10">
         
-        {/* Wrapper dedicado para el glow azul que oculta el overflow sin afectar a los menús */}
+        
         <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] -z-10 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-blue-400/10 blur-3xl rounded-full" />
         </div>
@@ -178,16 +177,14 @@ export const ScrapForm = () => {
           </p>
         </div>
 
-        {/* NOTA: Cambiamos lg:grid-cols-5 por xl:grid-cols-5. 
-          En tabletas, el formulario pasará a usar 1 sola columna y se verá mucho más relajado.
-        */}
+
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 relative z-10">
           
           <div className="xl:col-span-3 space-y-8">
             
             <div className="grid grid-cols-1 gap-8">
               
-              {/* TURNO */}
+
               <div className="space-y-3">
                 <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
                   <Clock size={14} className="text-blue-500" /> Seleccionar Turno
@@ -213,7 +210,7 @@ export const ScrapForm = () => {
                 </div>
               </div>
 
-              {/* LÍNEA */}
+
               <div className="space-y-3">
                 <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
                   <Layers size={14} className="text-blue-500" /> Seleccionar Línea
@@ -258,12 +255,12 @@ export const ScrapForm = () => {
 
             <hr className="border-slate-200/60" />
 
-            {/* SECCIÓN: PROCESO Y OPERADOR */}
+
             <div className="space-y-4 relative z-40">
               <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
                 <Settings size={14} className="text-blue-500" /> Proceso y Operador
               </label>
-              {/* Cambiamos las cuadrículas para acomodarse elegantemente en pantallas medianas */}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <div className={`transition-all duration-300 rounded-xl ${showValidationErrors && !formData.processId ? "ring-2 ring-red-500/50" : ""}`}>
                   <FloatingSelect
@@ -298,7 +295,7 @@ export const ScrapForm = () => {
               </div>
             </div>
 
-            {/* SECCIÓN: DETALLES DEL MATERIAL */}
+
             <div className="space-y-4 relative z-30">
               <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
                 <Box size={14} className="text-blue-500" /> Detalles del Material
@@ -330,7 +327,7 @@ export const ScrapForm = () => {
               </div>
             </div>
 
-            {/* SECCIÓN: DETALLES DEL HALLAZGO */}
+
             <div className="space-y-4 relative z-20">
               <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
                 <AlertOctagon size={14} className="text-blue-500" /> Detalles del Hallazgo
@@ -368,7 +365,7 @@ export const ScrapForm = () => {
               </div>
             </div>
 
-            {/* BOTONES DE AGREGAR / EDITAR */}
+
             <div className="pt-2 flex gap-2">
               {editingIndex !== null && (
                 <button
@@ -403,7 +400,7 @@ export const ScrapForm = () => {
             </div>
           </div>
 
-          {/* COLUMNA DERECHA: STACK DE LOTES */}
+
           <div className="xl:col-span-2 flex flex-col justify-between border-t xl:border-t-0 xl:border-l border-slate-200/60 pt-8 xl:pt-0 xl:pl-8">
             
             <div className="flex-1 space-y-4">
