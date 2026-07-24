@@ -581,3 +581,22 @@ export interface UpdateAuditACDPayload {
     existingImageUrls?: string;
   }[];
 }
+
+export interface PagedResponse<T> {
+  items: T[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+  totalConforming: number;
+  totalNonConforming: number;
+}
+
+export interface PaginationInfo {
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+  pageSize: number;
+  totalConforming: number;
+  totalNonConforming: number;
+}

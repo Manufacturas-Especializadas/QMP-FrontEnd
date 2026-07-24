@@ -1,26 +1,30 @@
-import { useCallback, useState, type SyntheticEvent } from "react";
+import { useCallback, useState } from "react";
 import type { Scrap } from "../types/types";
 import toast from "react-hot-toast";
 import { scrapService } from "../api/services/ScrapService";
+
+export interface ScrapFormState extends Scrap {
+  lineId: number;
+  processId: number;
+  typeScrapId: number;
+  lineName: string;
+  processName?: string;
+  defectName?: string;
+}
 
 interface useScrapFormReturn {
   loading: boolean;
   error: string | null;
   formData: ScrapFormState;
+  setFormData: React.Dispatch<React.SetStateAction<ScrapFormState>>;
   handleChange: (
     field: keyof ScrapFormState,
     value: string | number | null,
   ) => void;
   handleLineClick: (id: number, name: string) => void;
-  handleSubmit: (e: SyntheticEvent<HTMLFormElement>) => Promise<void>;
+  handleSubmit: (reports: ScrapFormState[]) => Promise<void>;
   resetForm: () => void;
-}
-
-interface ScrapFormState extends Scrap {
-  lineId: number;
-  processId: number;
-  typeScrapId: number;
-  lineName: string;
+  resetPartial: () => void;
 }
 
 const initalFormData: ScrapFormState = {
@@ -65,66 +69,52 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
       machineCodeId: 0,
     }));
   }, []);
-
-  const validateForm = useCallback((): boolean => {
-    const errors: string[] = [];
-
-    if (formData.shiftId === 0) errors.push("El turno es requerido");
-    if (formData.lineId === 0) errors.push("La línea es requerida");
-    if (formData.processId === 0) errors.push("El proceso es requerido");
-    // if (formData.machineCodeId === 0)
-    //   errors.push("El código de máquina es requerido");
-    if (formData.payRollNumber <= 0) errors.push("Número de nómina inválido");
-    if (formData.materialId === 0) errors.push("El material es requerido");
-    if (formData.typeScrapId === 0)
-      errors.push("El tipo de scrap es requerido");
-    if (formData.defectId === 0) errors.push("El defecto es requerido");
-    if (formData.weight <= 0) errors.push("El peso debe ser mayor a 0");
-    // if (!formData.rdm.trim()) errors.push("El RDM es requerido");
-
-    if (errors.length > 0) {
-      toast.error(errors[0]);
-      return false;
-    }
-
-    return true;
-  }, [formData]);
-
+  
   const resetForm = useCallback(() => {
     setFormData(initalFormData);
     setError(null);
   }, []);
 
-  const handleSubmit = useCallback(
-    async (e: SyntheticEvent<HTMLFormElement>) => {
-      e.preventDefault();
+  const resetPartial = useCallback(() => {
+    setFormData((prev) => ({
+      ...initalFormData,
+      shiftId: prev.shiftId,
+      lineId: prev.lineId,
+      lineName: prev.lineName,
+    }));
+    setError(null);
+  }, []);
 
-      if (!validateForm()) return;
+  const handleSubmit = useCallback(
+    async (reports: ScrapFormState[]) => {
+      if (reports.length === 0) return;
 
       setLoading(true);
       setError(null);
 
-      const loadingToast = toast.loading("Guardando registro de scrap...");
+      const loadingToast = toast.loading("Guardando registros de scrap...");
 
       try {
-        const payload: Scrap = {
-          payRollNumber: Number(formData.payRollNumber),
-          alloy: formData.alloy || "",
-          diameter: formData.diameter || "",
-          wall: formData.wall || "",
-          rdm: formData.rdm,
-          shiftId: formData.shiftId,
-          processId: formData.processId,
-          lineId: formData.lineId,
-          materialId: formData.materialId,
-          typeScrapId: formData.typeScrapId,
-          machineCodeId:
-            formData.machineCodeId === 0 ? null : formData.machineCodeId,
-          defectId: formData.defectId,
-          weight: Number(formData.weight),
-        };
-
-        await scrapService.createScrap(payload);
+        await Promise.all(
+          reports.map((report) => {
+            const payload: Scrap = {
+              payRollNumber: Number(report.payRollNumber),
+              alloy: report.alloy || "",
+              diameter: report.diameter || "",
+              wall: report.wall || "",
+              rdm: report.rdm,
+              shiftId: report.shiftId,
+              processId: report.processId,
+              lineId: report.lineId,
+              materialId: report.materialId,
+              typeScrapId: report.typeScrapId,
+              machineCodeId: report.machineCodeId === 0 ? null : report.machineCodeId,
+              defectId: report.defectId,
+              weight: Number(report.weight),
+            };
+            return scrapService.createScrap(payload);
+          })
+        );
 
         toast.dismiss(loadingToast);
         toast.success("Scrap registrado exitosamente");
@@ -142,16 +132,18 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
         setLoading(false);
       }
     },
-    [formData, validateForm, onSucess, resetForm],
+    [onSucess, resetForm],
   );
 
   return {
     loading,
     error,
     formData,
+    setFormData,
     handleChange,
     handleLineClick,
     handleSubmit,
     resetForm,
+    resetPartial,
   };
 };
