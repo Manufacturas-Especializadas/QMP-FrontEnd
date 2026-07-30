@@ -270,6 +270,10 @@ export interface ScrapList {
   lineName: string;
   isVerified: boolean;
   verifiedWeight: number | null;
+  processName: string;
+  machineCodeName: string;
+  typeScrapName: string;
+  defectName: string;
   scrapDetails: ScrapDetailRead[];
 }
 
