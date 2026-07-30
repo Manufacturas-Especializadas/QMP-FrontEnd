@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
-import type { Scrap } from "../types/types";
+import type { Scrap, CreateScrapPayload, ScrapDetailPayload } from "../types/types";
 import toast from "react-hot-toast";
 import { scrapService } from "../api/services/ScrapService";
+import { useAuth } from "../context/AuthContext";
 
 export interface ScrapFormState extends Scrap {
   lineId: number;
@@ -10,6 +11,7 @@ export interface ScrapFormState extends Scrap {
   lineName: string;
   processName?: string;
   defectName?: string;
+  partNumber?: string; 
 }
 
 interface useScrapFormReturn {
@@ -48,6 +50,7 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<ScrapFormState>(initalFormData);
+  const { user } = useAuth();
 
   const handleChange = useCallback(
     (field: keyof ScrapFormState, value: string | number | null) => {
@@ -95,26 +98,37 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
       const loadingToast = toast.loading("Guardando registros de scrap...");
 
       try {
-        await Promise.all(
-          reports.map((report) => {
-            const payload: Scrap = {
-              payRollNumber: Number(report.payRollNumber),
-              alloy: report.alloy || "",
-              diameter: report.diameter || "",
-              wall: report.wall || "",
-              rdm: report.rdm,
-              shiftId: report.shiftId,
-              processId: report.processId,
-              lineId: report.lineId,
-              materialId: report.materialId,
-              typeScrapId: report.typeScrapId,
-              machineCodeId: report.machineCodeId === 0 ? null : report.machineCodeId,
-              defectId: report.defectId,
-              weight: Number(report.weight),
-            };
-            return scrapService.createScrap(payload);
-          })
-        );
+        const inspectorPayRollNumber = user?.unique_name ? Number(user.unique_name) : 0;
+
+        if (!inspectorPayRollNumber) {
+          throw new Error("No se pudo identificar al inspector (sesión inválida).");
+        }
+
+        const shiftId = reports[0].shiftId;
+        const lineId = reports[0].lineId;
+
+        const scrapDetails: ScrapDetailPayload[] = reports.map((report) => ({
+          payRollNumber: Number(report.payRollNumber),
+          processId: report.processId,
+          machineCodeId: report.machineCodeId === 0 ? null : report.machineCodeId,
+          alloy: report.alloy || "",
+          diameter: report.diameter || "",
+          wall: report.wall || "",
+          rdm: report.rdm,
+          weight: Number(report.weight),
+          materialId: report.materialId,
+          typeScrapId: report.typeScrapId,
+          defectId: report.defectId,
+        }));
+
+        const payload: CreateScrapPayload = {
+          inspectorPayRollNumber,
+          shiftId,
+          lineId,
+          scrapDetails,
+        };
+
+        await scrapService.createScrap(payload);
 
         toast.dismiss(loadingToast);
         toast.success("Scrap registrado exitosamente");
@@ -125,7 +139,7 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
       } catch (err: any) {
         toast.dismiss(loadingToast);
         const message =
-          err?.response?.data?.message || "Error al guardar el scrap";
+          err?.response?.data?.message || err.message || "Error al guardar el scrap";
         setError(message);
         toast.error(message);
       } finally {

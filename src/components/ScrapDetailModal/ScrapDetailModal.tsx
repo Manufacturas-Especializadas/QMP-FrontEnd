@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useScrapById } from "../../hooks/useScrapById";
 import { useVerifyScrap } from "../../hooks/useVerifyScrap";
-import { X, Loader2, CheckCircle2, AlertCircle, Lock } from "lucide-react";
+import { X, Loader2, CheckCircle2, AlertCircle, Lock, Layers } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { UserRole } from "../../types/types";
 
@@ -19,6 +19,7 @@ export const ScrapDetailModal = ({
     fetchScrap,
     clearScrap,
   } = useScrapById();
+
   const { verify, isVerifying } = useVerifyScrap(() => {
     onRefresh();
     handleClose();
@@ -35,11 +36,13 @@ export const ScrapDetailModal = ({
 
   const canVerify = useMemo(() => {
     if (!scrapData) return false;
-    if (!scrapData.isVerified && scrapData.verifiedWeight === null) return true;
-    return (
-      user?.role === UserRole.Admin ||
-      user?.role === UserRole.CalidadProveedores
-    );
+    const isAudited = scrapData.isVerified || scrapData.verifiedWeight !== null;
+
+    if (!isAudited) {
+      return true;
+    }
+
+    return user?.role === UserRole.Admin;
   }, [scrapData, user?.role]);
 
   const handleClose = () => {
@@ -50,6 +53,7 @@ export const ScrapDetailModal = ({
   };
 
   if (!isOpen) return null;
+  console.log("ScrapData", scrapData);
 
   return (
     <div
@@ -87,33 +91,69 @@ export const ScrapDetailModal = ({
             </div>
           ) : (
             <>
+
               <div
                 className="grid grid-cols-2 gap-6 bg-gray-50 p-4 
                 rounded-2xl border border-gray-100"
               >
                 <div>
                   <p className="text-gray-400 font-bold uppercase text-[10px] mb-1">
-                    Proceso
+                    Linea
                   </p>
                   <p className="font-bold text-gray-700">
-                    {scrapData?.processName}
+                    {scrapData?.lineId || "N/A"}
                   </p>
                 </div>
                 <div>
                   <p className="text-gray-400 font-bold uppercase text-[10px] mb-1">
-                    Peso Registrado
+                    Peso verificado
                   </p>
                   <p className="font-black text-secondary text-lg">
-                    {scrapData?.weight} kg
+                    {scrapData?.verifiedWeight || "(Sin verificar)"} kg
                   </p>
                 </div>
               </div>
 
+              {scrapData?.scrapDetails && scrapData.scrapDetails.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                    <Layers size={14} /> Registros del Reporte
+                  </h3>
+
+                  <div className="max-h-48 overflow-y-auto space-y-2 pr-1 
+                    [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 
+                    [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+
+                    {scrapData.scrapDetails.map((detail: any, index: number) => (
+                      <div
+                        key={detail.id || index}
+                        className="flex justify-between items-center p-3 bg-white border border-gray-100 rounded-xl shadow-sm"
+                      >
+                        <div className="flex flex-col">
+                          <span className="font-bold text-gray-700 text-sm">
+                            {detail.typeScrapName || "Sin tipo especificado"}
+                          </span>
+                          <span className="text-[10px] font-bold text-gray-400">
+                            Operador: {detail.payRollNumber || "N/A"}
+                          </span>
+                        </div>
+                        <div className="bg-blue-50 px-3 py-1 rounded-lg">
+                          <span className="font-black text-blue-600">
+                            {detail.weight} <span className="text-[10px] text-blue-400">kg</span>
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+
+                  </div>
+                </div>
+              )}
+
               {canVerify ? (
-                <div className="space-y-4">
+                <div className="space-y-4 pt-2 border-t border-gray-100 mt-2">
                   <label className="block text-sm font-bold text-gray-600 text-center">
                     {scrapData?.isVerified || scrapData?.verifiedWeight !== null
-                      ? "¿Deseas modificar la verificación actual?"
+                      ? "¿El peso es correcto?"
                       : "¿El peso registrado es correcto?"}
                   </label>
                   <div className="flex gap-4">
@@ -121,11 +161,10 @@ export const ScrapDetailModal = ({
                       type="button"
                       onClick={() => setIsVerified(true)}
                       className={`flex-1 py-4 rounded-2xl border-2 font-bold 
-                      flex flex-col items-center gap-1 transition-all hover:cursor-pointer ${
-                        isVerified === true
+                      flex flex-col items-center gap-1 transition-all hover:cursor-pointer ${isVerified === true
                           ? "border-green-500 bg-green-50 text-green-600 shadow-inner"
                           : "border-gray-100 text-gray-400 hover:bg-gray-50"
-                      }`}
+                        }`}
                     >
                       <CheckCircle2 size={24} /> SÍ
                     </button>
@@ -133,11 +172,10 @@ export const ScrapDetailModal = ({
                       type="button"
                       onClick={() => setIsVerified(false)}
                       className={`flex-1 py-4 rounded-2xl border-2 font-bold flex 
-                      flex-col items-center gap-1 transition-all hover:cursor-pointer ${
-                        isVerified === false
+                      flex-col items-center gap-1 transition-all hover:cursor-pointer ${isVerified === false
                           ? "border-amber-500 bg-amber-50 text-amber-600 shadow-inner"
                           : "border-gray-100 text-gray-400 hover:bg-gray-50"
-                      }`}
+                        }`}
                     >
                       <AlertCircle size={24} /> NO
                     </button>

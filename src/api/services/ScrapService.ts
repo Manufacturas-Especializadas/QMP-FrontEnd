@@ -1,9 +1,10 @@
 import { API_CONFIG } from "../../config/api";
 import type {
-  Scrap,
   ScrapList,
-  ScrapRead,
+  UpdateScrap,
   VerifyScrapPayload,
+  CreateScrapPayload,
+  ScrapReadById,
 } from "../../types/types";
 import { apiClient } from "../client";
 
@@ -12,11 +13,12 @@ class ScrapService {
   private getAllScrapEndpoint = API_CONFIG.endpoints.scrap.getAll;
   private getReportsEndpoint = API_CONFIG.endpoints.scrap.reports;
   private createScrapEndpoint = API_CONFIG.endpoints.scrap.createScrap;
+  private updateScrapEndpoint = API_CONFIG.endpoints.scrap.updateScrap;
   private deleteScrapEndpoint = API_CONFIG.endpoints.scrap.deleteScrap;
   private verifyScrapEndpoint = API_CONFIG.endpoints.scrap.verify;
 
-  async getScrapById(id: number): Promise<ScrapRead> {
-    return apiClient.get<ScrapRead>(`${this.getScrapByIdEndpoint}${id}`);
+  async getScrapById(id: number): Promise<ScrapReadById> {
+    return apiClient.get<ScrapReadById>(`${this.getScrapByIdEndpoint}${id}`);
   }
 
   async getAllScrap(): Promise<ScrapList[]> {
@@ -53,8 +55,12 @@ class ScrapService {
     return apiClient.downloadFile(endpoint, fileName);
   }
 
-  async createScrap(data: Scrap): Promise<void> {
+  async createScrap(data: CreateScrapPayload): Promise<void> {
     return apiClient.post<void>(this.createScrapEndpoint, data);
+  }
+
+  async updateScrap(id: number, data: UpdateScrap[]): Promise<any>{
+    return apiClient.put<any>(`${this.updateScrapEndpoint}${id}`, data)
   }
 
   async deleteScrap(id: number): Promise<void> {

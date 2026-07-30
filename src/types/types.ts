@@ -190,43 +190,87 @@ export interface MachineCodeUpdate {
   machineCodeName: string;
 }
 
-export interface ScrapRead {
-  id: number;
+export interface ScrapDetailPayload {
   payRollNumber: number;
+  processId: number;
+  machineCodeId: number | null;
   alloy: string;
   diameter: string;
   wall: string;
   rdm: string;
   weight: number;
-  createdAt: string;
-  shiftName: string;
-  lineName: string;
+  materialId: number;
+  typeScrapId: number;
+  defectId: number;
+}
+
+export interface CreateScrapPayload {
+  inspectorPayRollNumber: number;
+  shiftId: number;
+  lineId: number;
+  scrapDetails: ScrapDetailPayload[];
+}
+
+
+export interface ScrapDetailRead {
+  id: number;
+  payRollNumber: number;
   processName: string;
-  machineCodeName: any;
+  machineCodeName: string;
+  alloy: string;
+  diameter: string;
+  wall: string;
+  rdm: string;
+  weight: number;
+  materialName: string;
   typeScrapName: string;
   defectName: string;
-  isVerified: boolean;
-  verifiedWeight: any;
+  partNumber: string;
+}
+
+export interface ScrapReadById {
+  id: number
+  inspectorPayRollNumber: number
+  createdAt: string
+  shiftId: number
+  shiftName: string
+  lineId: number
+  lineName: string
+  isVerified: boolean
+  verifiedWeight: number
+  scrapDetails: ScrapDetail[]
+}
+
+export interface ScrapDetail {
+  id: number;
+  payRollNumber: number;
+  processId: number | null;
+  processName: string;
+  machineCodeId: number | null;
+  machineCodeName: string;
+  alloy: string;
+  diameter: string;
+  wall: string;
+  rdm: string;
+  weight: number;
+  materialId: number;
+  materialName: string;
+  typeScrapId: number;
+  typeScrapName: string;
+  defectId: number | null;
+  defectName: string;
+  partNumber: string;
 }
 
 export interface ScrapList {
   id: number;
-  payRollNumber: number;
-  alloy: string;
-  diameter: string;
-  wall: string;
-  rdm: string;
-  shiftName: string;
-  processName: string;
-  lineName: string;
-  materialName: string;
-  typeScrapName: string;
-  machineCodeName: string;
-  defectName: string;
-  weight: number;
+  inspectorPayRollNumber: number;
   createdAt: string;
+  shiftName: string;
+  lineName: string;
   isVerified: boolean;
-  verifiedWeight: number;
+  verifiedWeight: number | null;
+  scrapDetails: ScrapDetailRead[];
 }
 
 export interface Scrap {
@@ -244,6 +288,23 @@ export interface Scrap {
   defectId: number;
   weight: number;
 }
+
+export interface UpdateScrap {
+  id?: number
+  payRollNumber: number
+  processId: number
+  machineCodeId: number | null
+  alloy: string
+  diameter: string
+  wall: string
+  weight: number
+  rdm: string
+  materialId: number
+  typeScrapId: number
+  defectId: number
+  partNumber: string
+}
+
 
 export interface RejectionRead {
   id: number;
