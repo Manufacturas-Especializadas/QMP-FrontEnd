@@ -13,7 +13,7 @@ import {
   Edit2,
   FileBox
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useLines } from "../../hooks/useLines";
 import { useShifts } from "../../hooks/useShifts";
 import { FloatingSelect } from "../../components/CustomInputs/FloatingSelect";
@@ -24,8 +24,9 @@ import { useMaterial } from "../../hooks/useMaterial";
 import { useTypeScrap } from "../../hooks/useTypeScrap";
 import { useDefectByTypeScrap } from "../../hooks/useDefectByTypeScrap";
 import { useScrapForm, type ScrapFormState } from "../../hooks/useCreateScrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from 'react-hot-toast';
+import { scrapService } from "../../api/services/ScrapService";
 
 export const ScrapForm = () => {
   const { formData, setFormData, resetPartial, loading, handleChange, handleLineClick, handleSubmit } =
@@ -106,8 +107,9 @@ export const ScrapForm = () => {
     const currentProcessName = processOptions.find(o => o.value === formData.processId)?.label || "N/A";
     const currentDefectName = defectsOptions.find(o => o.value === formData.defectId)?.label || "N/A";
 
-    const reportData: ScrapFormState = {
+    const reportData: any = {
       ...formData,
+      id: editingIndex !== null ? (reports[editingIndex] as any).id : (formData as any).id, 
       processName: currentProcessName,
       defectName: currentDefectName,
     };
@@ -149,6 +151,36 @@ export const ScrapForm = () => {
   const getLabel = (options: any[], id: any) => options.find(o => o.value === id)?.label || "N/A";
 
   const onFinalSubmit = async () => {
+    if (isEditMode && editScrapId) {
+      try {
+        const updatePayload = reports.map((r: any) => ({
+          id: r.id || 0,
+          payRollNumber: Number(r.payRollNumber),
+          processId: Number(r.processId),
+          machineCodeId: Number(r.machineCodeId) || null,
+          alloy: r.alloy || "",
+          diameter: r.diameter || "",
+          wall: r.wall || "",
+          weight: Number(r.weight),
+          rdm: r.rdm || "",
+          materialId: Number(r.materialId),
+          typeScrapId: Number(r.typeScrapId),
+          defectId: Number(r.defectId),
+          partNumber: r.partNumber
+        }));
+
+        await scrapService.updateScrap(editScrapId, updatePayload);
+        toast.success("Reporte actualizado correctamente");
+        setReports([]);
+        setShowValidationErrors(false);
+        navigate("/scrap");
+      } catch (error) {
+        console.error("Error al actualizar el reporte", error);
+        toast.error("Ocurrió un error al actualizar los datos.");
+      }
+      return;
+    }
+
     if (handleSubmit) {
       await handleSubmit(reports);
       setReports([]); 
@@ -156,6 +188,50 @@ export const ScrapForm = () => {
       navigate("/scrap");
     }
   };
+
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editScrapId, setEditScrapId] = useState<number | null>(null);
+  const location = useLocation();
+  const editReport = location.state?.editReport;
+
+  useEffect(() => {
+    if (editReport) {
+      setIsEditMode(true);
+      setEditScrapId(editReport.id);
+
+      const mappedReports = editReport.scrapDetails.map((detail: any) => ({
+        id: detail.id,
+        shiftId: editReport.shiftId,
+        lineId: editReport.lineId,
+        processId: detail.processId ?? 0,
+        machineCodeId: detail.machineCodeId ?? 0,
+        payRollNumber: detail.payRollNumber ?? "",
+        materialId: detail.materialId ?? 0,
+        typeScrapId: detail.typeScrapId ?? 0,
+        defectId: detail.defectId ?? 0,
+        weight: detail.weight ?? 0,
+        rdm: detail.rdm || "",
+        alloy: detail.alloy || "",
+        diameter: detail.diameter || "",
+        wall: detail.wall || "",
+        processName: detail.processName || "",
+        defectName: detail.defectName || "",
+        partNumber: detail.partNumber || "",
+      }));
+
+      setReports(mappedReports);
+
+      if (setFormData) {
+        setFormData((prev: any) => ({
+          ...prev,
+          shiftId: editReport.shiftId ?? 0,
+          lineId: editReport.lineId ?? 0,
+        }));
+      }
+    }
+  }, [editReport, setFormData]);
+
+  const isBaseInfoLocked = isEditMode || reports.length > 0;
 
   return (
     <div className="max-w-350 mx-auto mt-8 mb-20 px-4 animate-in fade-in slide-in-from-bottom-8 duration-500">
@@ -170,11 +246,13 @@ export const ScrapForm = () => {
 
         <div className="mb-8 border-b border-slate-200/60 pb-5">
           <h2 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-            <Trash2 className="text-blue-600" size={28} /> Reporte de Scrap
+              <Trash2 className="text-blue-600" size={28} /> {isEditMode ? "Editar Reporte de Scrap" : "Reporte de Scrap"}
           </h2>
           <p className="text-sm text-slate-500 mt-1">
-            Completa todos los campos para registrar el reporte de producción y agrégalos a tu lista.
-          </p>
+      {isEditMode 
+      ? `Estás modificando la información del reporte #${editScrapId}.` 
+      : "Completa todos los campos para registrar el reporte de producción y agrégalos a tu lista."}
+  </p>
         </div>
 
 
@@ -194,12 +272,12 @@ export const ScrapForm = () => {
                     <button
                       key={shift.id}
                       type="button"
+                      disabled={isBaseInfoLocked}
                       onClick={() => handleChange("shiftId", shift.id)}
                       className={`p-4 rounded-2xl border font-bold text-xs uppercase tracking-wider 
-                        transition-all cursor-pointer ${
-                          formData.shiftId === shift.id
-                            ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-100"
-                            : showValidationErrors && !formData.shiftId
+                 transition-all ${isBaseInfoLocked ? "cursor-not-allowed opacity-60 bg-slate-100" : "cursor-pointer"} ${formData.shiftId === shift.id // <--- CAMBIO AQUÍ
+                          ? "bg-blue-50 border-blue-500 text-blue-700"
+                          : showValidationErrors && !formData.shiftId
                             ? "bg-red-50 border-red-500 text-red-600 hover:bg-red-100/50"
                             : "bg-white/80 border-slate-200 text-slate-600 hover:bg-white"
                         }`}
@@ -223,12 +301,12 @@ export const ScrapForm = () => {
                       <button
                         key={l.id}
                         type="button"
+                        disabled={isBaseInfoLocked}
                         onClick={() => handleLineClick(l.id, l.name)}
                         className={`p-3.5 rounded-xl text-left border font-bold text-xs 
-                          transition-all cursor-pointer flex justify-between items-center ${
-                            isSelected
-                              ? "bg-blue-50 border-blue-500 text-blue-700"
-                              : isError
+        transition-all flex justify-between items-center ${isBaseInfoLocked ? "cursor-not-allowed opacity-60 bg-slate-100" : "cursor-pointer"} ${isSelected // <--- CAMBIO AQUÍ
+                            ? "bg-blue-50 border-blue-500 text-blue-700"
+                            : isError
                               ? "bg-red-50 border-red-500 text-red-700 hover:bg-red-100/50"
                               : "bg-white/80 border-slate-200 text-slate-600 hover:bg-white"
                           }`}
@@ -324,6 +402,11 @@ export const ScrapForm = () => {
                   value={formData.wall || ""}
                   onChange={(e) => handleChange("wall", e.target.value)}
                 />
+                <Input
+                  label="Num Parte (Opcional)"
+                  value={formData.partNumber || ""}
+                  onChange={(e) => handleChange("partNumber", e.target.value)}
+                />
               </div>
             </div>
 
@@ -372,31 +455,33 @@ export const ScrapForm = () => {
                   type="button"
                   onClick={handleCancelEdit}
                   className="px-6 py-4 bg-slate-200 text-slate-600 font-black text-xs uppercase 
-                  rounded-xl flex items-center gap-2 hover:bg-slate-300 transition-all cursor-pointer"
+      rounded-xl flex items-center gap-2 hover:bg-slate-300 transition-all cursor-pointer"
                 >
                   <X size={16} /> Cancelar
                 </button>
               )}
-              <button
-                type="button"
-                onClick={handleSaveReportToStack}
-                className={`flex-1 py-4 font-black text-xs uppercase tracking-wider rounded-xl border flex 
-                  items-center justify-center gap-2 cursor-pointer transition-all ${
-                    editingIndex !== null
+
+              {!(isEditMode && editingIndex === null) && (
+                <button
+                  type="button"
+                  onClick={handleSaveReportToStack}
+                  className={`flex-1 py-4 font-black text-xs uppercase tracking-wider rounded-xl border flex 
+      items-center justify-center gap-2 cursor-pointer transition-all ${editingIndex !== null
                       ? "bg-amber-500 border-amber-500 text-white shadow-lg shadow-amber-200"
                       : "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white hover:shadow-lg hover:shadow-blue-200"
-                  }`}
-              >
-                {editingIndex !== null ? (
-                  <>
-                    <Check size={16} /> Confirmar Cambios
-                  </>
-                ) : (
-                  <>
-                    <Plus size={16} /> Agregar Reporte a la Lista
-                  </>
-                )}
-              </button>
+                    }`}
+                >
+                  {editingIndex !== null ? (
+                    <>
+                      <Check size={16} /> Confirmar Cambios
+                    </>
+                  ) : (
+                    <>
+                      <Plus size={16} /> Agregar Reporte a la Lista
+                    </>
+                  )}
+                </button>
+              )}
             </div>
           </div>
 
@@ -514,7 +599,7 @@ export const ScrapForm = () => {
                   </>
                 ) : (
                   <>
-                    <Save size={16} /> Finalizar Reportes
+                    <Save size={16} /> {isEditMode ? "Actualizar Reportes" : "Finalizar Reportes"}
                   </>
                 )}
               </button>

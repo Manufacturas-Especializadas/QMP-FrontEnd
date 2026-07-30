@@ -1,12 +1,12 @@
 import { useState, useCallback } from "react";
-import type { ScrapRead } from "../types/types";
+import type { ScrapReadById } from "../types/types";
 import { scrapService } from "../api/services/ScrapService";
 import toast from "react-hot-toast";
 
 export const useScrapById = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [scrapData, setScrapData] = useState<ScrapRead | null>(null);
+  const [scrapData, setScrapData] = useState<ScrapReadById | null>(null);
 
   const fetchScrap = useCallback(async (id: number) => {
     if (!id) return;

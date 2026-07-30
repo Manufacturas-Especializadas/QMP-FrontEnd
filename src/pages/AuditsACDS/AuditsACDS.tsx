@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAuditsACD } from "../../hooks/useAuditsACD";
 
 import { Database, Loader2 } from "lucide-react";
@@ -7,6 +7,8 @@ import { ACDSGrid } from "../../components/Layouts/AuditsACDSLayout/ACDSGrid";
 import { ACDSHeader } from "../../components/Layouts/AuditsACDSLayout/ACDSHeader";
 import { ACDSWizardModal } from "../../components/Layouts/AuditsACDSLayout/ACDSWizardModal";
 import { ACDSDetailsModal } from "../../components/Layouts/AuditsACDSLayout/ACDSDetailsModal";
+import { useLines } from "../../hooks/useLines";
+import { useShifts } from "../../hooks/useShifts";
 
 export const AuditsACDS = () => {
   const { audits, loading, fetchAudits, deleteAudit } = useAuditsACD();
@@ -15,26 +17,47 @@ export const AuditsACDS = () => {
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [selectedAuditId, setSelectedAuditId] = useState<number | null>(null);
   const [editAuditId, setEditAuditId] = useState<number | null>(null);
+  const { lines } = useLines({ isPaged: false });
+  const { shifts } = useShifts();
+  const [selectedLine, setSelectedLine] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
 
   useEffect(() => {
     fetchAudits();
   }, [fetchAudits]);
 
-  const filteredAudits = audits.filter((audit) => {
-    const matchesSearch =
-      audit.inspectorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      audit.lineNames.some((l) =>
-        l.toLowerCase().includes(searchTerm.toLowerCase()),
-      ) ||
-      audit.findings.some((f) =>
-        f.partNumber.toLowerCase().includes(searchTerm.toLowerCase()),
-      );
+  const filteredAudits = useMemo(() => {
+    const cleanSearch = searchTerm.trim().toLowerCase();
 
-    const matchesShift =
-      selectedShift === "" || audit.shiftName === selectedShift;
+    return audits.filter((audit) => {
+      const shiftName = audit.shiftName ?? "";
+      const inspectorName = audit.inspectorName ?? "";
+      const matchesSearch =
+        !cleanSearch ||
+        inspectorName.toLowerCase().includes(cleanSearch) ||
+        audit.lineNames?.some((l) => l.toLowerCase().includes(cleanSearch)) ||
+        audit.findings?.some((f) => f.partNumber?.toLowerCase().includes(cleanSearch));
 
-    return matchesSearch && matchesShift;
-  });
+      const matchesShift = !selectedShift || shiftName === selectedShift;
+
+      const matchesLine =
+        !selectedLine || audit.lineNames?.includes(selectedLine);
+
+
+      let matchesDate = true;
+
+      if (audit.auditDate) {
+        const auditDateStr = audit.auditDate.toString().slice(0, 10);
+
+        if (startDate && auditDateStr < startDate) matchesDate = false;
+        if (endDate && auditDateStr > endDate) matchesDate = false;
+      }
+
+      return matchesSearch && matchesShift && matchesLine && matchesDate;
+    });
+  }, [audits, searchTerm, selectedShift, selectedLine, startDate, endDate]);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 animate-in fade-in duration-300">
@@ -48,6 +71,14 @@ export const AuditsACDS = () => {
         onSearchChange={setSearchTerm}
         selectedShift={selectedShift}
         onShiftChange={setSelectedShift}
+        shifts={shifts}
+        selectedLine={selectedLine}
+        onLineChange={setSelectedLine}
+        lines={lines}
+        startDate={startDate}
+        onStartDateChange={setStartDate}
+        endDate={endDate}
+        onEndDateChange={setEndDate}
       />
 
       {loading && audits.length === 0 ? (

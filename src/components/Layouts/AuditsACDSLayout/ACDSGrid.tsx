@@ -41,13 +41,12 @@ export const ACDSGrid = ({
                 ID ACD: {audit.id}
               </span>
               <span
-                className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded-md tracking-wider ${
-                  audit.shiftName === "Día"
-                    ? "bg-amber-50 text-amber-700 border border-amber-100/50"
-                    : audit.shiftName === "Tarde"
-                      ? "bg-indigo-50 text-indigo-700 border border-indigo-100/50"
-                      : "bg-purple-900 text-purple-100"
-                }`}
+                className={`text-[9px] font-black uppercase px-2.5 py-0.5 rounded-md tracking-wider ${audit.shiftName === "Día"
+                  ? "bg-amber-50 text-amber-700 border border-amber-100/50"
+                  : audit.shiftName === "Tarde"
+                    ? "bg-indigo-50 text-indigo-700 border border-indigo-100/50"
+                    : "bg-purple-900 text-purple-100"
+                  }`}
               >
                 Turno {audit.shiftName}
               </span>
@@ -100,12 +99,13 @@ export const ACDSGrid = ({
             </div>
           </div>
 
-          <RoleGuard allowedRoles={[UserRole.Admin]}>
-            <div
-              className="mt-6 pt-3 border-t border-slate-50 flex items-center justify-between 
+
+          <div
+            className="mt-6 pt-3 border-t border-slate-50 flex items-center justify-between 
               gap-2"
-            >
-              <div className="flex items-center gap-1.5">
+          >
+            <div className="flex items-center gap-1.5">
+              <RoleGuard allowedRoles={[UserRole.InspectorCalidad]}>
                 <button
                   onClick={() => onViewDetails(audit.id)}
                   className="px-3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-black 
@@ -114,19 +114,21 @@ export const ACDSGrid = ({
                 >
                   <Eye size={12} /> Ver Detalles
                 </button>
-                <RoleGuard allowedRoles={[UserRole.Admin, UserRole.Ingeniero]}>
-                  <button
-                    onClick={() => onEdit(audit.id)}
-                    className="px-3 py-2.5 bg-white border border-slate-200 text-slate-600 
+              </RoleGuard>
+
+              <RoleGuard allowedRoles={[UserRole.Admin]}>
+                <button
+                  onClick={() => onEdit(audit.id)}
+                  className="px-3 py-2.5 bg-white border border-slate-200 text-slate-600 
                     hover:text-blue-600 hover:border-blue-200 font-black text-[10px] uppercase 
                     tracking-wider rounded-xl flex items-center gap-1 transition-all 
                     cursor-pointer shadow-sm"
-                  >
-                    <Pencil size={11} /> Editar
-                  </button>
-                </RoleGuard>
-              </div>
-
+                >
+                  <Pencil size={11} /> Editar
+                </button>
+              </RoleGuard>
+            </div>
+            <RoleGuard allowedRoles={[UserRole.Admin]}>
               <button
                 onClick={() => {
                   if (
@@ -143,10 +145,12 @@ export const ACDSGrid = ({
               >
                 <Trash2 size={15} />
               </button>
-            </div>
-          </RoleGuard>
+            </RoleGuard>
+          </div>
+
         </div>
-      ))}
-    </div>
+      ))
+      }
+    </div >
   );
 };

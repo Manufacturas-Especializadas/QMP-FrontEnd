@@ -15,7 +15,7 @@ export const useShifts = () => {
       const data = await catalogsService.getShifts();
       setShifts(data);
     } catch (err: any) {
-      const message = err.message || "Error al cargar las lineas";
+      const message = err.message || "Error al cargar los turnos";
       setError(message);
     } finally {
       setLoading(false);
@@ -24,7 +24,7 @@ export const useShifts = () => {
 
   useEffect(() => {
     getShifts();
-  }, []);
+  }, [getShifts]);
 
   return {
     shifts,
