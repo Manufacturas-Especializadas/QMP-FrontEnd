@@ -20,6 +20,7 @@ import { AuditsScrapReport } from "../pages/AuditsScrap/AuditsScrapReport";
 import { AuditsACDS } from "../pages/AuditsACDS/AuditsACDS";
 import { ProcesesConfig } from "../pages/Configuration/Processes/ProcesesConfig";
 import { MachineCodesConfig } from "../pages/Configuration/MachineCodes/MachineCodesConfig";
+import { ACDReport } from "../pages/AuditsACDS/ACDReport";
 
 export const MyRoutes = () => {
   return (
@@ -35,6 +36,7 @@ export const MyRoutes = () => {
             element={<AuditsReportFCDS />}
           />
           <Route path="/auditorias-producto" element={<AuditsACDS />} />
+          <Route path="/auditorias-producto/reportes" element={<ACDReport />} />
           <Route path="/scrap" element={<ScrapIndex />} />
           <Route path="/scrap/auditoria" element={<AuditsScrap />} />
           <Route
