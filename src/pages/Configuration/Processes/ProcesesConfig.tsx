@@ -11,6 +11,7 @@ import { useProcesses } from "../../../hooks/useProcesses";
 import { useLines } from "../../../hooks/useLines";
 import type { ProcessData } from "../../../types/types";
 import toast from "react-hot-toast";
+import { Search } from "lucide-react";
 
 export const ProcesesConfig = () => {
   const {
@@ -24,9 +25,29 @@ export const ProcesesConfig = () => {
 
   const { lines } = useLines({ isPaged: false });
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const pageSize = 6;
-  const totalPages = Math.ceil((processes?.length || 0) / pageSize);
-  const paginatedProcesses = processes?.slice(
+
+  const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+
+  const filteredProcesses = processes.filter((process) => {
+    if (!normalizedSearchTerm) {
+      return true;
+    }
+
+    const processName = process.processName?.toLowerCase() ?? "";
+    const lineName = process.lineName?.toLowerCase() ?? "";
+
+    return (
+      processName.includes(normalizedSearchTerm) ||
+      lineName.includes(normalizedSearchTerm)
+    );
+  });
+
+  const totalPages = Math.ceil(filteredProcesses.length / pageSize);
+
+  const paginatedProcesses = filteredProcesses.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
@@ -69,7 +90,7 @@ export const ProcesesConfig = () => {
     try {
       await deleteProcess(idToDelete);
       setIsDeleteModalOpen(false);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
@@ -140,6 +161,24 @@ export const ProcesesConfig = () => {
         description="Gestiona los procesos de manufactura y asígnalos a sus respectivas líneas"
         onAddClick={handleOpenCreate}
       >
+        <div className="mb-4 relative w-full sm:w-80">
+          <Search
+            className="absolute left-3.5 top-3 text-slate-400"
+            size={15}
+          />
+          <input
+            type="text"
+            placeholder="Buscar proceso o línea..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 
+            py-2.5 text-xs font-bold outline-none focus:border-blue-600 shadow-sm"
+          />
+        </div>
+
         <DataTable
           columns={columns}
           data={paginatedProcesses}

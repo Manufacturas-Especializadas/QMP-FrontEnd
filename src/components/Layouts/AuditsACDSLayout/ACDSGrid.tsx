@@ -105,7 +105,7 @@ export const ACDSGrid = ({
               gap-2"
           >
             <div className="flex items-center gap-1.5">
-              <RoleGuard allowedRoles={[UserRole.InspectorCalidad]}>
+              <RoleGuard allowedRoles={[UserRole.InspectorCalidad, UserRole.Admin, UserRole.Ingeniero, UserRole.AnalistaCalidad]}>
                 <button
                   onClick={() => onViewDetails(audit.id)}
                   className="px-3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-black 
@@ -128,7 +128,7 @@ export const ACDSGrid = ({
                 </button>
               </RoleGuard>
             </div>
-            <RoleGuard allowedRoles={[UserRole.Admin]}>
+            <RoleGuard allowedRoles={[UserRole.Admin, UserRole.Ingeniero]}>
               <button
                 onClick={() => {
                   if (
