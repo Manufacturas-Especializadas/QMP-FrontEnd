@@ -1,6 +1,6 @@
 export const UserRole = {
   Admin: "Admin",
-  Ingeniero: "Ingeniero",
+  Ingeniero: "Ingeniero de Calidad",
   Operador: "Operador",
   CalidadProveedores: "Calidad Proveedores",
   InspectorCalidad: "Inspector de Calidad",

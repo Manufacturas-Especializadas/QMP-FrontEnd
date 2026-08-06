@@ -38,10 +38,9 @@ export const Step1ACDSData = ({ data, updateFields, onNext }: Step1Props) => {
               type="button"
               onClick={() => updateFields({ shiftId: shift.id })}
               className={`p-4 rounded-2xl border font-bold text-xs uppercase tracking-wider 
-                transition-all cursor-pointer ${
-                  data.shiftId === shift.id
-                    ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-100"
-                    : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50"
+                transition-all cursor-pointer ${data.shiftId === shift.id
+                  ? "bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-100"
+                  : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50"
                 }`}
             >
               {shift.name}
@@ -56,7 +55,7 @@ export const Step1ACDSData = ({ data, updateFields, onNext }: Step1Props) => {
           items-center gap-1.5"
         >
           <Layers size={14} className="text-blue-500" /> Asociar Líneas a la
-          Inspección (Selección Múltiple)
+          Inspección
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-64 overflow-y-auto pr-1">
           {lines.map((line) => {
@@ -67,19 +66,17 @@ export const Step1ACDSData = ({ data, updateFields, onNext }: Step1Props) => {
                 type="button"
                 onClick={() => toggleLine(line.id)}
                 className={`p-3.5 rounded-xl text-left border font-bold text-xs 
-                  transition-all cursor-pointer flex justify-between items-center ${
-                    isSelected
-                      ? "bg-blue-50/60 border-blue-500 text-blue-700"
-                      : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50"
+                  transition-all cursor-pointer flex justify-between items-center ${isSelected
+                    ? "bg-blue-50/60 border-blue-500 text-blue-700"
+                    : "bg-white border-slate-100 text-slate-600 hover:bg-slate-50"
                   }`}
               >
                 {line.name}
                 <div
-                  className={`w-4 h-4 rounded border flex items-center justify-center text-[9px] ${
-                    isSelected
+                  className={`w-4 h-4 rounded border flex items-center justify-center text-[9px] ${isSelected
                       ? "bg-blue-600 border-blue-600 text-white"
                       : "border-slate-200 bg-slate-50"
-                  }`}
+                    }`}
                 >
                   {isSelected && "✓"}
                 </div>

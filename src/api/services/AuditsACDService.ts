@@ -133,9 +133,9 @@ class AuditsACDService {
     return apiClient.get<AuditACDRead>(`${this.getByIdEndpoint}${id}`);
   }
 
-  async create(payload: CreateAuditACDPayload): Promise<any> {
+  async create(payload: CreateAuditACDPayload, options?: any): Promise<any> {
     const formData = this.buildFormData(payload);
-    return apiClient.post<any>(this.createEndpoint, formData);
+    return apiClient.post<any>(this.createEndpoint, formData, options);
   }
 
   async update(id: number, payload: UpdateAuditACDPayload): Promise<any> {
