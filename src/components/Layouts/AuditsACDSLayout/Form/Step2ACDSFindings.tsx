@@ -12,8 +12,9 @@ import type { CreateAuditACDPayload } from "../../../../types/types";
 import { useAuditStartPoints } from "../../../../hooks/useAuditStartPoints";
 import { useAuditEndPoints } from "../../../../hooks/useAuditEndPoints";
 import { FindingBucketList } from "../FindingBucketList";
-import { FindingChecklistMatrix } from "../FindingChecklistMatrix";
+import { FindingChecklistMatrix, type FindingFormState } from "../FindingChecklistMatrix";
 import { FindingFormInputs } from "../FindingFormInputs";
+import { useAuditsACD } from "../../../../hooks/useAuditsACD";
 
 interface Step2Props {
   data: CreateAuditACDPayload;
@@ -22,6 +23,31 @@ interface Step2Props {
   onSubmit: () => void;
   isSaving: boolean;
 }
+
+const createEmptyFinding = (): FindingFormState => ({
+  id: 0,
+  partNumber: "",
+  numberOfPieces: 0,
+  sampleSize: "",
+  packerPayroll: 0,
+
+  containerIdMatch: null,
+  completeProcess: null,
+
+  frontView: 1,
+  sideView: 1,
+  topView: 1,
+  isometricView: 1,
+
+  ppBom: 3,
+  weldingDefects: 3,
+
+  isProductConforming: true,
+  shopOrder: "",
+
+  imageFiles: [],
+  existingImageUrls: "",
+});
 
 export const Step2ACDSFindings = ({
   data,
@@ -34,40 +60,30 @@ export const Step2ACDSFindings = ({
   const { endPoints } = useAuditEndPoints();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
+  const { uploadProgress } = useAuditsACD();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [currentFinding, setCurrentFinding] = useState({
-    id: 0,
-    // startPointId: 0,
-    // endPointId: 0,
-    partNumber: "",
-    numberOfPieces: 0,
-    sampleSize: "",
-    packerPayroll: 0,
-    containerIdMatch: true as boolean | null,
-    frontView: 1,
-    sideView: 1,
-    topView: 1,
-    isometricView: 1,
-    completeProcess: true as boolean | null,
-    isProductConforming: true,
-    shopOrder: "",
-    weldingDefects: 3,
-    ppBom: 3,
-    imageFiles: [] as File[],
-    existingImageUrls: "",
-  });
+  const [currentFinding, setCurrentFinding] =
+    useState<FindingFormState>(createEmptyFinding);
 
   const handleSelectEdit = (index: number) => {
     setEditingIndex(index);
+
     const finding = data.findings[index];
 
+    if (!finding) {
+      return;
+    }
+
     setCurrentFinding({
-      id: (finding as any).id ?? 0,
+      ...createEmptyFinding(),
       ...finding,
+
+      id: (finding as any).id ?? 0,
       shopOrder: finding.shopOrder ?? "",
-      imageFiles: (finding as any).imageFiles || [],
-      existingImageUrls: (finding as any).existingImageUrls || "",
+
+      imageFiles: (finding as any).imageFiles ?? [],
+      existingImageUrls: (finding as any).existingImageUrls ?? "",
     });
   };
 
@@ -95,27 +111,7 @@ export const Step2ACDSFindings = ({
   };
 
   const resetForm = () => {
-    setCurrentFinding({
-      id: 0,
-      // startPointId: 0,
-      // endPointId: 0,
-      partNumber: "",
-      numberOfPieces: 0,
-      sampleSize: "",
-      packerPayroll: 0,
-      containerIdMatch: true,
-      frontView: 1,
-      sideView: 1,
-      topView: 1,
-      isometricView: 1,
-      completeProcess: true,
-      isProductConforming: true,
-      shopOrder: "",
-      weldingDefects: 3,
-      ppBom: 3,
-      imageFiles: [],
-      existingImageUrls: "",
-    });
+    setCurrentFinding(createEmptyFinding());
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -163,10 +159,9 @@ export const Step2ACDSFindings = ({
                 setCurrentFinding((p) => ({ ...p, isProductConforming: true }))
               }
               className={`px-4 py-1.5 rounded text-[9px] uppercase font-black cursor-pointer 
-                transition-all ${
-                  currentFinding.isProductConforming
-                    ? "bg-emerald-600 text-white shadow-sm"
-                    : "text-slate-400"
+                transition-all ${currentFinding.isProductConforming
+                  ? "bg-emerald-600 text-white shadow-sm"
+                  : "text-slate-400"
                 }`}
             >
               Conforme
@@ -177,10 +172,9 @@ export const Step2ACDSFindings = ({
                 setCurrentFinding((p) => ({ ...p, isProductConforming: false }))
               }
               className={`px-4 py-1.5 rounded text-[9px] uppercase font-black cursor-pointer 
-                transition-all ${
-                  !currentFinding.isProductConforming
-                    ? "bg-rose-600 text-white shadow-sm"
-                    : "text-slate-400"
+                transition-all ${!currentFinding.isProductConforming
+                  ? "bg-rose-600 text-white shadow-sm"
+                  : "text-slate-400"
                 }`}
             >
               Rechazado
@@ -206,10 +200,9 @@ export const Step2ACDSFindings = ({
             type="button"
             onClick={handleSaveFinding}
             className={`flex-1 py-3.5 font-black text-xs uppercase rounded-xl border flex 
-              items-center justify-center gap-1.5 cursor-pointer ${
-                editingIndex !== null
-                  ? "bg-amber-500 border-amber-500 text-white"
-                  : "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white"
+              items-center justify-center gap-1.5 cursor-pointer ${editingIndex !== null
+                ? "bg-amber-500 border-amber-500 text-white"
+                : "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white"
               }`}
           >
             {editingIndex !== null ? (
@@ -262,10 +255,9 @@ export const Step2ACDSFindings = ({
             className={`w-full flex-1 order-1 sm:order-2 text-white font-black text-xs 
               uppercase tracking-wider px-6 py-4 rounded-xl shadow-lg transition-all flex 
               items-center justify-center gap-2 cursor-pointer disabled:from-slate-200 
-              disabled:to-slate-200 disabled:text-slate-400 ${
-                hasRejectedItems && !data.rejectionId
-                  ? "bg-linear-to-r from-amber-500 to-rose-600 shadow-rose-100"
-                  : "bg-linear-to-r from-emerald-600 to-teal-600 shadow-emerald-100"
+              disabled:to-slate-200 disabled:text-slate-400 ${hasRejectedItems && !data.rejectionId
+                ? "bg-linear-to-r from-amber-500 to-rose-600 shadow-rose-100"
+                : "bg-linear-to-r from-emerald-600 to-teal-600 shadow-emerald-100"
               }`}
           >
             {hasRejectedItems && !data.rejectionId ? (
@@ -273,7 +265,15 @@ export const Step2ACDSFindings = ({
                 <AlertOctagon size={14} /> Registrar RDM Obligatorio
               </>
             ) : (
-              <>
+              <><div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden mt-2">
+                <div
+                  className="bg-blue-600 h-2.5 transition-all duration-300"
+                  style={{ width: `${uploadProgress}%` }}
+                />
+                <p className="text-xs text-slate-500 text-center mt-1">
+                  Subiendo imágenes... {uploadProgress}%
+                </p>
+              </div>
                 <Save size={14} />{" "}
                 {isSaving ? "Guardando..." : "Finalizar Auditoría"}
               </>

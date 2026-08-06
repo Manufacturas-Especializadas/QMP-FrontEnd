@@ -7,11 +7,13 @@ import type {
   UpdateAuditACDPayload,
 } from "../types/types";
 
+
 export const useAuditsACD = () => {
   const [audits, setAudits] = useState<AuditACDRead[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const fetchAudits = useCallback(async () => {
     setLoading(true);
@@ -44,8 +46,17 @@ export const useAuditsACD = () => {
     payload: CreateAuditACDPayload,
   ): Promise<boolean> => {
     setIsSaving(true);
+    setUploadProgress(0);
     try {
-      const res = await auditsACDService.create(payload);
+      const res = await auditsACDService.create(payload, {
+        onUploadProgress: (evt: { loaded: number; total?: number }) => {
+          const total = evt.total ?? evt.loaded;
+          const percent = Math.round((evt.loaded * 100) / total);
+
+          setUploadProgress(percent); // 3. Actualizamos el estado
+          console.log(`Subiendo... ${percent}%`);
+        }
+      });
       toast.success(res.message || "¡Auditoría ACD guardada exitosamente!");
       await fetchAudits();
       return true;
@@ -56,6 +67,7 @@ export const useAuditsACD = () => {
       return false;
     } finally {
       setIsSaving(false);
+      setUploadProgress(0);
     }
   };
 
@@ -131,5 +143,6 @@ export const useAuditsACD = () => {
     deleteAudit,
     downloadReportByMonth,
     isDownloading,
+    uploadProgress,
   };
 };

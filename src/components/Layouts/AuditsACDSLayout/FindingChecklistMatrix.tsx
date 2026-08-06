@@ -1,107 +1,199 @@
-interface FindingChecklistMatrixProps {
-  currentFinding: any;
-  setCurrentFinding: React.Dispatch<React.SetStateAction<any>>;
+import type { Dispatch, SetStateAction } from "react";
+
+export interface FindingFormState {
+  id: number;
+  partNumber: string;
+  numberOfPieces: number;
+  sampleSize: string;
+  packerPayroll: number;
+
+  containerIdMatch: boolean | null;
+  completeProcess: boolean | null;
+
+  frontView: number;
+  sideView: number;
+  topView: number;
+  isometricView: number;
+
+  ppBom: number;
+  weldingDefects: number;
+
+  isProductConforming: boolean;
+  shopOrder: string;
+
+  imageFiles: File[];
+  existingImageUrls: string;
 }
+
+interface FindingChecklistMatrixProps {
+  currentFinding: FindingFormState;
+  setCurrentFinding: Dispatch<SetStateAction<FindingFormState>>;
+}
+
+const checklistItems = [
+  {
+    label: "Coinciden el ID del contenedor vs ID de la pieza",
+    key: "containerIdMatch",
+    yesValue: true,
+    noValue: false,
+  },
+  {
+    label: "Procesos completos (pieza física vs dibujo)",
+    key: "completeProcess",
+    yesValue: true,
+    noValue: false,
+  },
+  {
+    label: "PP según BOM",
+    key: "ppBom",
+    yesValue: 1,
+    noValue: 2,
+  },
+  {
+    label: "Se detectan defectos de soldadura",
+    key: "weldingDefects",
+    yesValue: 1,
+    noValue: 2,
+  },
+] as const;
+
+const viewItems = [
+  {
+    label: "Vista Frontal",
+    key: "frontView",
+  },
+  {
+    label: "Vista Lateral",
+    key: "sideView",
+  },
+  {
+    label: "Vista Superior",
+    key: "topView",
+  },
+  {
+    label: "Vista Isométrica",
+    key: "isometricView",
+  },
+] as const;
+
+const viewOptions = [
+  {
+    value: 1,
+    label: "Cumple",
+  },
+  {
+    value: 2,
+    label: "No cumple",
+  },
+  {
+    value: 3,
+    label: "N/A",
+  },
+] as const;
 
 export const FindingChecklistMatrix = ({
   currentFinding,
   setCurrentFinding,
 }: FindingChecklistMatrixProps) => {
+  const updateChecklistValue = (
+    key:
+      | "containerIdMatch"
+      | "completeProcess"
+      | "ppBom"
+      | "weldingDefects",
+    value: boolean | number,
+  ) => {
+    setCurrentFinding((previousFinding) => ({
+      ...previousFinding,
+      [key]: value,
+    }));
+  };
+
+  const updateViewValue = (
+    key: "frontView" | "sideView" | "topView" | "isometricView",
+    value: number,
+  ) => {
+    setCurrentFinding((previousFinding) => ({
+      ...previousFinding,
+      [key]: value,
+    }));
+  };
+
   return (
     <>
-      {[
-        {
-          l: "Coinciden el ID del contenedor vs ID de la pieza",
-          k: "containerIdMatch",
-          valYes: true,
-          valNo: false,
-        },
-        {
-          l: "Procesos completos(Pieza fisica vs dibujo)",
-          k: "completeProcess",
-          valYes: true,
-          valNo: false,
-        },
-        {
-          l: "PP según BOM",
-          k: "ppBom",
-          valYes: 1,
-          valNo: 2,
-        },
-        {
-          l: "Se detectan defectos de soldadura",
-          k: "weldingDefects",
-          valYes: 1,
-          valNo: 2,
-        },
-      ].map((t) => (
-        <div
-          key={t.k}
-          className="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-150"
-        >
-          <span className="text-xs font-black text-slate-600 uppercase tracking-tight">
-            {t.l}
-          </span>
-          <div className="flex gap-1 bg-slate-50 p-0.5 rounded-lg border border-slate-100">
-            <button
-              type="button"
-              onClick={() =>
-                setCurrentFinding((p: any) => ({ ...p, [t.k]: true }))
-              }
-              className={`px-3 py-1 rounded text-[9px] uppercase font-black cursor-pointer transition-all ${currentFinding[t.k] === true ? "bg-blue-600 text-white shadow-sm" : "text-slate-400"}`}
-            >
-              SÍ
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                setCurrentFinding((p: any) => ({ ...p, [t.k]: false }))
-              }
-              className={`px-3 py-1 rounded text-[9px] uppercase font-black cursor-pointer transition-all ${currentFinding[t.k] === false ? "bg-rose-600 text-white shadow-sm" : "text-slate-400"}`}
-            >
-              NO
-            </button>
+      {checklistItems.map((item) => {
+        const currentValue = currentFinding[item.key];
+        const isYesSelected = currentValue === item.yesValue;
+        const isNoSelected = currentValue === item.noValue;
+
+        return (
+          <div
+            key={item.key}
+            className="flex justify-between items-center bg-white p-3 rounded-xl border border-slate-150"
+          >
+            <span className="text-xs font-black text-slate-600 uppercase tracking-tight">
+              {item.label}
+            </span>
+
+            <div className="flex gap-1 bg-slate-50 p-0.5 rounded-lg border border-slate-100">
+              <button
+                type="button"
+                onClick={() =>
+                  updateChecklistValue(item.key, item.yesValue)
+                }
+                className={`px-3 py-1 rounded text-[9px] uppercase font-black cursor-pointer transition-all ${isYesSelected
+                  ? "bg-blue-600 text-white shadow-sm"
+                  : "text-slate-400 hover:text-blue-600"
+                  }`}
+              >
+                Sí
+              </button>
+
+              <button
+                type="button"
+                onClick={() =>
+                  updateChecklistValue(item.key, item.noValue)
+                }
+                className={`px-3 py-1 rounded text-[9px] uppercase font-black cursor-pointer transition-all ${isNoSelected
+                  ? "bg-rose-600 text-white shadow-sm"
+                  : "text-slate-400 hover:text-rose-600"
+                  }`}
+              >
+                No
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       <div className="space-y-2 bg-white p-4 rounded-2xl border border-slate-150">
-        {[
-          { label: "Vista Frontal", key: "frontView" },
-          { label: "Vista Lateral", key: "sideView" },
-          { label: "Vista Superior", key: "topView" },
-          { label: "Vista Isométrica", key: "isometricView" },
-        ].map((v) => (
+        {viewItems.map((view) => (
           <div
-            key={v.key}
-            className="flex justify-between items-center py-1.5 border-b border-slate-50 
-            last:border-0"
+            key={view.key}
+            className="flex justify-between items-center py-1.5 border-b border-slate-50 last:border-0"
           >
             <span className="text-xs font-bold text-slate-600 uppercase">
-              {v.label}
+              {view.label}
             </span>
+
             <div className="flex gap-1 bg-slate-50 p-0.5 rounded-lg border border-slate-100">
-              {[
-                { v: 1, l: "Cumple" },
-                { v: 2, l: "No Cumple" },
-                { v: 3, l: "N/A" },
-              ].map((o) => {
-                const isSelected = currentFinding[v.key] === o.v;
+              {viewOptions.map((option) => {
+                const isSelected =
+                  currentFinding[view.key] === option.value;
+
                 return (
                   <button
-                    key={o.v}
+                    key={option.value}
                     type="button"
                     onClick={() =>
-                      setCurrentFinding((p: any) => ({ ...p, [v.key]: o.v }))
+                      updateViewValue(view.key, option.value)
                     }
-                    className={`px-2.5 py-1 rounded text-[8px] uppercase font-black 
-                        transition-all cursor-pointer ${
-                          isSelected
-                            ? "bg-slate-800 text-white shadow-sm"
-                            : "text-slate-400 hover:text-slate-600"
-                        }`}
+                    className={`px-2.5 py-1 rounded text-[8px] uppercase font-black transition-all cursor-pointer ${isSelected
+                      ? "bg-slate-800 text-white shadow-sm"
+                      : "text-slate-400 hover:text-slate-600"
+                      }`}
                   >
-                    {o.l}
+                    {option.label}
                   </button>
                 );
               })}

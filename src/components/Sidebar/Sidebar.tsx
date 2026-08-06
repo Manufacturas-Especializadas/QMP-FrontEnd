@@ -32,7 +32,7 @@ const menuItems: MenuItem[] = [
     path: "/auditorias-proceso",
     roles: [
       "Admin",
-      "Ingeniero",
+      "Ingeniero de Calidad",
       "Inspector de Calidad",
       "Analista de Calidad",
     ],
@@ -43,7 +43,7 @@ const menuItems: MenuItem[] = [
     path: "/auditorias-producto",
     roles: [
       "Admin",
-      "Ingeniero",
+      "Ingeniero de Calidad",
       "Inspector de Calidad",
       "Analista de Calidad",
     ],
@@ -68,7 +68,7 @@ const menuItems: MenuItem[] = [
         path: "/scrap/auditoria",
         roles: [
           "Admin",
-          "Ingeniero",
+          "Ingeniero de Calidad",
           "Calidad Proveedores",
           "Inspector de Calidad",
           "Inspector Scrap",
@@ -84,7 +84,7 @@ const menuItems: MenuItem[] = [
       "Admin",
       "Analista de Calidad",
       "Calidad Proveedores",
-      "Ingeniero",
+      "Ingeniero de Calidad",
       "Inspector de Calidad",
       "Inspector Scrap",
     ],
@@ -199,10 +199,9 @@ export const Sidebar = () => {
                   className={`
                     w-full flex items-center p-3 rounded-xl transition-all 
                     duration-200 group hover:cursor-pointer
-                    ${
-                      activeTab === item.name && !hasSubMenu
-                        ? "bg-secondary text-white shadow-md"
-                        : "text-gray-600 hover:bg-primary/10 hover:text-primary"
+                    ${activeTab === item.name && !hasSubMenu
+                      ? "bg-secondary text-white shadow-md"
+                      : "text-gray-600 hover:bg-primary/10 hover:text-primary"
                     }
                   `}
                 >
@@ -241,10 +240,9 @@ export const Sidebar = () => {
                           onClick={() => handleNavigation(sub.name, sub.path)}
                           className={`
                             w-full flex items-center p-2 rounded-lg text-sm transition-colors hover:cursor-pointer
-                            ${
-                              activeTab === sub.name
-                                ? "text-secondary font-bold bg-blue-50"
-                                : "text-gray-500 hover:text-primary hover:bg-gray-50"
+                            ${activeTab === sub.name
+                              ? "text-secondary font-bold bg-blue-50"
+                              : "text-gray-500 hover:text-primary hover:bg-gray-50"
                             }
                           `}
                         >

@@ -30,7 +30,6 @@ export const AuditsFCDS = () => {
   const [pageSize, setPageSize] = useState(10);
 
 
-
   const navigate = useNavigate();
 
   const [formMode, setFormMode] = useState<"create" | "edit" | "view">(
@@ -124,6 +123,7 @@ export const AuditsFCDS = () => {
               UserRole.Admin,
               UserRole.InspectorCalidad,
               UserRole.AnalistaCalidad,
+              UserRole.Ingeniero,
             ]}
           >
             <button
