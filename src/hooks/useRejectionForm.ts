@@ -7,6 +7,7 @@ interface RejectionFormState {
   inspector: string;
   partNumber: string;
   numberOfPieces: number;
+  numberOfInspectedPieces: number;
   idDefect: number;
   idCondition: number;
   description: string;
@@ -23,6 +24,7 @@ const initialFormData: RejectionFormState = {
   inspector: "",
   partNumber: "",
   numberOfPieces: 0,
+  numberOfInspectedPieces: 0,
   idDefect: 0,
   idCondition: 0,
   description: "",
@@ -88,6 +90,7 @@ export const useRejectionForm = (
       inspector: rejection.inspector,
       partNumber: rejection.partNumber,
       numberOfPieces: rejection.numberOfPieces,
+      numberOfInspectedPieces: rejection.numberOfInspectedPieces,
       idDefect: rejection.idDefect,
       idCondition: rejection.idCondition,
       description: rejection.description || "",
@@ -116,6 +119,7 @@ export const useRejectionForm = (
 
       data.append("Inspector", formData.inspector);
       data.append("PartNumber", formData.partNumber);
+      data.append("numberOfInspectedPieces", formData.numberOfInspectedPieces.toString());
       data.append("NumberOfPieces", formData.numberOfPieces.toString());
       data.append("IdDefect", formData.idDefect.toString());
       data.append("IdCondition", formData.idCondition.toString());

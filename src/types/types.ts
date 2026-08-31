@@ -316,6 +316,7 @@ export interface RejectionRead {
   inspector: string;
   partNumber: string;
   numberOfPieces: number;
+  numberOfInspectedPieces: number;
   operatorPayroll: number;
   description: string;
   image: string;
@@ -335,6 +336,7 @@ export interface RejectionResponse {
   inspector: string;
   partNumber: string;
   numberOfPieces: number;
+  numberOfInspectedPieces: number;
   operatorPayroll: number;
   description: string;
   image: string | null;
@@ -357,6 +359,7 @@ export interface Rejections {
   inspector: string;
   partNumber: string;
   numberOfPieces: number;
+  numberOfInspectedPieces: number;
   idDefect: number;
   idCondition: number;
   description: string;

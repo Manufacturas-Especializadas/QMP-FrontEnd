@@ -171,11 +171,22 @@ export const RejectionFormModal = ({
                 value={formData.partNumber}
                 onChange={(e) => handleChange("partNumber", e.target.value)}
               />
+
               <Input
-                label="Cantidad de piezas"
+                label="Cantidad de piezas inspeccionadas"
+                type="number"
+                value={formData.numberOfInspectedPieces || ""}
+                onChange={(e) =>
+                  handleChange("numberOfInspectedPieces", Number(e.target.value))
+                }
+              />
+
+              <Input
+                label="Cantidad de piezas rechazadas"
                 type="number"
                 value={formData.numberOfPieces || ""}
-                onChange={(e) => handleChange("numberOfPieces", e.target.value)}
+                onChange={(e) =>
+                  handleChange("numberOfPieces", Number(e.target.value))}
               />
             </div>
           )}
