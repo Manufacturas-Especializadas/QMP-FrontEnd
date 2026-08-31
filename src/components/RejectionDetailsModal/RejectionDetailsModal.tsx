@@ -93,7 +93,7 @@ export const RejectionDetailsModal = ({
                   />
                   <DetailItem
                     icon={<Package size={14} />}
-                    label="Piezas"
+                    label="piezas rechazadas"
                     value={rejection.numberOfPieces.toString()}
                   />
                 </div>
