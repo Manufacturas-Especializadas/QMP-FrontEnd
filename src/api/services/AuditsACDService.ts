@@ -12,6 +12,7 @@ class AuditsACDService {
   private createEndpoint = API_CONFIG.endpoints.auditsACD.create;
   private updateEndpoint = API_CONFIG.endpoints.auditsACD.update;
   private deleteEndpoint = API_CONFIG.endpoints.auditsACD.delete;
+  private exportToExcelEndpoint = API_CONFIG.endpoints.auditsACD.exportToExcel;
 
   private buildFormData(
     payload: CreateAuditACDPayload | UpdateAuditACDPayload,
@@ -114,6 +115,16 @@ class AuditsACDService {
     return formData;
   }
 
+  async exportToExcel(month: number, year: number): Promise<void> {
+    const formattedMonth = month.toString().padStart(2, "0");
+
+    const urlWithParams = `${this.exportToExcelEndpoint}?month=${formattedMonth}&year=${year}`;
+
+    const filename = `Reporte_ACD_${month}_${year}.xlsx`;
+
+    await apiClient.downloadFile(urlWithParams, filename);
+  }
+
   async getAll(): Promise<AuditACDRead[]> {
     return apiClient.get<AuditACDRead[]>(this.getAllEndpoint);
   }
@@ -122,9 +133,9 @@ class AuditsACDService {
     return apiClient.get<AuditACDRead>(`${this.getByIdEndpoint}${id}`);
   }
 
-  async create(payload: CreateAuditACDPayload): Promise<any> {
+  async create(payload: CreateAuditACDPayload, options?: any): Promise<any> {
     const formData = this.buildFormData(payload);
-    return apiClient.post<any>(this.createEndpoint, formData);
+    return apiClient.post<any>(this.createEndpoint, formData, options);
   }
 
   async update(id: number, payload: UpdateAuditACDPayload): Promise<any> {

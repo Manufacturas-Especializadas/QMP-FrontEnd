@@ -17,7 +17,7 @@ import { AuditDetailsModal } from "../../components/Layouts/AuditsFCDSLayout/Aud
 import { RoleGuard } from "../../components/Auth/RoleGuard";
 import { UserRole } from "../../types/types";
 import { useNavigate } from "react-router-dom";
-import { StatCard } from "../../components/AuditFCDS/TotalesAudit"; 
+import { StatCard } from "../../components/AuditFCDS/TotalesAudit";
 import { AuditSearch } from "../../components/AuditFCDS/SearchBar";
 
 export const AuditsFCDS = () => {
@@ -29,7 +29,6 @@ export const AuditsFCDS = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pageSize, setPageSize] = useState(10);
 
-  
 
   const navigate = useNavigate();
 
@@ -51,7 +50,7 @@ export const AuditsFCDS = () => {
   );
 
   const totalAudits = paginationInfo?.totalCount || 0;
- const totalConforming = paginationInfo?.totalConforming || 0;
+  const totalConforming = paginationInfo?.totalConforming || 0;
   const totalRejections = paginationInfo?.totalNonConforming || 0;
 
   const handleCreate = () => {
@@ -124,6 +123,7 @@ export const AuditsFCDS = () => {
               UserRole.Admin,
               UserRole.InspectorCalidad,
               UserRole.AnalistaCalidad,
+              UserRole.Ingeniero,
             ]}
           >
             <button
@@ -150,36 +150,36 @@ export const AuditsFCDS = () => {
         </div>
       </div>
 
-<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-  <StatCard 
-    label="Total" 
-    value={totalAudits} 
-    subtitle="Auditorías Totales" 
-    loading={loading}
-    themeColors={{ badge: "bg-blue-50 text-blue-600", text: "text-slate-800" }} 
-  />
-  <StatCard 
-    label="OK" 
-    value={totalConforming} 
-    subtitle="Conformes" 
-    loading={loading}
-    themeColors={{ badge: "bg-emerald-50 text-emerald-600", text: "text-emerald-600" }} 
-  />
-  <StatCard 
-    label="RDM" 
-    value={totalRejections} 
-    subtitle="No Conformes" 
-    loading={loading}
-    themeColors={{ badge: "bg-rose-50 text-rose-600", text: "text-rose-600" }} 
-  />
-</div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <StatCard
+          label="Total"
+          value={totalAudits}
+          subtitle="Auditorías Totales"
+          loading={loading}
+          themeColors={{ badge: "bg-blue-50 text-blue-600", text: "text-slate-800" }}
+        />
+        <StatCard
+          label="OK"
+          value={totalConforming}
+          subtitle="Conformes"
+          loading={loading}
+          themeColors={{ badge: "bg-emerald-50 text-emerald-600", text: "text-emerald-600" }}
+        />
+        <StatCard
+          label="RDM"
+          value={totalRejections}
+          subtitle="No Conformes"
+          loading={loading}
+          themeColors={{ badge: "bg-rose-50 text-rose-600", text: "text-rose-600" }}
+        />
+      </div>
 
       <AuditSearch
-      searchTerm={searchTerm}
-      onSearchChange={setSearchTerm}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
       />
 
-     
+
 
       <div className="bg-white border border-slate-100 shadow-sm rounded-3xl overflow-hidden">
         {loading ? (
@@ -403,45 +403,45 @@ export const AuditsFCDS = () => {
                   </div>
                 </div>
               ))}
-              
+
             </div>
           </>
         )}
         <div className="flex flex-col sm:flex-row items-center justify-between p-4 border-t border-slate-100 bg-white gap-4">
           <div className="flex items-center gap-2 text-sm text-slate-600 font-medium">
-                <span>Mostrar</span>
-                <select 
-                  className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500"
-                  value={pageSize}
-                  onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                    setPageNumber(1);
-                  }}
-                >
-                  <option value={10}>10</option>
-                  <option value={25}>25</option>
-                  <option value={50}>50</option>
-                </select>
-                <span>registros</span>
-              </div>
+            <span>Mostrar</span>
+            <select
+              className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500"
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+                setPageNumber(1);
+              }}
+            >
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+            <span>registros</span>
+          </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  disabled={pageNumber === 1}
-                  onClick={() => setPageNumber(prev => Math.max(prev - 1, 1))}
-                  className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                  Anterior
-                </button>
-                <span className="text-sm font-bold text-slate-500 px-2">
-                  Pág {paginationInfo?.currentPage} de {paginationInfo?.totalPages || 1}
-                </span>
-                <button
-                  disabled={pageNumber === (paginationInfo?.totalPages || 1)}
-                  onClick={() => setPageNumber(prev => prev + 1)}
-                  className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
-                  Siguiente
-                </button>
-              </div>
+          <div className="flex items-center gap-2">
+            <button
+              disabled={pageNumber === 1}
+              onClick={() => setPageNumber(prev => Math.max(prev - 1, 1))}
+              className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              Anterior
+            </button>
+            <span className="text-sm font-bold text-slate-500 px-2">
+              Pág {paginationInfo?.currentPage} de {paginationInfo?.totalPages || 1}
+            </span>
+            <button
+              disabled={pageNumber === (paginationInfo?.totalPages || 1)}
+              onClick={() => setPageNumber(prev => prev + 1)}
+              className="px-4 py-2 text-sm font-bold text-slate-600 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              Siguiente
+            </button>
+          </div>
         </div>
       </div>
       <AuditDetailsModal

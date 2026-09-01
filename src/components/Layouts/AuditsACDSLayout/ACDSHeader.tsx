@@ -1,14 +1,20 @@
-import { CheckCircle2, Plus } from "lucide-react";
+import { CheckCircle2, Plus, FileText } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { RoleGuard } from "../../Auth/RoleGuard";
+import { UserRole } from "../../../types/types";
 
 interface ACDSHeaderProps {
   totalAudits: number;
   onNewAuditClick: () => void;
 }
 
+
 export const ACDSHeader = ({
   totalAudits,
   onNewAuditClick,
+
 }: ACDSHeaderProps) => {
+  const navigate = useNavigate();
   return (
     <div
       className="bg-white p-6 sm:p-8 rounded-[2.5rem] border border-slate-100 shadow-sm 
@@ -43,6 +49,12 @@ export const ACDSHeader = ({
             {totalAudits}
           </span>
         </div>
+
+        <RoleGuard allowedRoles={[UserRole.Admin, UserRole.CalidadProveedores, UserRole.AnalistaCalidad, UserRole.Ingeniero]}>
+          <button onClick={() => navigate("/auditorias-producto/reportes")} className="flex items-center justify-center gap-2 bg-green-50 text-green-600 px-4 py-2 rounded-2xl font-bold border border-green-100 hover:bg-green-100 transition-all cursor-pointer">
+            <FileText size={20} /> Generar Excel
+          </button>
+        </RoleGuard>
 
         <button
           onClick={onNewAuditClick}

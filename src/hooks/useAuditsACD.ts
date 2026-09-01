@@ -7,10 +7,13 @@ import type {
   UpdateAuditACDPayload,
 } from "../types/types";
 
+
 export const useAuditsACD = () => {
   const [audits, setAudits] = useState<AuditACDRead[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const fetchAudits = useCallback(async () => {
     setLoading(true);
@@ -43,8 +46,17 @@ export const useAuditsACD = () => {
     payload: CreateAuditACDPayload,
   ): Promise<boolean> => {
     setIsSaving(true);
+    setUploadProgress(0);
     try {
-      const res = await auditsACDService.create(payload);
+      const res = await auditsACDService.create(payload, {
+        onUploadProgress: (evt: { loaded: number; total?: number }) => {
+          const total = evt.total ?? evt.loaded;
+          const percent = Math.round((evt.loaded * 100) / total);
+
+          setUploadProgress(percent); // 3. Actualizamos el estado
+          console.log(`Subiendo... ${percent}%`);
+        }
+      });
       toast.success(res.message || "¡Auditoría ACD guardada exitosamente!");
       await fetchAudits();
       return true;
@@ -55,6 +67,7 @@ export const useAuditsACD = () => {
       return false;
     } finally {
       setIsSaving(false);
+      setUploadProgress(0);
     }
   };
 
@@ -96,6 +109,29 @@ export const useAuditsACD = () => {
     }
   };
 
+  const downloadReportByMonth = useCallback(
+    async (month: number, year: number) => {
+      setIsDownloading(true);
+      const loadingToast = toast.loading(
+        `Generando reporte de...`
+      );
+
+      try {
+        await auditsACDService.exportToExcel(month, year);
+
+        toast.dismiss(loadingToast);
+        toast.success(`Reporte descargado`);
+      } catch (error: any) {
+        toast.dismiss(loadingToast);
+        toast.error("Error al generar el reporte ACD");
+        console.error(error);
+      } finally {
+        setIsDownloading(false);
+      }
+    },
+    []
+  );
+
   return {
     audits,
     loading,
@@ -105,5 +141,8 @@ export const useAuditsACD = () => {
     createAudit,
     updateAudit,
     deleteAudit,
+    downloadReportByMonth,
+    isDownloading,
+    uploadProgress,
   };
 };
