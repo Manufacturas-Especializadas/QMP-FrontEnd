@@ -29,7 +29,7 @@ const menuItems: MenuItem[] = [
   {
     name: "Auditorias de Proceso",
     icon: ClipboardCheck,
-    path: "/auditorias-proceso",
+    path: "/auditoriasFCDS",
     roles: [
       "Admin",
       "Ingeniero",
