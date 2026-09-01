@@ -105,6 +105,7 @@ export const AuditsScrap = () => {
           setIsWizardOpen(false);
           setEditAuditId(null);
         }}
+        onSuccess={fetchAudits}
       />
     </div>
   );

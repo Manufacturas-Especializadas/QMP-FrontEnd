@@ -9,12 +9,14 @@ interface ScrapWizardModalProps {
   isOpen: boolean;
   auditId?: number | null;
   onClose: () => void;
+  onSuccess: () => void;
 }
 
 export const ScrapWizardModal = ({
   isOpen,
   auditId,
   onClose,
+  onSuccess,
 }: ScrapWizardModalProps) => {
   const { createAudit, updateAudit, fetchAuditById, isSaving } =
     useAuditsScrap();
@@ -38,6 +40,7 @@ export const ScrapWizardModal = ({
             findings: res.findings.map((f) => ({
               id: f.id,
               typeScrapId: f.typeScrapId,
+              defectId: f.defectId,
               estimatedWeight: f.estimatedWeight,
               materialCorrectlyIdentified: f.materialCorrectlyIdentified,
               materialCorrectlySegregated: f.materialCorrectlySegregated,
@@ -83,7 +86,10 @@ export const ScrapWizardModal = ({
       success = await createAudit(formData);
     }
 
-    if (success) onClose();
+    if (success) {
+      onSuccess();
+      onClose();
+    }
   };
 
   return (

@@ -61,6 +61,10 @@ class AuditsScrapService {
         finding.typeScrapId.toString(),
       );
       formData.append(
+        `Findings[${index}].DefectId`,
+        finding.defectId.toString(),
+      );
+      formData.append(
         `Findings[${index}].EstimatedWeight`,
         finding.estimatedWeight.toString(),
       );
@@ -113,6 +117,10 @@ class AuditsScrapService {
       formData.append(
         `Findings[${index}].TypeScrapId`,
         finding.typeScrapId.toString(),
+      );
+      formData.append(
+        `Findings[${index}].DefectId`,
+        finding.defectId.toString(),
       );
       formData.append(
         `Findings[${index}].EstimatedWeight`,

@@ -10,10 +10,11 @@ import {
   X,
   UserCheck,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import type { CreateAuditScrapPayload } from "../../../../types/types";
 import { SignaturePad } from "../SignaturePad";
 import { useTypeScrap } from "../../../../hooks/useTypeScrap";
+import { useDefectByTypeScrap } from "../../../../hooks/useDefectByTypeScrap";
 
 interface Step2Props {
   data: CreateAuditScrapPayload;
@@ -30,19 +31,14 @@ export const Step2Findings = ({
   onSubmit,
   isSaving,
 }: Step2Props) => {
-  const { typeScrap, refresh } = useTypeScrap();
+  const { typeScrap } = useTypeScrap();
   const [isPadOpen, setIsPadOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (refresh) {
-      refresh();
-    }
-  }, [typeScrap]);
 
   const [currentFinding, setCurrentFinding] = useState({
     id: 0,
     typeScrapId: 0,
+    defectId: 0,
     estimatedWeight: 0,
     materialCorrectlyIdentified: 1,
     materialCorrectlySegregated: 1,
@@ -53,6 +49,10 @@ export const Step2Findings = ({
     keepSignatureUrl: null as string | null,
   });
 
+  const { defects, isLoading: loadingDefects } = useDefectByTypeScrap(
+    currentFinding.typeScrapId,
+  );
+
   const handleSelectEdit = (index: number) => {
     setEditingIndex(index);
     const finding = data.findings[index];
@@ -60,6 +60,7 @@ export const Step2Findings = ({
     setCurrentFinding({
       id: finding.id ?? 0,
       typeScrapId: finding.typeScrapId,
+      defectId: finding.defectId ?? 0,
       estimatedWeight: finding.estimatedWeight ?? 0,
       materialCorrectlyIdentified: finding.materialCorrectlyIdentified,
       materialCorrectlySegregated: finding.materialCorrectlySegregated,
@@ -77,13 +78,20 @@ export const Step2Findings = ({
       return;
     }
 
+    if (currentFinding.defectId === 0) {
+      alert("Por favor selecciona el defecto para este contenedor.");
+      return;
+    }
+
     if (editingIndex !== null) {
       const updatedFindings = [...data.findings];
       updatedFindings[editingIndex] = { ...currentFinding };
       updateFields({ findings: updatedFindings });
       setEditingIndex(null);
     } else {
-      updateFields({ findings: [...data.findings, { ...currentFinding }] });
+      updateFields({
+        findings: [...data.findings, { ...currentFinding }],
+      });
     }
 
     resetForm();
@@ -98,6 +106,7 @@ export const Step2Findings = ({
     setCurrentFinding({
       id: 0,
       typeScrapId: 0,
+      defectId: 0,
       estimatedWeight: 0,
       materialCorrectlyIdentified: 1,
       materialCorrectlySegregated: 1,
@@ -175,6 +184,7 @@ export const Step2Findings = ({
                 setCurrentFinding((p) => ({
                   ...p,
                   typeScrapId: Number(e.target.value),
+                  defectId: 0,
                 }))
               }
               className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5 
@@ -185,6 +195,40 @@ export const Step2Findings = ({
               {typeScrap?.map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-[10px] font-black uppercase text-slate-400 block">
+              Defecto
+            </label>
+            <select
+              value={currentFinding.defectId}
+              disabled={currentFinding.typeScrapId === 0 || loadingDefects}
+              onChange={(e) =>
+                setCurrentFinding((p) => ({
+                  ...p,
+                  defectId: Number(e.target.value),
+                }))
+              }
+              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2.5
+      text-xs font-bold text-slate-700 outline-none focus:border-blue-500
+      cursor-pointer disabled:bg-slate-100 disabled:text-slate-400
+      disabled:cursor-not-allowed"
+            >
+              <option value="0">
+                {loadingDefects
+                  ? "Cargando defectos..."
+                  : currentFinding.typeScrapId === 0
+                    ? "-- Selecciona primero Tipo Scrap --"
+                    : "-- Seleccionar defecto --"}
+              </option>
+
+              {defects?.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
                 </option>
               ))}
             </select>
@@ -247,11 +291,10 @@ export const Step2Findings = ({
                       onClick={() =>
                         setCurrentFinding((p) => ({ ...p, [key]: o.v }))
                       }
-                      className={`px-3 py-1 rounded text-[9px] uppercase font-black transition-all cursor-pointer ${
-                        currentVal === o.v
-                          ? "bg-blue-600 text-white shadow-sm"
-                          : "text-slate-400 hover:text-slate-600"
-                      }`}
+                      className={`px-3 py-1 rounded text-[9px] uppercase font-black transition-all cursor-pointer ${currentVal === o.v
+                        ? "bg-blue-600 text-white shadow-sm"
+                        : "text-slate-400 hover:text-slate-600"
+                        }`}
                     >
                       {o.l}
                     </button>
@@ -307,11 +350,10 @@ export const Step2Findings = ({
           <label
             className={`border border-dashed p-3 rounded-xl flex items-center justify-center 
               gap-2 text-xs font-bold cursor-pointer transition-all relative 
-              overflow-hidden bg-white ${
-                currentFinding.imageFiles.length > 0 ||
+              overflow-hidden bg-white ${currentFinding.imageFiles.length > 0 ||
                 currentFinding.keepImageUrl
-                  ? "border-emerald-300 text-emerald-700"
-                  : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
+                ? "border-emerald-300 text-emerald-700"
+                : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
               }`}
           >
             <input
@@ -336,12 +378,11 @@ export const Step2Findings = ({
             onClick={() => setIsPadOpen(true)}
             className={`border border-dashed p-3 rounded-xl flex items-center 
                 justify-center gap-2 text-xs font-bold cursor-pointer transition-all 
-                  bg-white ${
-                    currentFinding.signatureFile ||
-                    currentFinding.keepSignatureUrl
-                      ? "border-emerald-300 text-emerald-700"
-                      : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
-                  }`}
+                  bg-white ${currentFinding.signatureFile ||
+                currentFinding.keepSignatureUrl
+                ? "border-emerald-300 text-emerald-700"
+                : "border-slate-200 text-slate-400 hover:border-blue-400 hover:text-blue-600"
+              }`}
           >
             <PenTool size={14} />
             <span className="truncate">
@@ -386,11 +427,10 @@ export const Step2Findings = ({
           <button
             type="button"
             onClick={handleSaveFinding}
-            className={`flex-1 py-3 font-black text-xs uppercase tracking-wider rounded-xl border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-              editingIndex !== null
-                ? "bg-amber-500 border-amber-500 text-white hover:bg-amber-600 shadow-sm"
-                : "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white"
-            }`}
+            className={`flex-1 py-3 font-black text-xs uppercase tracking-wider rounded-xl border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${editingIndex !== null
+              ? "bg-amber-500 border-amber-500 text-white hover:bg-amber-600 shadow-sm"
+              : "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white"
+              }`}
           >
             {editingIndex !== null ? (
               <>
@@ -426,10 +466,9 @@ export const Step2Findings = ({
                   <div
                     key={i}
                     className={`border rounded-xl p-3 flex justify-between items-center shadow-sm 
-                      transition-all ${
-                        isItemBeingEdited
-                          ? "bg-amber-50/40 border-amber-300 ring-1 ring-amber-300"
-                          : "bg-white border-slate-100"
+                      transition-all ${isItemBeingEdited
+                        ? "bg-amber-50/40 border-amber-300 ring-1 ring-amber-300"
+                        : "bg-white border-slate-100"
                       }`}
                   >
                     <div className="space-y-0.5 min-w-0">
