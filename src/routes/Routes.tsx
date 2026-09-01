@@ -109,7 +109,7 @@ export const MyRoutes = () => {
         </Route>
       </Route>
 
-      {/* =========================
+      {/* 
           FALLBACK
       ========================== */}
       <Route path="*" element={<Navigate to="/" replace />} />
