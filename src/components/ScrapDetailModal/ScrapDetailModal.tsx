@@ -131,10 +131,10 @@ export const ScrapDetailModal = ({
                       >
                         <div className="flex flex-col">
                           <span className="font-bold text-gray-700 text-sm">
-                            {detail.typeScrapName || "Sin tipo especificado"}
+                            Tipo: {detail.typeScrapName || "Sin tipo especificado"}
                           </span>
                           <span className="text-[10px] font-bold text-gray-400">
-                            Operador: {detail.payRollNumber || "N/A"}
+                            Defecto: {detail.defectName || "N/A"}
                           </span>
                         </div>
                         <div className="bg-blue-50 px-3 py-1 rounded-lg">
