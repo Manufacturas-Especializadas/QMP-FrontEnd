@@ -29,7 +29,7 @@ const menuItems: MenuItem[] = [
   {
     name: "Auditorias de Proceso",
     icon: ClipboardCheck,
-    path: "/auditorias-proceso",
+    path: "/auditoriasFCDS",
     roles: [
       "Admin",
       "Ingeniero",
@@ -199,10 +199,9 @@ export const Sidebar = () => {
                   className={`
                     w-full flex items-center p-3 rounded-xl transition-all 
                     duration-200 group hover:cursor-pointer
-                    ${
-                      activeTab === item.name && !hasSubMenu
-                        ? "bg-secondary text-white shadow-md"
-                        : "text-gray-600 hover:bg-primary/10 hover:text-primary"
+                    ${activeTab === item.name && !hasSubMenu
+                      ? "bg-secondary text-white shadow-md"
+                      : "text-gray-600 hover:bg-primary/10 hover:text-primary"
                     }
                   `}
                 >
@@ -241,10 +240,9 @@ export const Sidebar = () => {
                           onClick={() => handleNavigation(sub.name, sub.path)}
                           className={`
                             w-full flex items-center p-2 rounded-lg text-sm transition-colors hover:cursor-pointer
-                            ${
-                              activeTab === sub.name
-                                ? "text-secondary font-bold bg-blue-50"
-                                : "text-gray-500 hover:text-primary hover:bg-gray-50"
+                            ${activeTab === sub.name
+                              ? "text-secondary font-bold bg-blue-50"
+                              : "text-gray-500 hover:text-primary hover:bg-gray-50"
                             }
                           `}
                         >
