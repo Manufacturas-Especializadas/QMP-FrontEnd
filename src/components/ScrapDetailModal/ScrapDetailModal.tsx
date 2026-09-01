@@ -101,7 +101,7 @@ export const ScrapDetailModal = ({
                     Linea
                   </p>
                   <p className="font-bold text-gray-700">
-                    {scrapData?.lineId || "N/A"}
+                    {scrapData?.lineName || "N/A"}
                   </p>
                 </div>
                 <div>
