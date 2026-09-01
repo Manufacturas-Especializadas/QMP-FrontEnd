@@ -505,6 +505,7 @@ export interface AuditScrapList {
 export interface AuditFindingScrapRead {
   id: number;
   typeScrapId: number;
+  defectId: number;
   typeScrapName: string;
   estimatedWeight: number;
   materialCorrectlyIdentified: number;
@@ -534,6 +535,7 @@ export interface CreateAuditScrapPayload {
   findings: {
     id: number;
     typeScrapId: number;
+    defectId: number;
     estimatedWeight: number;
     materialCorrectlyIdentified: number;
     materialCorrectlySegregated: number;
@@ -550,6 +552,7 @@ export interface UpdateAuditScrapPayload {
   findings: {
     id: number;
     typeScrapId: number;
+    defectId: number;
     estimatedWeight: number;
     materialCorrectlyIdentified: number;
     materialCorrectlySegregated: number;
