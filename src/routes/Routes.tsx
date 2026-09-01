@@ -29,7 +29,7 @@ export const MyRoutes = () => {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<AuditsFCDS />} />
+          <Route path="/" element={<ScrapIndex />} />
           <Route
             path="/auditoriasFCDS/reportes"
             element={<AuditsReportFCDS />}
