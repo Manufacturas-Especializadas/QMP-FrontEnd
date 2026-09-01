@@ -38,6 +38,7 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
+
     name: "Auditorias Producto Terminado",
     icon: PackageCheck,
     path: "/auditorias-producto",
@@ -53,6 +54,7 @@ const menuItems: MenuItem[] = [
     icon: Trash2,
     subMenu: [
       {
+
         name: "Registro",
         path: "/scrap",
         roles: [
@@ -64,6 +66,7 @@ const menuItems: MenuItem[] = [
         ],
       },
       {
+
         name: "Auditoria",
         path: "/scrap/auditoria",
         roles: [
@@ -77,6 +80,7 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
+
     name: "RDM",
     icon: Database,
     path: "/rechazos",
