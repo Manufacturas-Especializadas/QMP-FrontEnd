@@ -325,7 +325,7 @@ export const ScrapIndex = () => {
                       </button>
                     </RoleGuard>
 
-                    <RoleGuard allowedRoles={[UserRole.Admin]}>
+                    <RoleGuard allowedRoles={[UserRole.Admin, UserRole.CalidadProveedores]}>
                       <div className="flex items-center gap-1.5">
                         <button
                           onClick={() => navigate("/scrap/registro", { state: { editReport: report } })}
