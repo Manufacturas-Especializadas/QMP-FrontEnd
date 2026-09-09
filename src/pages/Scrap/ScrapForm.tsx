@@ -1,10 +1,10 @@
-import { 
-  Save, 
-  ArrowLeft, 
-  Clock, 
-  Layers, 
-  Settings, 
-  Box, 
+import {
+  Save,
+  ArrowLeft,
+  Clock,
+  Layers,
+  Settings,
+  Box,
   AlertOctagon,
   Trash2,
   Plus,
@@ -47,7 +47,7 @@ export const ScrapForm = () => {
 
   const [reports, setReports] = useState<ScrapFormState[]>([]);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  
+
   const [showValidationErrors, setShowValidationErrors] = useState(false);
 
   const typeScrapOptions = useMemo(
@@ -106,10 +106,9 @@ export const ScrapForm = () => {
 
     const currentProcessName = processOptions.find(o => o.value === formData.processId)?.label || "N/A";
     const currentDefectName = defectsOptions.find(o => o.value === formData.defectId)?.label || "N/A";
-
     const reportData: any = {
       ...formData,
-      id: editingIndex !== null ? (reports[editingIndex] as any).id : (formData as any).id, 
+      id: editingIndex !== null ? (reports[editingIndex] as any).id : (formData as any).id,
       processName: currentProcessName,
       defectName: currentDefectName,
     };
@@ -132,7 +131,7 @@ export const ScrapForm = () => {
     setEditingIndex(index);
     setShowValidationErrors(false);
     const reportToEdit = reports[index];
-    
+
     if (setFormData) {
       setFormData(reportToEdit);
     }
@@ -166,7 +165,8 @@ export const ScrapForm = () => {
           materialId: Number(r.materialId),
           typeScrapId: Number(r.typeScrapId),
           defectId: Number(r.defectId),
-          partNumber: r.partNumber
+          partNumber: r.partNumber,
+          comments: r.comments || "",
         }));
 
         await scrapService.updateScrap(editScrapId, updatePayload);
@@ -183,7 +183,7 @@ export const ScrapForm = () => {
 
     if (handleSubmit) {
       await handleSubmit(reports);
-      setReports([]); 
+      setReports([]);
       setShowValidationErrors(false);
       navigate("/scrap");
     }
@@ -217,6 +217,7 @@ export const ScrapForm = () => {
         processName: detail.processName || "",
         defectName: detail.defectName || "",
         partNumber: detail.partNumber || "",
+        comments: detail.comments || "",
       }));
 
       setReports(mappedReports);
@@ -235,33 +236,33 @@ export const ScrapForm = () => {
 
   return (
     <div className="max-w-350 mx-auto mt-8 mb-20 px-4 animate-in fade-in slide-in-from-bottom-8 duration-500">
-      
-      
+
+
       <div className="relative bg-white/70 backdrop-blur-2xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] shadow-blue-900/5 rounded-[2.5rem] p-6 sm:p-10">
-        
-        
+
+
         <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] -z-10 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-blue-400/10 blur-3xl rounded-full" />
         </div>
 
         <div className="mb-8 border-b border-slate-200/60 pb-5">
           <h2 className="text-2xl font-black text-slate-800 flex items-center gap-2">
-              <Trash2 className="text-blue-600" size={28} /> {isEditMode ? "Editar Reporte de Scrap" : "Reporte de Scrap"}
+            <Trash2 className="text-blue-600" size={28} /> {isEditMode ? "Editar Reporte de Scrap" : "Reporte de Scrap"}
           </h2>
           <p className="text-sm text-slate-500 mt-1">
-      {isEditMode 
-      ? `Estás modificando la información del reporte #${editScrapId}.` 
-      : "Completa todos los campos para registrar el reporte de producción y agrégalos a tu lista."}
-  </p>
+            {isEditMode
+              ? `Estás modificando la información del reporte #${editScrapId}.`
+              : "Completa todos los campos para registrar el reporte de producción y agrégalos a tu lista."}
+          </p>
         </div>
 
 
         <div className="grid grid-cols-1 xl:grid-cols-5 gap-8 relative z-10">
-          
+
           <div className="xl:col-span-3 space-y-8">
-            
+
             <div className="grid grid-cols-1 gap-8">
-              
+
 
               <div className="space-y-3">
                 <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
@@ -313,13 +314,12 @@ export const ScrapForm = () => {
                       >
                         {l.name.replace("L-", "")}
                         <div
-                          className={`w-4 h-4 rounded border flex items-center justify-center text-[9px] min-w-4 ${
-                            isSelected
-                              ? "bg-blue-600 border-blue-600 text-white"
-                              : isError
+                          className={`w-4 h-4 rounded border flex items-center justify-center text-[9px] min-w-4 ${isSelected
+                            ? "bg-blue-600 border-blue-600 text-white"
+                            : isError
                               ? "border-red-400 bg-red-100 text-red-700 font-bold animate-pulse"
                               : "border-slate-200 bg-slate-50"
-                          }`}
+                            }`}
                         >
                           {isSelected && "✓"}
                           {isError && !isSelected && "!"}
@@ -354,8 +354,8 @@ export const ScrapForm = () => {
                       loadingMachineCodes
                         ? "Cargando..."
                         : machineCodes.length === 0 && formData.processId !== 0
-                        ? "No requiere máquina"
-                        : "Código de máquina"
+                          ? "No requiere máquina"
+                          : "Código de máquina"
                     }
                     value={formData.machineCodeId || ""}
                     options={machineCodesOptions}
@@ -413,10 +413,17 @@ export const ScrapForm = () => {
 
             <div className="space-y-4 relative z-20">
               <label className="text-xs uppercase font-black text-slate-500 tracking-wider flex items-center gap-1.5">
-                <AlertOctagon size={14} className="text-blue-500" /> Detalles del Hallazgo
+                <AlertOctagon size={14} className="text-blue-500" />
+                Detalles del Hallazgo
               </label>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className={`transition-all duration-300 rounded-xl ${showValidationErrors && !formData.typeScrapId ? "ring-2 ring-red-500/50" : ""}`}>
+                <div
+                  className={`transition-all duration-300 rounded-xl ${showValidationErrors && !formData.typeScrapId
+                    ? "ring-2 ring-red-500/50"
+                    : ""
+                    }`}
+                >
                   <FloatingSelect
                     label="Tipo de Scrap"
                     value={formData.typeScrapId || ""}
@@ -424,7 +431,13 @@ export const ScrapForm = () => {
                     onChange={(val) => handleChange("typeScrapId", val)}
                   />
                 </div>
-                <div className={`transition-all duration-300 rounded-xl ${showValidationErrors && !formData.defectId ? "ring-2 ring-red-500/50" : ""}`}>
+
+                <div
+                  className={`transition-all duration-300 rounded-xl ${showValidationErrors && !formData.defectId
+                    ? "ring-2 ring-red-500/50"
+                    : ""
+                    }`}
+                >
                   <FloatingSelect
                     label={loadingDefects ? "Cargando defectos..." : "Defecto"}
                     value={formData.defectId || ""}
@@ -432,19 +445,58 @@ export const ScrapForm = () => {
                     onChange={(val) => handleChange("defectId", val)}
                   />
                 </div>
-                <div className={`transition-all duration-300 rounded-xl ${showValidationErrors && (!formData.weight || Number(formData.weight) <= 0) ? "ring-2 ring-red-500/50" : ""}`}>
+
+                <div
+                  className={`transition-all duration-300 rounded-xl ${showValidationErrors &&
+                    (!formData.weight || Number(formData.weight) <= 0)
+                    ? "ring-2 ring-red-500/50"
+                    : ""
+                    }`}
+                >
                   <Input
                     type="number"
                     label="Peso (kg)"
                     value={formData.weight || ""}
-                    onChange={(e) => handleChange("weight", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("weight", e.target.value)
+                    }
                   />
                 </div>
+
                 <Input
                   label="RDM"
                   value={formData.rdm || ""}
-                  onChange={(e) => handleChange("rdm", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("rdm", e.target.value)
+                  }
                 />
+
+                {/* Comentarios del detalle */}
+                <div className="sm:col-span-2 lg:col-span-4">
+                  <label className="block text-[10px] uppercase font-black text-slate-400 tracking-wider mb-2 ml-1">
+                    Comentarios (Opcional)
+                  </label>
+
+                  <textarea
+                    value={formData.comments || ""}
+                    onChange={(e) =>
+                      handleChange("comments", e.target.value)
+                    }
+                    placeholder="Escribe observaciones o información adicional sobre este hallazgo..."
+                    rows={3}
+                    maxLength={1000}
+                    className="w-full resize-y min-h-24 bg-white/80 border border-slate-200
+          rounded-xl px-4 py-3 text-sm text-slate-700 outline-none
+          transition-all placeholder:text-slate-300
+          focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                  />
+
+                  <div className="flex justify-end mt-1">
+                    <span className="text-[9px] font-bold text-slate-300">
+                      {(formData.comments || "").length}/1000
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -487,12 +539,12 @@ export const ScrapForm = () => {
 
 
           <div className="xl:col-span-2 flex flex-col justify-between border-t xl:border-t-0 xl:border-l border-slate-200/60 pt-8 xl:pt-0 xl:pl-8">
-            
+
             <div className="flex-1 space-y-4">
               <h3 className="text-xs font-black text-slate-400 uppercase tracking-wider flex items-center gap-2">
                 <FileBox size={16} /> Lotes en esta Inspección ({reports.length})
               </h3>
-              
+
               <div className="space-y-3 max-h-150 overflow-y-auto pr-2 custom-scrollbar">
                 {reports.length === 0 ? (
                   <div className="bg-slate-50/50 border border-dashed border-slate-300 rounded-2xl p-8 flex flex-col items-center justify-center text-center space-y-3">
@@ -508,13 +560,12 @@ export const ScrapForm = () => {
                   </div>
                 ) : (
                   reports.map((report, idx) => (
-                    <div 
-                      key={idx} 
-                      className={`p-4 rounded-2xl border transition-all ${
-                        editingIndex === idx 
-                          ? "bg-amber-50 border-amber-300 shadow-md shadow-amber-100/50" 
-                          : "bg-white border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300"
-                      }`}
+                    <div
+                      key={idx}
+                      className={`p-4 rounded-2xl border transition-all ${editingIndex === idx
+                        ? "bg-amber-50 border-amber-300 shadow-md shadow-amber-100/50"
+                        : "bg-white border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300"
+                        }`}
                     >
                       <div className="flex justify-between items-start mb-2">
                         <span className="text-xs font-black uppercase text-slate-800 tracking-wider">
@@ -579,17 +630,16 @@ export const ScrapForm = () => {
               >
                 <ArrowLeft size={14} /> Atrás
               </button>
-              
+
               <button
-                type="button" 
+                type="button"
                 disabled={reports.length === 0 || loading || editingIndex !== null}
                 onClick={onFinalSubmit}
                 className={`w-full flex-1 px-6 py-4 font-black text-xs 
                   uppercase tracking-wider rounded-xl transition-all flex items-center 
-                  justify-center gap-2 cursor-pointer disabled:pointer-events-none shadow-md ${
-                    reports.length === 0 || editingIndex !== null
-                      ? "bg-slate-200 text-slate-400"
-                      : "bg-slate-800 hover:bg-slate-900 text-white shadow-slate-800/20"
+                  justify-center gap-2 cursor-pointer disabled:pointer-events-none shadow-md ${reports.length === 0 || editingIndex !== null
+                    ? "bg-slate-200 text-slate-400"
+                    : "bg-slate-800 hover:bg-slate-900 text-white shadow-slate-800/20"
                   }`}
               >
                 {loading ? (

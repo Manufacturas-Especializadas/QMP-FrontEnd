@@ -26,7 +26,10 @@ export const ScrapDetailModal = ({
   });
 
   const [isVerified, setIsVerified] = useState<boolean | null>(null);
+
   const [newWeight, setNewWeight] = useState("");
+
+  const [comments, setComments] = useState("");
 
   useEffect(() => {
     if (isOpen && scrapId) {
@@ -47,8 +50,11 @@ export const ScrapDetailModal = ({
 
   const handleClose = () => {
     clearScrap();
+
     setIsVerified(null);
     setNewWeight("");
+    setComments("");
+
     onClose();
   };
 
@@ -181,40 +187,104 @@ export const ScrapDetailModal = ({
                     </button>
                   </div>
 
+                  {/* Peso real: solamente aparece cuando la respuesta es NO */}
                   {isVerified === false && (
                     <div className="animate-in slide-in-from-top-2 duration-300">
                       <label
-                        className="block text-[10px] font-bold text-amber-600 
-                        uppercase mb-2 ml-1"
+                        className="block text-[10px] font-bold text-amber-600
+      uppercase mb-2 ml-1"
                       >
                         Peso Real de Báscula (kg)
                       </label>
+
                       <input
                         type="number"
+                        min="0"
+                        step="0.01"
                         value={newWeight}
-                        onChange={(e) => setNewWeight(e.target.value)}
+                        onChange={(e) =>
+                          setNewWeight(e.target.value)
+                        }
                         placeholder="Ej: 22.5"
-                        className="w-full bg-gray-50 border-b-2 border-amber-500 
-                        p-4 outline-none font-black text-xl text-gray-700 focus:bg-amber-50/30 
-                        transition-colors"
+                        className="w-full bg-gray-50 border-b-2 border-amber-500
+      p-4 outline-none font-black text-xl text-gray-700
+      focus:bg-amber-50/30 transition-colors"
+                      />
+                    </div>
+                  )}
+
+                  {/* Comentarios: aparecen después de seleccionar SÍ o NO */}
+                  {isVerified !== null && (
+                    <div className="animate-in slide-in-from-top-2 duration-300">
+                      <div className="flex items-center justify-between mb-2 px-1">
+                        <label
+                          className={`block text-[10px] font-bold uppercase ${isVerified
+                              ? "text-green-600"
+                              : "text-amber-600"
+                            }`}
+                        >
+                          Comentarios
+                        </label>
+
+                        <span className="text-[9px] font-bold text-gray-300">
+                          {comments.length}/1000
+                        </span>
+                      </div>
+
+                      <textarea
+                        value={comments}
+                        onChange={(e) =>
+                          setComments(e.target.value)
+                        }
+                        placeholder="Escribe una observación sobre la verificación..."
+                        rows={3}
+                        maxLength={1000}
+                        className={`w-full resize-y min-h-24 bg-gray-50 border-2
+      rounded-2xl p-4 outline-none text-sm font-medium
+      text-gray-700 placeholder:text-gray-300 transition-all ${isVerified
+                            ? "border-green-100 focus:border-green-500 focus:bg-green-50/30"
+                            : "border-amber-100 focus:border-amber-500 focus:bg-amber-50/30"
+                          }`}
                       />
                     </div>
                   )}
 
                   <button
-                    onClick={() =>
-                      verify(scrapData!.id, isVerified!, Number(newWeight))
-                    }
+                    type="button"
+                    onClick={() => {
+                      if (!scrapData || isVerified === null) {
+                        return;
+                      }
+
+                      verify(
+                        scrapData.id,
+                        isVerified,
+                        isVerified
+                          ? null
+                          : Number(newWeight),
+                        comments,
+                      );
+                    }}
                     disabled={
                       isVerifying ||
                       isVerified === null ||
-                      (isVerified === false && !newWeight)
+                      (
+                        isVerified === false &&
+                        (
+                          !newWeight ||
+                          Number(newWeight) <= 0
+                        )
+                      )
                     }
-                    className="w-full bg-secondary text-white py-4 rounded-2xl font-black 
-                    shadow-lg shadow-blue-100 disabled:opacity-30 transition-all hover:scale-[1.01] 
-                    active:scale-[0.99] hover:cursor-pointer uppercase tracking-wider mt-4"
+                    className="w-full bg-secondary text-white py-4 rounded-2xl
+  font-black shadow-lg shadow-blue-100 disabled:opacity-30
+  disabled:cursor-not-allowed transition-all
+  hover:scale-[1.01] active:scale-[0.99]
+  hover:cursor-pointer uppercase tracking-wider mt-4"
                   >
-                    {isVerifying ? "Guardando..." : "Confirmar Verificación"}
+                    {isVerifying
+                      ? "Guardando..."
+                      : "Confirmar Verificación"}
                   </button>
                 </div>
               ) : (

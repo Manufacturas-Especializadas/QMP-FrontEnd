@@ -79,6 +79,7 @@ export interface VerifyScrapPayload {
   id: number;
   isVerified: boolean;
   verifiedWeight: number | null;
+  comments: string | null;
 }
 
 export interface LinesCreate {
@@ -202,6 +203,7 @@ export interface ScrapDetailPayload {
   materialId: number;
   typeScrapId: number;
   defectId: number;
+  comments: string;
 }
 
 export interface CreateScrapPayload {
@@ -226,6 +228,7 @@ export interface ScrapDetailRead {
   typeScrapName: string;
   defectName: string;
   partNumber: string;
+  comments: string | null;
 }
 
 export interface ScrapReadById {
@@ -238,6 +241,7 @@ export interface ScrapReadById {
   lineName: string
   isVerified: boolean
   verifiedWeight: number
+  comments: string | null;
   scrapDetails: ScrapDetail[]
 }
 
@@ -260,6 +264,7 @@ export interface ScrapDetail {
   defectId: number | null;
   defectName: string;
   partNumber: string;
+  comments: string | null;
 }
 
 export interface ScrapList {
@@ -291,6 +296,7 @@ export interface Scrap {
   machineCodeId: number | null;
   defectId: number;
   weight: number;
+  comments: string;
 }
 
 export interface UpdateScrap {
@@ -307,6 +313,7 @@ export interface UpdateScrap {
   typeScrapId: number
   defectId: number
   partNumber: string
+  comments: string
 }
 
 

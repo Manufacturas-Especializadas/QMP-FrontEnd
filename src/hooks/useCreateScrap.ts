@@ -11,7 +11,7 @@ export interface ScrapFormState extends Scrap {
   lineName: string;
   processName?: string;
   defectName?: string;
-  partNumber?: string; 
+  partNumber?: string;
 }
 
 interface useScrapFormReturn {
@@ -44,6 +44,7 @@ const initalFormData: ScrapFormState = {
   defectId: 0,
   weight: 0,
   lineName: "",
+  comments: "",
 };
 
 export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
@@ -72,7 +73,7 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
       machineCodeId: 0,
     }));
   }, []);
-  
+
   const resetForm = useCallback(() => {
     setFormData(initalFormData);
     setError(null);
@@ -119,6 +120,7 @@ export const useScrapForm = (onSucess?: () => void): useScrapFormReturn => {
           materialId: report.materialId,
           typeScrapId: report.typeScrapId,
           defectId: report.defectId,
+          comments: report.comments || "",
         }));
 
         const payload: CreateScrapPayload = {
