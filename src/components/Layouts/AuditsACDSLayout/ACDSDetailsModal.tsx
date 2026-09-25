@@ -70,6 +70,13 @@ export const ACDSDetailsModal = ({
     );
   };
 
+  const renderWeldingDefectsStatus = (val: number) => {
+    // Detectar defectos (1 = Sí) implica no cumplir; 2 = No implica cumplir.
+    if (val === 1) return renderViewStatus(2);
+    if (val === 2) return renderViewStatus(1);
+    return renderViewStatus(val);
+  };
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 
@@ -344,7 +351,7 @@ export const ACDSDetailsModal = ({
                           >
                             Soldadura
                           </span>
-                          {renderViewStatus(f.weldingDefects)}
+                          {renderWeldingDefectsStatus(f.weldingDefects)}
                         </div>
                       </div>
 
