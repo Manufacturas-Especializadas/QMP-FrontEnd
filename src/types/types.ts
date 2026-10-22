@@ -465,6 +465,8 @@ export interface Controls {
   mttoValidation: number;
   realese1stPiece: number;
   spc: number;
+  format30x30: number;
+  crossAudits: number;
   materialCorrectlyIdentified: number;
   identifiedMeasuringEquipment: number;
   calibratedMeasuringEquipment: number;

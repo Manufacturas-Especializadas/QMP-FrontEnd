@@ -45,6 +45,8 @@ const INITIAL_STATE: CreateAuditFcds = {
     mttoValidation: 0,
     realese1stPiece: 0,
     spc: 0,
+    format30x30: 0,
+    crossAudits: 0,
     materialCorrectlyIdentified: 0,
     identifiedMeasuringEquipment: 0,
     calibratedMeasuringEquipment: 0,

@@ -12,6 +12,8 @@ const CHECKPOINTS = [
   { key: "mttoValidation", label: "Validación de Mtto. Autónomo" },
   { key: "realese1stPiece", label: "Liberación de 1ra. Pieza" },
   { key: "spc", label: "SPC" },
+  { key: "format30x30", label: "Formato 30x30" },
+  { key: "crossAudits", label: "Auditorías Cruzadas" },
   {
     key: "materialCorrectlyIdentified",
     label: "Material identificado correctamente",
