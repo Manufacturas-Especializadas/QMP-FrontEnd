@@ -1,5 +1,17 @@
 import { BarChart3 } from "lucide-react";
+import type { VisualChecklist } from "../../../../../types/types";
 import { EvalBadge } from "./Badges";
+
+const getConformityValue = ({ checkpointName, resultValue }: VisualChecklist) => {
+  if (
+    checkpointName.trim().toLowerCase() === "se detectan defectos de soldadura"
+  ) {
+    // Preserve the literal answer; only convert it to conformity for display.
+    if (resultValue === 1) return 2;
+    if (resultValue === 2) return 1;
+  }
+  return resultValue;
+};
 
 export const FinalReleaseSection = ({ data }: { data: any }) => (
   <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 space-y-3">
@@ -48,7 +60,7 @@ export const FinalReleaseSection = ({ data }: { data: any }) => (
               border-b border-slate-50 pb-1.5"
             >
               <span>{vis.checkpointName}</span>
-              <EvalBadge val={vis.resultValue} />
+              <EvalBadge val={getConformityValue(vis)} />
             </div>
           ))}
         </div>
