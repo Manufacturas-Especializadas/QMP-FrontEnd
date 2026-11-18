@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { auditsACDService } from "../api/services/AuditsACDService";
 import type {
   AuditACDRead,
+  AvailableMonth,
   CreateAuditACDPayload,
   UpdateAuditACDPayload,
 } from "../types/types";
@@ -10,6 +11,7 @@ import type {
 
 export const useAuditsACD = () => {
   const [audits, setAudits] = useState<AuditACDRead[]>([]);
+  const [availableMonths, setAvailableMonths] = useState<AvailableMonth[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDownloading, setIsDownloading] = useState(false);
@@ -109,6 +111,18 @@ export const useAuditsACD = () => {
     }
   };
 
+  const fetchAvailableMonths = useCallback(async () => {
+    try {
+      const response = await auditsACDService.availableMonths();
+      setAvailableMonths(response);
+    } catch (error) {
+      console.error(
+        "No se pudieron cargar los meses con registros ACD",
+        error,
+      );
+    }
+  }, []);
+
   const downloadReportByMonth = useCallback(
     async (month: number, year: number) => {
       setIsDownloading(true);
@@ -134,6 +148,8 @@ export const useAuditsACD = () => {
 
   return {
     audits,
+    availableMonths,
+    fetchAvailableMonths,
     loading,
     isSaving,
     fetchAudits,

@@ -21,6 +21,7 @@ import { RejectionReports } from "../pages/Rejections/RejectionReports";
 import { AuditsFCDS } from "../pages/AuditsFCDS/AuditsFCDS";
 import { AuditsReportFCDS } from "../pages/AuditsFCDS/AuditsReportFCDS";
 import { AuditsACDS } from "../pages/AuditsACDS/AuditsACDS";
+import { AuditsReportACD } from "../pages/AuditsACDS/AuditsReportACD";
 import { AuditsScrap } from "../pages/AuditsScrap/AuditsScrap";
 import { AuditsScrapReport } from "../pages/AuditsScrap/AuditsScrapReport";
 
@@ -79,6 +80,10 @@ export const MyRoutes = () => {
               AUDITORÍAS
           ========================== */}
           <Route path="/auditorias-producto" element={<AuditsACDS />} />
+          <Route
+            path="/auditorias-producto/reportes"
+            element={<AuditsReportACD />}
+          />
 
           <Route path="/auditoriasFCDS" element={<AuditsFCDS />} />
           <Route

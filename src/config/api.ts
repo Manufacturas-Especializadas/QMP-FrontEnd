@@ -38,6 +38,7 @@ export const API_CONFIG = {
       getDefectByTypeScrap: "/api/Catalogs/defects/",
     },
     auditsACD: {
+      availableMonths: "/api/AuditACD/AvailableMonths",
       exportToExcel: "/api/AuditACD/ExportExcel",
       getAll: "/api/AuditACD/List",
       getById: "/api/AuditACD/GetById/",
