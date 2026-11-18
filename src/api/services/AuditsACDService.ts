@@ -1,6 +1,7 @@
 import { API_CONFIG } from "../../config/api";
 import type {
   AuditACDRead,
+  AvailableMonth,
   CreateAuditACDPayload,
   UpdateAuditACDPayload,
 } from "../../types/types";
@@ -13,6 +14,7 @@ class AuditsACDService {
   private updateEndpoint = API_CONFIG.endpoints.auditsACD.update;
   private deleteEndpoint = API_CONFIG.endpoints.auditsACD.delete;
   private exportToExcelEndpoint = API_CONFIG.endpoints.auditsACD.exportToExcel;
+  private availableMonthsEndpoint = API_CONFIG.endpoints.auditsACD.availableMonths;
 
   private buildFormData(
     payload: CreateAuditACDPayload | UpdateAuditACDPayload,
@@ -123,6 +125,10 @@ class AuditsACDService {
     const filename = `Reporte_ACD_${month}_${year}.xlsx`;
 
     await apiClient.downloadFile(urlWithParams, filename);
+  }
+
+  async availableMonths(): Promise<AvailableMonth[]> {
+    return apiClient.get<AvailableMonth[]>(this.availableMonthsEndpoint);
   }
 
   async getAll(): Promise<AuditACDRead[]> {
